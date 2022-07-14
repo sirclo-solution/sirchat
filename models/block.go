@@ -1,5 +1,7 @@
 package models
 
+import "encoding/json"
+
 type MessageBlockType string
 
 const (
@@ -8,16 +10,31 @@ const (
 	MBTContainer MessageBlockType = "container"
 )
 
-type Block interface {
+type IBlock interface {
 	BlockType() MessageBlockType
+	AddBlock(blocks ...IBlock)
+	Validate() bool
 }
 
-type Blocks struct {
-	BlockSet []Block `json:"blocks,omitempty"`
+type Block struct {
+	Type   MessageBlockType `json:"type"`
+	Blocks []IBlock         `json:"blocks,omitempty"`
 }
 
-func NewBlocks(blocks ...Block) Blocks {
-	return Blocks{
-		BlockSet: blocks,
-	}
+func (ths *Block) AddBlock(blocks ...IBlock) {
+	ths.Blocks = append(ths.Blocks, blocks...)
+}
+
+// BlockType returns the type of the block
+func (ths *Block) BlockType() MessageBlockType {
+	return ths.Type
+}
+
+func Compose(block IBlock) []byte {
+	res, _ := json.Marshal(block)
+	return res
+}
+
+func NewBlock() *Block {
+	return &Block{}
 }

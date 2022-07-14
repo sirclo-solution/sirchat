@@ -2,6 +2,7 @@ package models
 
 // TableBlock defines a new block of type section
 type TableBlock struct {
+	Block
 	Type  MessageBlockType  `json:"type"`
 	Table *TableBlockObject `json:"table,omitempty"`
 }
@@ -21,9 +22,10 @@ type TextHeaderObject struct {
 	Body  string `json:"body"`
 }
 
-// BlockType returns the type of the block
-func (s TableBlock) BlockType() MessageBlockType {
-	return s.Type
+func (s TableBlock) Validate() bool {
+	// TableBlock validation implementation
+
+	return true
 }
 
 // NewTableBlock returns a new instance of a section block to be rendered
