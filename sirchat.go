@@ -20,7 +20,7 @@ func main() {
 		Type: "text",
 		Body: "Cari Produk",
 	})
-	newDialog.Blocks = models.NewBlocks(textBlock)
+	newDialog.Blocks = textBlock
 	result, err := json.Marshal(newDialog)
 	if err != nil {
 		panic(err)
