@@ -16,11 +16,23 @@ func main() {
 	cancelButton := models.NewCancelButton("tutup")
 	submitButton := models.NewSubmitButton("lanjutkan")
 	newDialog.Action = models.NewAction("updateCartItems", models.NewButtons(actionButton, cancelButton, submitButton))
+
 	textBlock := models.NewTextBlock(&models.TextBlockObject{
 		Type: "text",
 		Body: "Cari Produk",
 	})
-	newDialog.Blocks = textBlock
+
+	imageBlock := models.NewImageBlock(&models.ImageBlockObject{
+		Src: "https://example.com/dummy.jpg",
+		Alt: "a dummy image",
+	})
+
+	containerBlock := models.NewContainerBlock(&models.ContainerBlockObject{
+		Direction: "row",
+		Blocks:    []models.IBlock{imageBlock},
+	})
+
+	newDialog.Blocks = append(newDialog.Blocks, textBlock, containerBlock)
 	result, err := json.Marshal(newDialog)
 	if err != nil {
 		panic(err)
