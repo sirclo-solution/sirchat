@@ -16,7 +16,7 @@ type Component struct {
 	Type   MessageComponentType
 	Title  Title
 	Action Action
-	Blocks IBlock
+	Blocks []IBlock
 }
 
 func NewApp() IComponent {

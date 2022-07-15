@@ -1,6 +1,9 @@
 package models
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"errors"
+)
 
 type MessageBlockType string
 
@@ -8,6 +11,7 @@ const (
 	MBTText      MessageBlockType = "text"
 	MBTTable     MessageBlockType = "table"
 	MBTContainer MessageBlockType = "container"
+	MBTImage     MessageBlockType = "image"
 )
 
 type IBlock interface {
@@ -30,9 +34,17 @@ func (ths *Block) BlockType() MessageBlockType {
 	return ths.Type
 }
 
-func Compose(block IBlock) []byte {
-	res, _ := json.Marshal(block)
-	return res
+func Compose(block IBlock) ([]byte, error) {
+	if !block.Validate() {
+		return nil, errors.New("invalid block")
+	}
+
+	res, err := json.Marshal(block)
+	if err != nil {
+		return nil, errors.New("error when marshaling block")
+	}
+
+	return res, nil
 }
 
 func NewBlock() *Block {
