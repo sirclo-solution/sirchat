@@ -2,7 +2,7 @@ package models
 
 import (
 	"encoding/json"
-	"fmt"
+	"errors"
 )
 
 type MessageBlockType string
@@ -34,11 +34,17 @@ func (ths *Block) BlockType() MessageBlockType {
 	return ths.Type
 }
 
-func Compose(block IBlock) []byte {
-	fmt.Println("block.Validate():", block.Validate())
+func Compose(block IBlock) ([]byte, error) {
+	if !block.Validate() {
+		return nil, errors.New("invalid block")
+	}
 
-	res, _ := json.Marshal(block)
-	return res
+	res, err := json.Marshal(block)
+	if err != nil {
+		return nil, errors.New("error when marshaling block")
+	}
+
+	return res, nil
 }
 
 func NewBlock() *Block {
