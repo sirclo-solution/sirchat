@@ -16,17 +16,11 @@ const (
 
 type IBlock interface {
 	BlockType() MessageBlockType
-	AddBlock(blocks ...IBlock)
 	Validate() bool
 }
 
 type Block struct {
-	Type   MessageBlockType `json:"type"`
-	Blocks []IBlock         `json:"blocks,omitempty"`
-}
-
-func (ths *Block) AddBlock(blocks ...IBlock) {
-	ths.Blocks = append(ths.Blocks, blocks...)
+	Type MessageBlockType `json:"type"`
 }
 
 // BlockType returns the type of the block
