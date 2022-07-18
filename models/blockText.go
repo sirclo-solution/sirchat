@@ -7,6 +7,7 @@ type TextBlock struct {
 }
 
 type TextBlockObject struct {
+	BlockObject
 	Type string `json:"type"`
 	Body string `json:"body"`
 }

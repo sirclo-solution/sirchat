@@ -6,8 +6,8 @@ type ContainerBlock struct {
 }
 
 type ContainerBlockObject struct {
-	Direction string   `json:"direction"`
-	Blocks    []IBlock `json:"blocks,omitempty"`
+	BlockObject
+	Direction string `json:"direction"`
 }
 
 func (s ContainerBlock) Validate() bool {

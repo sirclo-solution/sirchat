@@ -29,8 +29,9 @@ func main() {
 
 	containerBlock := models.NewContainerBlock(&models.ContainerBlockObject{
 		Direction: "row",
-		Blocks:    []models.IBlock{imageBlock},
 	})
+
+	containerBlock.Container.AddBlock(imageBlock)
 
 	newDialog.Blocks = append(newDialog.Blocks, textBlock, containerBlock)
 	result, err := json.Marshal(newDialog)

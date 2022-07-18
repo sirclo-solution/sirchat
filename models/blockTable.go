@@ -8,6 +8,7 @@ type TableBlock struct {
 }
 
 type TableBlockObject struct {
+	BlockObject
 	Header []HeaderObject `json:"header"`
 	Body   [][]Body       `json:"body"`
 }
