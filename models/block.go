@@ -1,10 +1,5 @@
 package models
 
-import (
-	"encoding/json"
-	"errors"
-)
-
 type MessageBlockType string
 
 const (
@@ -16,7 +11,7 @@ const (
 
 type IBlock interface {
 	BlockType() MessageBlockType
-	Validate() bool
+	Validate() error
 }
 
 type Block struct {
@@ -28,17 +23,12 @@ func (ths *Block) BlockType() MessageBlockType {
 	return ths.Type
 }
 
-func Compose(block IBlock) ([]byte, error) {
-	if !block.Validate() {
-		return nil, errors.New("invalid block")
+func validateBlock(block IBlock) error {
+	if err := block.Validate(); err != nil {
+		return err
 	}
 
-	res, err := json.Marshal(block)
-	if err != nil {
-		return nil, errors.New("error when marshaling block")
-	}
-
-	return res, nil
+	return nil
 }
 
 func NewBlock() *Block {
