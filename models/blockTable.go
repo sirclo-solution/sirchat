@@ -23,10 +23,10 @@ type TextHeaderObject struct {
 	Body  string `json:"body"`
 }
 
-func (s TableBlock) Validate() bool {
+func (s TableBlock) Validate() error {
 	// TableBlock validation implementation
 
-	return true
+	return nil
 }
 
 // NewTableBlock returns a new instance of a section block to be rendered

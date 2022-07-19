@@ -12,10 +12,10 @@ type TextBlockObject struct {
 	Body string `json:"body"`
 }
 
-func (s TextBlock) Validate() bool {
+func (s TextBlock) Validate() error {
 	// TextBlock validation implementation
 
-	return true
+	return nil
 }
 
 // NewTextBlock returns a new instance of a section block to be rendered
