@@ -9,6 +9,11 @@ import (
 func main() {
 	fmt.Println("service is running ...")
 	app := models.NewApp()
+	firstEx(app)
+	exInitSearchProduct(app)
+}
+
+func firstEx(app models.IComponent) {
 	newDialog := app.NewDialog()
 	newDialog.Title = models.NewTitle("ini text", "ini icon")
 	actionButton := models.NewActionButton("cari produk", "initSearchProduct")
@@ -50,6 +55,40 @@ func main() {
 	containerBlock.Container.AddBlock(imageBlock)
 
 	newDialog.Blocks = append(newDialog.Blocks, textBlock, containerBlock, containerBlock2)
+	result, errs := newDialog.Compose()
+	if errs != nil {
+		fmt.Printf("%+q\n", errs)
+		return
+	}
+	fmt.Printf("Result : %v\n", string(result))
+}
+
+func exInitSearchProduct(app models.IComponent) {
+	newDialog := app.NewDialog()
+	newDialog.Title = models.NewTitle("Cari Produk", "https://source.unsplash.com/random/50x50")
+	actionButton := models.NewActionButton("Lihat Keranjang", "viewCart")
+	cancelButton := models.NewCancelButton("tutup")
+	newDialog.Action = models.NewAction("searchProduct", models.NewButtons(actionButton, cancelButton))
+
+	textBlock := models.NewTextBlock(&models.TextBlockObject{
+		Type: "label",
+		Body: "Cari Produk",
+	})
+
+	inputBlock := models.NewInputBlock(&models.InputBlockObject{
+		Type:        "text",
+		Value:       "jacket",
+		Name:        "query",
+		Placeholder: "Masukkan nama produk atau SKU",
+	})
+
+	containerBlock := models.NewContainerBlock(&models.ContainerBlockObject{
+		Direction: "row",
+	})
+
+	containerBlock.Container.AddBlock(inputBlock)
+
+	newDialog.Blocks = models.NewBlocks(textBlock, containerBlock)
 	result, errs := newDialog.Compose()
 	if errs != nil {
 		fmt.Printf("%+q\n", errs)

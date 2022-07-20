@@ -7,6 +7,8 @@ const (
 	MBTTable     MessageBlockType = "table"
 	MBTContainer MessageBlockType = "container"
 	MBTImage     MessageBlockType = "image"
+	MBTInput     MessageBlockType = "input"
+	MBTButton    MessageBlockType = "button"
 )
 
 type IBlock interface {
@@ -31,6 +33,6 @@ func validateBlock(block IBlock) error {
 	return nil
 }
 
-func NewBlock() *Block {
-	return &Block{}
+func NewBlocks(blocks ...IBlock) []IBlock {
+	return blocks
 }

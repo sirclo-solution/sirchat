@@ -20,10 +20,11 @@ type IComponent interface {
 }
 
 type Component struct {
-	Type   MessageComponentType
-	Title  Title
-	Action Action
-	Blocks []IBlock
+	Type       MessageComponentType `json:"type"`
+	Title      Title                `json:"title"`
+	Subheading Subheading           `json:"subheading,omitempty"`
+	Action     Action               `json:"action"`
+	Blocks     []IBlock             `json:"blocks"`
 }
 
 func NewApp() IComponent {
