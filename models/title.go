@@ -1,8 +1,8 @@
 package models
 
 type Title struct {
-	Text string
-	Icon string
+	Text string `json:"text"`
+	Icon string `json:"icon"`
 }
 
 func NewTitle(text, icon string) Title {
