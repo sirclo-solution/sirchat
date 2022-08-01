@@ -19,7 +19,7 @@ func firstEx(app models.IComponent) {
 	actionButton := models.NewActionButton("cari produk", "initSearchProduct")
 	cancelButton := models.NewCancelButton("tutup")
 	submitButton := models.NewSubmitButton("lanjutkan")
-	newDialog.Action = models.NewAction("updateCartItems", models.NewButtons(actionButton, cancelButton, submitButton))
+	newDialog.Action = models.NewAction("updateCartItems", models.NewButtons(actionButton, cancelButton, submitButton)...)
 
 	textBlock := models.NewTextBlock(&models.TextBlockObject{
 		Type: "text",
@@ -68,7 +68,7 @@ func exInitSearchProduct(app models.IComponent) {
 	newDialog.Title = models.NewTitle("Cari Produk", "https://source.unsplash.com/random/50x50")
 	actionButton := models.NewActionButton("Lihat Keranjang", "viewCart")
 	cancelButton := models.NewCancelButton("tutup")
-	newDialog.Action = models.NewAction("searchProduct", models.NewButtons(actionButton, cancelButton))
+	newDialog.Action = models.NewAction("searchProduct", models.NewButtons(actionButton, cancelButton)...)
 
 	textBlock := models.NewTextBlock(&models.TextBlockObject{
 		Type: "label",

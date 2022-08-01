@@ -15,26 +15,26 @@ type ContainerBlockObject struct {
 	Direction string `json:"direction"`
 }
 
-func (s ContainerBlock) Validate() error {
+func (s ContainerBlock) Validate() (bool, error) {
 	// ContainerBlock validation implementation
 	if s.Type != "container" {
-		return errors.New("invalid container block type")
+		return false, errors.New("invalid container block type")
 	}
 
 	switch s.Container.Direction {
 	case "row": // add more available value here
 		break
 	default:
-		return errors.New("invalid container direction")
+		return false, errors.New("invalid container direction")
 	}
 
 	for i, v := range s.Container.Blocks {
-		if err := v.Validate(); err != nil {
-			return fmt.Errorf("Container.Blocks index %d: %s", i, err.Error())
+		if valid, err := v.Validate(); !valid {
+			return false, fmt.Errorf("Container.Blocks index %d: %s", i, err.Error())
 		}
 	}
 
-	return nil
+	return true, nil
 }
 
 // NewContainerBlock returns a new instance of a section block to be rendered

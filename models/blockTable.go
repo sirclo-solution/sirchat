@@ -10,7 +10,15 @@ type TableBlock struct {
 type TableBlockObject struct {
 	BlockObject
 	Header []HeaderObject `json:"header"`
-	Body   [][]Body       `json:"body"`
+	Body   []RowObject    `json:"body"`
+}
+
+type RowObject struct {
+	Columns []ColumnObject `json:"row"`
+}
+
+type ColumnObject struct {
+	Bodies []IBlock `json:"bodies"`
 }
 
 type HeaderObject struct {
@@ -23,14 +31,14 @@ type TextHeaderObject struct {
 	Body  string `json:"body"`
 }
 
-func (s TableBlock) Validate() error {
+func (s TableBlock) Validate() (bool, error) {
 	// TableBlock validation implementation
 
-	return nil
+	return true, nil
 }
 
 // NewTableBlock returns a new instance of a section block to be rendered
-func NewTableBlock(tableHeader []HeaderObject, body [][]Body) *TableBlock {
+func NewTableBlock(tableHeader []HeaderObject, body []RowObject) *TableBlock {
 	block := TableBlock{
 		Type: MBTTable,
 		Table: &TableBlockObject{

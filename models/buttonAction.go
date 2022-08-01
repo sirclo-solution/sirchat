@@ -1,25 +1,23 @@
 package models
 
 type ActionButton struct {
-	Type   MessageButtonType `json:"type"`
-	Label  string            `json:"label,omitempty"`
-	Action *Action           `json:"action,omitempty"`
+	Button
 }
 
-// ActionButton returns the type of the button
-func (s *ActionButton) ButtonType() MessageButtonType {
-	return s.Type
+func (s ActionButton) Validate() (bool, error) {
+	// ActionButton validation implementation
+
+	return true, nil
 }
 
 // NewActionButton returns a new instance of a section block to be rendered
 func NewActionButton(label, actionID string) *ActionButton {
-	button := ActionButton{
-		Type:  MBTTAction,
-		Label: label,
-		Action: &Action{
-			ID: actionID,
-		},
+	var button ActionButton
+	button.Label = label
+	button.Action = &Action{
+		ID: actionID,
 	}
+	button.Type = MBTTAction
 
 	return &button
 }
