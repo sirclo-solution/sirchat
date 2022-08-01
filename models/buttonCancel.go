@@ -1,22 +1,20 @@
 package models
 
 type CancelButton struct {
-	Type   MessageButtonType `json:"type"`
-	Label  string            `json:"label,omitempty"`
-	Action *Action           `json:"action,omitempty"`
+	Button
 }
 
-// CancelButton returns the type of the button
-func (s *CancelButton) ButtonType() MessageButtonType {
-	return s.Type
+func (s CancelButton) Validate() (bool, error) {
+	// CancelButton validation implementation
+
+	return true, nil
 }
 
 // NewCancelButton returns a new instance of a section block to be rendered
 func NewCancelButton(label string) *CancelButton {
-	button := CancelButton{
-		Type:  MBTTAction,
-		Label: label,
-	}
+	var button CancelButton
+	button.Label = label
+	button.Type = MBTTCancel
 
 	return &button
 }

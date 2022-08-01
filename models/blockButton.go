@@ -12,10 +12,10 @@ type ButtonBlockObject struct {
 	Label string `json:"label"`
 }
 
-func (s ButtonBlock) Validate() error {
+func (s ButtonBlock) Validate() (bool, error) {
 	// ButtonBlock validation implementation
 
-	return nil
+	return true, nil
 }
 
 // NewButtonBlock returns a new instance of a section block to be rendered

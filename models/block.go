@@ -12,25 +12,12 @@ const (
 )
 
 type IBlock interface {
-	BlockType() MessageBlockType
-	Validate() error
+	Validate() (bool, error)
 }
 
+// Block is the base struct for every other block type
 type Block struct {
 	Type MessageBlockType `json:"type"`
-}
-
-// BlockType returns the type of the block
-func (ths *Block) BlockType() MessageBlockType {
-	return ths.Type
-}
-
-func validateBlock(block IBlock) error {
-	if err := block.Validate(); err != nil {
-		return err
-	}
-
-	return nil
 }
 
 func NewBlocks(blocks ...IBlock) []IBlock {

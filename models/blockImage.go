@@ -16,17 +16,17 @@ type ImageBlockObject struct {
 	Alt string `json:"alt"`
 }
 
-func (s ImageBlock) Validate() error {
+func (s ImageBlock) Validate() (bool, error) {
 	// ImageBlock validation implementation
 	if s.Type != "image" {
-		return errors.New("invalid image block type")
+		return false, errors.New("invalid image block type")
 	}
 
 	if match, _ := regexp.MatchString("^(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|jpeg|gif|png)$", s.Image.Src); !match {
-		return errors.New("invalid image src")
+		return false, errors.New("invalid image src")
 	}
 
-	return nil
+	return true, nil
 }
 
 // NewImageBlock returns a new instance of a section block to be rendered

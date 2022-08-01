@@ -47,7 +47,7 @@ func (c *Component) Compose() ([]byte, []error) {
 	var errs []error
 
 	for i, v := range c.Blocks {
-		if err := validateBlock(v); err != nil {
+		if valid, err := v.Validate(); !valid {
 			err := fmt.Errorf("component.Blocks index %d: %s", i, err.Error())
 			errs = append(errs, err)
 		}

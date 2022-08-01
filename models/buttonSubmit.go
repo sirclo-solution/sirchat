@@ -1,22 +1,22 @@
 package models
 
 type SubmitButton struct {
-	Type   MessageButtonType `json:"type"`
-	Label  string            `json:"label,omitempty"`
-	Action *Action           `json:"action,omitempty"`
+	Button
+	Label  string  `json:"label,omitempty"`
+	Action *Action `json:"action,omitempty"`
 }
 
-// SubmitButton returns the type of the button
-func (s *SubmitButton) ButtonType() MessageButtonType {
-	return s.Type
+func (s SubmitButton) Validate() (bool, error) {
+	// SubmitButton validation implementation
+
+	return true, nil
 }
 
 // NewSubmitButton returns a new instance of a section block to be rendered
 func NewSubmitButton(label string) *SubmitButton {
-	button := SubmitButton{
-		Type:  MBTTAction,
-		Label: label,
-	}
+	var button SubmitButton
+	button.Label = label
+	button.Type = MBTTSubmit
 
 	return &button
 }

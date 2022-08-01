@@ -8,16 +8,16 @@ const (
 	MBTTSubmit MessageButtonType = "submit"
 )
 
-type Button interface {
-	ButtonType() MessageButtonType
+type IButton interface {
+	Validate() (bool, error)
 }
 
-type Buttons struct {
-	ButtonSet []Button `json:"buttons,omitempty"`
+type Button struct {
+	Type   MessageButtonType `json:"type"`
+	Label  string            `json:"label,omitempty"`
+	Action *Action           `json:"action,omitempty"`
 }
 
-func NewButtons(buttons ...Button) Buttons {
-	return Buttons{
-		ButtonSet: buttons,
-	}
+func NewButtons(buttons ...IButton) []IButton {
+	return buttons
 }

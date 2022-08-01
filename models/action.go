@@ -2,10 +2,10 @@ package models
 
 type Action struct {
 	ID      string    `json:"id"`
-	Buttons []Buttons `json:"buttons,omitempty"`
+	Buttons []IButton `json:"buttons,omitempty"`
 }
 
-func NewAction(ID string, buttons ...Buttons) Action {
+func NewAction(ID string, buttons ...IButton) Action {
 	return Action{
 		ID:      ID,
 		Buttons: buttons,

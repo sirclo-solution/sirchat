@@ -14,10 +14,10 @@ type InputBlockObject struct {
 	Placeholder string `json:"placeholder"`
 }
 
-func (s InputBlock) Validate() error {
+func (s InputBlock) Validate() (bool, error) {
 	// InputBlock validation implementation
 
-	return nil
+	return true, nil
 }
 
 // NewInputBlock returns a new instance of a section block to be rendered
