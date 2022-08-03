@@ -4,17 +4,20 @@ import (
 	"fmt"
 
 	"github.com/sirclo-solution/sirchat/models"
+	"github.com/sirclo-solution/sirchat/modules"
 )
 
 func main() {
 	fmt.Println("service is running ...")
-	app := models.NewApp()
+	app := modules.NewClient(modules.ClientConfig{
+		AppSecret: "example-app-secret",
+	})
 	firstEx(app)
 	exInitSearchProduct(app)
 }
 
-func firstEx(app models.IComponent) {
-	newDialog := app.NewDialog()
+func firstEx(app modules.Client) {
+	newDialog := models.NewDialog()
 	newDialog.Title = models.NewTitle("ini text", "ini icon")
 	actionButton := models.NewActionButton("cari produk", "initSearchProduct")
 	cancelButton := models.NewCancelButton("tutup")
@@ -61,10 +64,12 @@ func firstEx(app models.IComponent) {
 		return
 	}
 	fmt.Printf("Result : %v\n", string(result))
+
+	app.Send(newDialog)
 }
 
-func exInitSearchProduct(app models.IComponent) {
-	newDialog := app.NewDialog()
+func exInitSearchProduct(app modules.Client) {
+	newDialog := models.NewDialog()
 	newDialog.Title = models.NewTitle("Cari Produk", "https://source.unsplash.com/random/50x50")
 	actionButton := models.NewActionButton("Lihat Keranjang", "viewCart")
 	cancelButton := models.NewCancelButton("tutup")
@@ -95,4 +100,6 @@ func exInitSearchProduct(app models.IComponent) {
 		return
 	}
 	fmt.Printf("Result : %v\n", string(result))
+
+	app.Send(newDialog)
 }

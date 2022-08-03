@@ -17,7 +17,7 @@ type ContainerBlockObject struct {
 
 func (s ContainerBlock) Validate() (bool, error) {
 	// ContainerBlock validation implementation
-	if s.Type != "container" {
+	if s.Type != MBTContainer {
 		return false, errors.New("invalid container block type")
 	}
 

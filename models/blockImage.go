@@ -18,7 +18,7 @@ type ImageBlockObject struct {
 
 func (s ImageBlock) Validate() (bool, error) {
 	// ImageBlock validation implementation
-	if s.Type != "image" {
+	if s.Type != MBTImage {
 		return false, errors.New("invalid image block type")
 	}
 
