@@ -1,5 +1,15 @@
 package models
 
+type TextBlockObjectAlign string
+type TextBlockObjectType string
+
+const (
+	TextBlockObjectAlignCenter TextBlockObjectAlign = "center"
+	TextBlockObjectAlignLeft   TextBlockObjectAlign = "left"
+	TextBlockObjectAlignRight  TextBlockObjectAlign = "right"
+	TextBlockObjectTypeSpan    TextBlockObjectType  = "span"
+)
+
 // TextBlock defines a new block of type section
 type TextBlock struct {
 	Block
@@ -8,8 +18,9 @@ type TextBlock struct {
 
 type TextBlockObject struct {
 	BlockObject
-	Type string `json:"type"`
-	Body string `json:"body"`
+	Body  string               `json:"body"`
+	Align TextBlockObjectAlign `json:"align"`
+	Type  TextBlockObjectType  `json:"type"`
 }
 
 func (s TextBlock) Validate() (bool, error) {

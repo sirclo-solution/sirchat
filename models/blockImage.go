@@ -11,7 +11,6 @@ type ImageBlock struct {
 }
 
 type ImageBlockObject struct {
-	BlockObject
 	Src string `json:"src"`
 	Alt string `json:"alt"`
 }

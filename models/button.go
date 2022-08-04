@@ -1,25 +1,15 @@
 package models
 
-type MessageButtonType string
-
-const (
-	MBTTAction MessageButtonType = "action"
-	MBTTCancel MessageButtonType = "cancel"
-	MBTTSubmit MessageButtonType = "submit"
-)
-
 type IButton interface {
-	GetType() MessageButtonType
+	GetType() ButtonBlockObjectType
 	Validate() (bool, error)
 }
 
 type Button struct {
-	Type   MessageButtonType `json:"type"`
-	Label  string            `json:"label,omitempty"`
-	Action *Action           `json:"action,omitempty"`
+	ButtonBlockObject
 }
 
-func (ths *Button) GetType() MessageButtonType {
+func (ths *Button) GetType() ButtonBlockObjectType {
 	return ths.Type
 }
 

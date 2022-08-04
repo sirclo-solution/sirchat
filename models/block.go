@@ -9,6 +9,7 @@ const (
 	MBTImage     MessageBlockType = "image"
 	MBTInput     MessageBlockType = "input"
 	MBTButton    MessageBlockType = "button"
+	MBTDivider   MessageBlockType = "divider"
 )
 
 type IBlock interface {

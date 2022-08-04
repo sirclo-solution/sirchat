@@ -14,23 +14,28 @@ func main() {
 	})
 	firstEx(app)
 	exInitSearchProduct(app)
+	exInitTable(app)
 }
 
 func firstEx(app modules.Client) {
 	newDialog := models.NewDialog()
 	newDialog.Title = models.NewTitle("ini text", "ini icon")
-	actionButton := models.NewActionButton("cari produk", "initSearchProduct")
+
+	query := map[string]interface{}{
+		"brandID": "test",
+		"cartID":  "123456789",
+	}
+	actionButton := models.NewActionButton("cari produk", "initSearchProduct", query)
+
 	cancelButton := models.NewCancelButton("tutup")
 	submitButton := models.NewSubmitButton("lanjutkan")
 	newDialog.Action = models.NewAction("updateCartItems", models.NewButtons(actionButton, cancelButton, submitButton)...)
 
 	textBlock := models.NewTextBlock(&models.TextBlockObject{
-		Type: "text",
 		Body: "Cari Produk",
 	})
 
 	textBlock2 := models.NewTextBlock(&models.TextBlockObject{
-		Type: "label",
 		Body: "a dummy text",
 	})
 
@@ -71,12 +76,17 @@ func firstEx(app modules.Client) {
 func exInitSearchProduct(app modules.Client) {
 	newDialog := models.NewDialog()
 	newDialog.Title = models.NewTitle("Cari Produk", "https://source.unsplash.com/random/50x50")
-	actionButton := models.NewActionButton("Lihat Keranjang", "viewCart")
+
+	query := map[string]interface{}{
+		"brandID": "test",
+		"cartID":  "123456789",
+	}
+	actionButton := models.NewActionButton("Lihat Keranjang", "viewCart", query)
+
 	cancelButton := models.NewCancelButton("tutup")
 	newDialog.Action = models.NewAction("searchProduct", models.NewButtons(actionButton, cancelButton)...)
 
 	textBlock := models.NewTextBlock(&models.TextBlockObject{
-		Type: "label",
 		Body: "Cari Produk",
 	})
 
@@ -102,4 +112,58 @@ func exInitSearchProduct(app modules.Client) {
 	fmt.Printf("Result : %v\n", string(result))
 
 	app.Send(newDialog)
+}
+
+func exInitTable(app modules.Client) {
+	drawer := models.NewDrawer()
+	drawer.Title = models.NewTitle("Contoh table", "https://source.unsplash.com/random/50x50")
+
+	block1 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 1"})
+	block2 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 2"})
+	block3 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 3"})
+	block4 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 4"})
+	block5 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 5"})
+	block6 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 6"})
+
+	tableHeader1 := models.HeaderObject{
+		Type: "header",
+		Text: &models.TextHeaderObject{Align: "horizontal", Body: "Kolom Satu"},
+	}
+	tableHeader2 := models.HeaderObject{
+		Type: "header",
+		Text: &models.TextHeaderObject{Align: "horizontal", Body: "Kolom Dua"},
+	}
+	tableHeaders := []models.HeaderObject{tableHeader1, tableHeader2}
+
+	row1 := [][]models.IBlock{
+		{
+			block1, block2,
+		},
+		{
+			block3, block4,
+		},
+	}
+	row2 := [][]models.IBlock{
+		{
+			block5,
+		},
+		{
+			block6,
+		},
+	}
+
+	tableRows := [][][]models.IBlock{row1, row2}
+
+	table := models.NewTableBlock(
+		tableHeaders,
+		tableRows,
+	)
+	drawer.Blocks = models.NewBlocks(table)
+
+	result, errs := drawer.Compose()
+	if errs != nil {
+		fmt.Printf("%+q\n", errs)
+		return
+	}
+	fmt.Printf("Result table: %v\n", string(result))
 }

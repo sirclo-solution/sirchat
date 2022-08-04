@@ -1,5 +1,13 @@
 package models
 
+type InputBlockObjectType string
+
+const (
+	InputBlockObjectTypeText    InputBlockObjectType = "text"
+	InputBlockObjectTypeRadio   InputBlockObjectType = "radio"
+	InputBlockObjectTypeCounter InputBlockObjectType = "counter"
+)
+
 // InputBlock defines a new block of type section
 type InputBlock struct {
 	Block
@@ -8,10 +16,16 @@ type InputBlock struct {
 
 type InputBlockObject struct {
 	BlockObject
-	Type        string `json:"type"`
-	Value       string `json:"value"`
-	Name        string `json:"name"`
-	Placeholder string `json:"placeholder"`
+	Type        string                    `json:"type"`
+	Value       string                    `json:"value"`
+	Name        string                    `json:"name"`
+	Placeholder string                    `json:"placeholder,omitempty"`
+	Options     []InputBlockOptionsObject `json:"options,omitempty"`
+}
+
+type InputBlockOptionsObject struct {
+	Value string `json:"value"`
+	Label string `json:"label"`
 }
 
 func (s InputBlock) Validate() (bool, error) {
