@@ -2,8 +2,7 @@ package models
 
 type ActionButton struct {
 	Button
-	Action *Action     `json:"action"`
-	Query  interface{} `json:"query"`
+	Action *Action `json:"action"`
 }
 
 func (s ActionButton) Validate() (bool, error) {

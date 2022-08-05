@@ -2,12 +2,21 @@ package models
 
 type TextBlockObjectAlign string
 type TextBlockObjectType string
+type TextBlockObjectColor string
 
 const (
-	TextBlockObjectAlignCenter TextBlockObjectAlign = "center"
-	TextBlockObjectAlignLeft   TextBlockObjectAlign = "left"
-	TextBlockObjectAlignRight  TextBlockObjectAlign = "right"
-	TextBlockObjectTypeSpan    TextBlockObjectType  = "span"
+	TextBlockObjectAlignCenter    TextBlockObjectAlign = "center"
+	TextBlockObjectAlignLeft      TextBlockObjectAlign = "left"
+	TextBlockObjectAlignRight     TextBlockObjectAlign = "right"
+	TextBlockObjectTypeSpan       TextBlockObjectType  = "span"
+	TextBlockObjectTypeParagraph  TextBlockObjectType  = "paragraph"
+	TextBlockObjectTypeSubheading TextBlockObjectType  = "subheading"
+	TextBlockObjectTypeFigure     TextBlockObjectType  = "figure"
+	TextBlockObjectColorText      TextBlockObjectColor = "text"
+	TextBlockObjectColorPrimary   TextBlockObjectColor = "primary"
+	TextBlockObjectColorSecondary TextBlockObjectColor = "secondary"
+	TextBlockObjectColorDanger    TextBlockObjectColor = "danger"
+	TextBlockObjectColorDisabled  TextBlockObjectColor = "disabled"
 )
 
 // TextBlock defines a new block of type section
@@ -21,6 +30,7 @@ type TextBlockObject struct {
 	Body  string               `json:"body"`
 	Align TextBlockObjectAlign `json:"align"`
 	Type  TextBlockObjectType  `json:"type"`
+	Color TextBlockObjectColor `json:"coloer"`
 }
 
 func (s TextBlock) Validate() (bool, error) {
