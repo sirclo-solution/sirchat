@@ -11,14 +11,13 @@ type ImageBlock struct {
 }
 
 type ImageBlockObject struct {
-	BlockObject
 	Src string `json:"src"`
 	Alt string `json:"alt"`
 }
 
 func (s ImageBlock) Validate() (bool, error) {
 	// ImageBlock validation implementation
-	if s.Type != "image" {
+	if s.Type != MBTImage {
 		return false, errors.New("invalid image block type")
 	}
 

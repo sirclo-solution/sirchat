@@ -6,12 +6,6 @@ type ButtonBlock struct {
 	Button *ButtonBlockObject `json:"button,omitempty"`
 }
 
-type ButtonBlockObject struct {
-	BlockObject
-	Type  string `json:"type"`
-	Label string `json:"label"`
-}
-
 func (s ButtonBlock) Validate() (bool, error) {
 	// ButtonBlock validation implementation
 
