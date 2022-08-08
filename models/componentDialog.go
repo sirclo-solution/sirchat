@@ -43,6 +43,18 @@ func (ths *DialogComponent) Compose() ([]byte, []error) {
 	return res, nil
 }
 
+func (ths *DialogComponent) Send() (interface{}, error) {
+	result, errs := ths.Compose()
+	if errs != nil {
+		fmt.Printf("%+q\n", errs)
+		return nil, errors.New("error Blocks")
+	}
+
+	// send jsonStr to BE via http server
+
+	return string(result), nil
+}
+
 func NewDialog() *DialogComponent {
 	var c DialogComponent
 	c.Type = MCTDialog

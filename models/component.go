@@ -13,6 +13,7 @@ type IComponent interface {
 	GetType() MessageComponentType
 	Validate() (bool, error)
 	Compose() ([]byte, []error)
+	Send() (interface{}, error)
 }
 
 type Component struct {

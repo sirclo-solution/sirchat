@@ -68,6 +68,18 @@ func (ths *DrawerComponent) Compose() ([]byte, []error) {
 	return res, nil
 }
 
+func (ths *DrawerComponent) Send() (interface{}, error) {
+	result, errs := ths.Compose()
+	if errs != nil {
+		fmt.Printf("%+q\n", errs)
+		return nil, errors.New("error Blocks")
+	}
+
+	// send jsonStr to BE via http server
+
+	return string(result), nil
+}
+
 func NewDrawer() *DrawerComponent {
 	var c DrawerComponent
 	c.Type = MCTDrawer

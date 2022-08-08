@@ -1,0 +1,73 @@
+package apps
+
+import (
+	"errors"
+	"log"
+	"net/http"
+
+	"github.com/gin-gonic/gin"
+)
+
+type AppsError struct {
+	AppsErr ErrDetail `json:"error"`
+}
+
+type ErrDetail struct {
+	Code    int    `json:"code"`
+	Message string `json:"message"`
+	Err     error  `json:"-"`
+}
+
+// Return detail error message
+func (err AppsError) Error() string {
+	if err.AppsErr.Err != nil {
+		return err.AppsErr.Err.Error()
+	}
+	return err.AppsErr.Message
+}
+
+func NewAppsError(code int, err error, message string) error {
+	var errMsg string
+
+	if err != nil {
+		errMsg = err.Error()
+	}
+
+	if message != "" {
+		errMsg = message
+	}
+
+	return AppsError{
+		AppsErr: ErrDetail{
+			Code:    code,
+			Message: errMsg,
+			Err:     err,
+		},
+	}
+}
+
+func ResponseError(c *gin.Context, err error) {
+	c.Header("Access-Control-Allow-Origin", "*")
+	c.Header("Content-Type", "Application/json")
+	var ae AppsError
+	if errors.As(err, &ae) {
+		log.Println(ae.AppsErr.Err.Error())
+		c.AbortWithStatusJSON(ae.AppsErr.Code, ae)
+		return
+	}
+
+	// handle non AppsError types
+	log.Println(err.Error())
+	c.AbortWithStatusJSON(http.StatusInternalServerError, AppsError{
+		AppsErr: ErrDetail{
+			Code:    http.StatusInternalServerError,
+			Message: err.Error(),
+		},
+	})
+}
+
+func ResponseSuccess(c *gin.Context, data interface{}) {
+	c.Header("Access-Control-Allow-Origin", "*")
+	c.Header("Content-Type", "Application/json")
+	c.JSON(http.StatusOK, data)
+}

@@ -3,21 +3,52 @@ package main
 import (
 	"fmt"
 
+	"github.com/gin-gonic/gin"
+	"github.com/sirclo-solution/sirchat/apps"
 	"github.com/sirclo-solution/sirchat/models"
-	"github.com/sirclo-solution/sirchat/modules"
+)
+
+const (
+	SECRET_KEY = "sirchat-sirclochat"
 )
 
 func main() {
-	fmt.Println("service is running ...")
-	app := modules.NewClient(modules.ClientConfig{
-		AppSecret: "example-app-secret",
+	app := apps.NewApps(apps.AppConfig{
+		AppSecret: SECRET_KEY,
 	})
-	firstEx(app)
-	exInitSearchProduct(app)
-	exInitTable(app)
+
+	app.Command("/firstEx", cmdFirstEx)
+
+	app.Command("/searchProduct", func(c *gin.Context) (interface{}, error) {
+		//get auth sirclo
+		auth := c.GetString(apps.SircloAuthorization)
+		fmt.Println(auth)
+		return exInitSearchProduct()
+	})
+
+	app.Command("/initTable", cmdInitTable)
+
+	app.Start(apps.AppServerConfig{
+		Port:    "8080",
+		Timeout: 30, // default 30 second
+	})
 }
 
-func firstEx(app modules.Client) {
+var cmdFirstEx = func(c *gin.Context) (interface{}, error) {
+	//get auth sirclo
+	auth := c.GetString(apps.SircloAuthorization)
+	fmt.Println(auth)
+	return firstEx()
+}
+
+var cmdInitTable = func(c *gin.Context) (interface{}, error) {
+	//get auth sirclo
+	auth := c.GetString(apps.SircloAuthorization)
+	fmt.Println(auth)
+	return exInitTable()
+}
+
+func firstEx() (interface{}, error) {
 	newDialog := models.NewDialog()
 	newDialog.Title = models.NewTitle("ini text", "ini icon")
 
@@ -63,17 +94,10 @@ func firstEx(app modules.Client) {
 	containerBlock.Container.AddBlock(imageBlock)
 
 	newDialog.Blocks = append(newDialog.Blocks, textBlock, containerBlock, containerBlock2)
-	result, errs := newDialog.Compose()
-	if errs != nil {
-		fmt.Printf("%+q\n", errs)
-		return
-	}
-	fmt.Printf("Result : %v\n", string(result))
-
-	app.Send(newDialog)
+	return newDialog.Send()
 }
 
-func exInitSearchProduct(app modules.Client) {
+func exInitSearchProduct() (interface{}, error) {
 	newDialog := models.NewDialog()
 	newDialog.Title = models.NewTitle("Cari Produk", "https://source.unsplash.com/random/50x50")
 
@@ -104,17 +128,10 @@ func exInitSearchProduct(app modules.Client) {
 	containerBlock.Container.AddBlock(inputBlock)
 
 	newDialog.Blocks = models.NewBlocks(textBlock, containerBlock)
-	result, errs := newDialog.Compose()
-	if errs != nil {
-		fmt.Printf("%+q\n", errs)
-		return
-	}
-	fmt.Printf("Result : %v\n", string(result))
-
-	app.Send(newDialog)
+	return newDialog.Send()
 }
 
-func exInitTable(app modules.Client) {
+func exInitTable() (interface{}, error) {
 	drawer := models.NewDrawer()
 	drawer.Title = models.NewTitle("Contoh table", "https://source.unsplash.com/random/50x50")
 
@@ -159,11 +176,5 @@ func exInitTable(app modules.Client) {
 		tableRows,
 	)
 	drawer.Blocks = models.NewBlocks(table)
-
-	result, errs := drawer.Compose()
-	if errs != nil {
-		fmt.Printf("%+q\n", errs)
-		return
-	}
-	fmt.Printf("Result table: %v\n", string(result))
+	return drawer.Send()
 }
