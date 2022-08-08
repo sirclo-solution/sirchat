@@ -28,7 +28,7 @@ func main() {
 
 	app.Command("/initTable", cmdInitTable)
 
-	app.Start(apps.ParamRunServer{
+	app.Start(apps.AppServerConfig{
 		Port:    "8080",
 		Timeout: 30, // default 30 second
 	})

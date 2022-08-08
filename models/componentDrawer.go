@@ -69,12 +69,7 @@ func (ths *DrawerComponent) Compose() ([]byte, []error) {
 }
 
 func (ths *DrawerComponent) Send() (interface{}, error) {
-	/*replace _ with a variable. e.x. jsonStr*/
 	result, errs := ths.Compose()
-	// if len(errs) != 0 {
-	// 	return nil, fmt.Errorf("client Send(): %+q", errs)
-	// }
-
 	if errs != nil {
 		fmt.Printf("%+q\n", errs)
 		return nil, errors.New("error Blocks")

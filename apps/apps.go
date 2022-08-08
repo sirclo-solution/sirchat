@@ -8,7 +8,7 @@ import (
 	"github.com/sirclo-solution/sirchat/models"
 )
 
-type ParamRunServer struct {
+type AppServerConfig struct {
 	// Port is specifies the TCP address for the server to listen on,
 	// example (port = 8080)
 	Port string
@@ -21,7 +21,7 @@ type App interface {
 	GetAppSecret() string
 	Command(commandName string, handler HandlerCommand)
 	Send(response models.IComponent) (interface{}, error)
-	Start(param ParamRunServer)
+	Start(param AppServerConfig)
 }
 
 type AppConfig struct {
@@ -48,12 +48,8 @@ func (ths *app) GetAppSecret() string {
 }
 
 func (ths *app) Send(response models.IComponent) (interface{}, error) {
-	/*replace _ with a variable. e.x. jsonStr*/
-	result, errs := response.Compose()
-	// if len(errs) != 0 {
-	// 	return nil, fmt.Errorf("client Send(): %+q", errs)
-	// }
 
+	result, errs := response.Compose()
 	if errs != nil {
 		fmt.Printf("%+q\n", errs)
 		return nil, errors.New("error Blocks")

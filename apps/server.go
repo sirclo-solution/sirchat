@@ -46,7 +46,7 @@ func InitServer(secretKey string) *gin.Engine {
 	return router
 }
 
-func (a *app) Start(param ParamRunServer) {
+func (a *app) Start(param AppServerConfig) {
 	timeout := 30
 	if param.Timeout != 0 {
 		timeout = param.Timeout
