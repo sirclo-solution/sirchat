@@ -1,26 +1,25 @@
 package models
 
 import (
-	"encoding/json"
 	"errors"
-	"fmt"
 )
 
 type DrawerComponent struct {
-	Component
+	component
+	appendable
 	Title      Title      `json:"title"`
 	Action     Action     `json:"action"`
-	Blocks     []IBlock   `json:"blocks"`
 	Subheading Subheading `json:"subheading,omitempty"`
 }
 
-func (ths *DrawerComponent) Validate() (bool, error) {
+func (ths *DrawerComponent) Validate() (bool, []error) {
+	var errs []error
 	if ths.Type != MCTDrawer {
-		return false, errors.New("invalid drawer component type")
+		errs = append(errs, errors.New("invalid drawer component type"))
 	}
 
 	if len(ths.Action.Buttons) == 0 {
-		return false, errors.New("there are no action buttons in the component")
+		errs = append(errs, errors.New("there are no action buttons in the component"))
 	}
 
 	var submitCount, cancelCount int
@@ -35,53 +34,30 @@ func (ths *DrawerComponent) Validate() (bool, error) {
 		}
 
 		if submitCount > 1 || cancelCount > 1 {
-			return false, errors.New("there should be only one submit button and one cancel button in the action buttons")
+			errs = append(errs, errors.New("there should be only one submit button and one cancel button in the action buttons"))
 		}
 
 		if i == len(ths.Action.Buttons)-1 && (submitCount == 0 || cancelCount == 0) {
-			return false, errors.New("there should be one submit button and one cancel button in the action buttons")
+			errs = append(errs, errors.New("there should be one submit button and one cancel button in the action buttons"))
 		}
+	}
+
+	for _, v := range ths.Blocks {
+		if valid, err := v.Validate(); !valid {
+			errs = append(errs, err...)
+		}
+	}
+
+	if len(errs) > 0 {
+		return false, errs
 	}
 
 	return true, nil
 }
 
-func (ths *DrawerComponent) Compose() ([]byte, []error) {
-	var errs []error
-
-	for i, v := range ths.Blocks {
-		if valid, err := v.Validate(); !valid {
-			err := fmt.Errorf("component.Blocks index %d: %s", i, err.Error())
-			errs = append(errs, err)
-		}
-	}
-
-	if len(errs) > 0 {
-		return nil, errs
-	}
-
-	res, err := json.Marshal(ths)
-	if err != nil {
-		return nil, []error{errors.New("error when marshaling component")}
-	}
-
-	return res, nil
-}
-
-func (ths *DrawerComponent) Send() (interface{}, error) {
-	result, errs := ths.Compose()
-	if errs != nil {
-		fmt.Printf("%+q\n", errs)
-		return nil, errors.New("error Blocks")
-	}
-
-	// send jsonStr to BE via http server
-
-	return string(result), nil
-}
-
 func NewDrawer() *DrawerComponent {
 	var c DrawerComponent
 	c.Type = MCTDrawer
+	c.component.IComponent = &c
 	return &c
 }

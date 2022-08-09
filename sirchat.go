@@ -60,7 +60,8 @@ func firstEx() (interface{}, error) {
 
 	cancelButton := models.NewCancelButton("tutup")
 	submitButton := models.NewSubmitButton("lanjutkan")
-	newDialog.Action = models.NewAction("updateCartItems", models.NewButtons(actionButton, cancelButton, submitButton)...)
+	newDialog.Action = models.NewAction("updateCartItems", actionButton, cancelButton) // add buttons when creating the Action object
+	newDialog.Action.AddButtons(submitButton)                                          // add buttons to the Action object later
 
 	textBlock := models.NewTextBlock(&models.TextBlockObject{
 		Body: "Cari Produk",
@@ -87,13 +88,13 @@ func firstEx() (interface{}, error) {
 		Direction: "row", // change to something like "fake_row" to induce error
 	})
 
-	containerBlock3.Container.AddBlock(textBlock2)
+	containerBlock3.Container.AddBlocks(textBlock2)
 
-	containerBlock2.Container.AddBlock(containerBlock3)
+	containerBlock2.Container.AddBlocks(containerBlock3)
 
-	containerBlock.Container.AddBlock(imageBlock)
+	containerBlock.Container.AddBlocks(imageBlock)
 
-	newDialog.Blocks = append(newDialog.Blocks, textBlock, containerBlock, containerBlock2)
+	newDialog.AddBlocks(textBlock, containerBlock, containerBlock2)
 	return newDialog.Send()
 }
 
@@ -108,7 +109,8 @@ func exInitSearchProduct() (interface{}, error) {
 	actionButton := models.NewActionButton("Lihat Keranjang", "viewCart", query)
 
 	cancelButton := models.NewCancelButton("tutup")
-	newDialog.Action = models.NewAction("searchProduct", models.NewButtons(actionButton, cancelButton)...)
+	newDialog.Action = models.NewAction("searchProduct", actionButton) // add buttons when creating the Action object
+	newDialog.Action.AddButtons(cancelButton)                          // add buttons to the Action object later
 
 	textBlock := models.NewTextBlock(&models.TextBlockObject{
 		Body: "Cari Produk",
@@ -125,9 +127,9 @@ func exInitSearchProduct() (interface{}, error) {
 		Direction: "row",
 	})
 
-	containerBlock.Container.AddBlock(inputBlock)
+	containerBlock.Container.AddBlocks(inputBlock)
 
-	newDialog.Blocks = models.NewBlocks(textBlock, containerBlock)
+	newDialog.AddBlocks(textBlock, containerBlock)
 	return newDialog.Send()
 }
 
@@ -175,6 +177,6 @@ func exInitTable() (interface{}, error) {
 		tableHeaders,
 		tableRows,
 	)
-	drawer.Blocks = models.NewBlocks(table)
+	drawer.AddBlocks(table)
 	return drawer.Send()
 }

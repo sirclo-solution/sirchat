@@ -5,14 +5,16 @@ type IButton interface {
 	Validate() (bool, error)
 }
 
-type Button struct {
+// `button` is the base struct for every other button type. It is meant
+// to be embedded to a button subtype. `button` provides the embedding
+// structs with fields and the basic methods for a button.
+type button struct {
 	ButtonBlockObject
 }
 
-func (ths *Button) GetType() ButtonBlockObjectType {
+// GetType returns the type of the button. Use this method as the
+// alternative for getting the value of field `Type` conventionally,
+// such as when handling structs as IButton.
+func (ths *button) GetType() ButtonBlockObjectType {
 	return ths.Type
-}
-
-func NewButtons(buttons ...IButton) []IButton {
-	return buttons
 }

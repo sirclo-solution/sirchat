@@ -5,6 +5,10 @@ type Action struct {
 	Buttons []IButton `json:"buttons,omitempty"`
 }
 
+func (ths *Action) AddButtons(buttons ...IButton) {
+	ths.Buttons = append(ths.Buttons, buttons...)
+}
+
 func NewAction(ID string, buttons ...IButton) Action {
 	return Action{
 		ID:      ID,

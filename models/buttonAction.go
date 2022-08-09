@@ -1,7 +1,7 @@
 package models
 
 type ActionButton struct {
-	Button
+	button
 	Action *Action `json:"action"`
 }
 

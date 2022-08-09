@@ -1,14 +1,16 @@
 package models
 
+import "errors"
+
 // TableBlock defines a new block of type section
 type TableBlock struct {
-	Block
+	block
 	Type  MessageBlockType  `json:"type"`
 	Table *TableBlockObject `json:"table,omitempty"`
 }
 
 type TableBlockObject struct {
-	BlockObject
+	appendable
 	Header []HeaderObject `json:"header"`
 	Body   [][][]IBlock   `json:"body"`
 }
@@ -23,8 +25,26 @@ type TextHeaderObject struct {
 	Body  string `json:"body"`
 }
 
-func (s TableBlock) Validate() (bool, error) {
+func (s TableBlock) Validate() (bool, []error) {
 	// TableBlock validation implementation
+	var errs []error
+	if s.Type != MBTTable {
+		errs = append(errs, errors.New("invalid table block type"))
+	}
+
+	for _, row := range s.Table.Body {
+		for _, column := range row {
+			for _, v := range column {
+				if valid, err := v.Validate(); !valid {
+					errs = append(errs, err...)
+				}
+			}
+		}
+	}
+
+	if len(errs) > 0 {
+		return false, errs
+	}
 
 	return true, nil
 }

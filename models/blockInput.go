@@ -13,12 +13,12 @@ const (
 
 // InputBlock defines a new block of type section
 type InputBlock struct {
-	Block
+	block
 	Input *InputBlockObject `json:"input,omitempty"`
 }
 
 type InputBlockObject struct {
-	BlockObject
+	appendable
 	Type        string                    `json:"type"`
 	Value       string                    `json:"value"`
 	Name        string                    `json:"name"`
@@ -34,7 +34,7 @@ type InputBlockOptionsObject struct {
 	Label string `json:"label"`
 }
 
-func (s InputBlock) Validate() (bool, error) {
+func (s InputBlock) Validate() (bool, []error) {
 	// InputBlock validation implementation
 
 	return true, nil

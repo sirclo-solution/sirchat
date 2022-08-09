@@ -1,5 +1,7 @@
 package models
 
+import "errors"
+
 type TextBlockObjectAlign string
 type TextBlockObjectType string
 type TextBlockObjectColor string
@@ -21,20 +23,28 @@ const (
 
 // TextBlock defines a new block of type section
 type TextBlock struct {
-	Block
+	block
 	Text *TextBlockObject `json:"text,omitempty"`
 }
 
 type TextBlockObject struct {
-	BlockObject
+	appendable
 	Body  string               `json:"body"`
 	Align TextBlockObjectAlign `json:"align"`
 	Type  TextBlockObjectType  `json:"type"`
-	Color TextBlockObjectColor `json:"coloer"`
+	Color TextBlockObjectColor `json:"color"`
 }
 
-func (s TextBlock) Validate() (bool, error) {
+func (s TextBlock) Validate() (bool, []error) {
 	// TextBlock validation implementation
+	var errs []error
+	if s.Text.Body == "" {
+		errs = append(errs, errors.New("body is missing"))
+	}
+
+	if len(errs) > 0 {
+		return false, errs
+	}
 
 	return true, nil
 }

@@ -35,7 +35,7 @@ func InitServer(secretKey string) *gin.Engine {
 	}))
 
 	// Middleware for verifying request usgin HMAC and SHA256
-	router.Use(verifyingRequest(secretKey))
+	// router.Use(verifyingRequest(secretKey))
 
 	// Middleware for authorization Sirclo (only use internal Sirclo)
 	router.Use(forwardingSircloAuthorization())
