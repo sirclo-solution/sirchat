@@ -2,11 +2,11 @@ package models
 
 // ButtonBlock defines a new block of type section
 type ButtonBlock struct {
-	Block
+	block
 	Button *ButtonBlockObject `json:"button,omitempty"`
 }
 
-func (s ButtonBlock) Validate() (bool, error) {
+func (s ButtonBlock) Validate() (bool, []error) {
 	// ButtonBlock validation implementation
 
 	return true, nil

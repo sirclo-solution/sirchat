@@ -6,7 +6,7 @@ import (
 )
 
 type ImageBlock struct {
-	Block
+	block
 	Image *ImageBlockObject `json:"image"`
 }
 
@@ -15,14 +15,19 @@ type ImageBlockObject struct {
 	Alt string `json:"alt"`
 }
 
-func (s ImageBlock) Validate() (bool, error) {
+func (s ImageBlock) Validate() (bool, []error) {
 	// ImageBlock validation implementation
+	var errs []error
 	if s.Type != MBTImage {
-		return false, errors.New("invalid image block type")
+		errs = append(errs, errors.New("invalid image block type"))
 	}
 
 	if match, _ := regexp.MatchString("^(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|jpeg|gif|png)$", s.Image.Src); !match {
-		return false, errors.New("invalid image src")
+		errs = append(errs, errors.New("invalid image src"))
+	}
+
+	if len(errs) > 0 {
+		return false, errs
 	}
 
 	return true, nil

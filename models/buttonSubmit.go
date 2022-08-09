@@ -1,7 +1,7 @@
 package models
 
 type SubmitButton struct {
-	Button
+	button
 	Label  string  `json:"label,omitempty"`
 	Action *Action `json:"action,omitempty"`
 }

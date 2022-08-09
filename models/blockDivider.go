@@ -1,10 +1,10 @@
 package models
 
 type DividerBlock struct {
-	Block
+	block
 }
 
-func (s DividerBlock) Validate() (bool, error) {
+func (s DividerBlock) Validate() (bool, []error) {
 	// DividerBlock validation implementation
 
 	return true, nil

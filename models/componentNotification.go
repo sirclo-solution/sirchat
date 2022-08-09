@@ -1,9 +1,7 @@
 package models
 
 import (
-	"encoding/json"
 	"errors"
-	"fmt"
 )
 
 type MessageNotificationObjectType string
@@ -14,7 +12,7 @@ const (
 )
 
 type NotificationComponent struct {
-	Component
+	component
 	Notification NotificationObject `json:"notification"`
 }
 
@@ -24,36 +22,22 @@ type NotificationObject struct {
 	Message string                        `json:"message"`
 }
 
-func (ths *NotificationComponent) Validate() (bool, error) {
+func (ths *NotificationComponent) Validate() (bool, []error) {
+	var errs []error
 	if ths.Type != MCTNotification {
-		return false, errors.New("invalid notification component type")
+		errs = append(errs, errors.New("invalid notification component type"))
+	}
+
+	if len(errs) > 0 {
+		return false, errs
 	}
 
 	return true, nil
 }
 
-func (ths *NotificationComponent) Compose() ([]byte, []error) {
-	var errs []error
-
-	if valid, err := ths.Validate(); !valid {
-		err := fmt.Errorf("NotificationComponent.Compose(): %s", err.Error())
-		errs = append(errs, err)
-	}
-
-	if len(errs) > 0 {
-		return nil, errs
-	}
-
-	res, err := json.Marshal(ths)
-	if err != nil {
-		return nil, []error{errors.New("error when marshaling notification component")}
-	}
-
-	return res, nil
-}
-
 func NewNotification() *NotificationComponent {
-	var r NotificationComponent
-	r.Type = MCTNotification
-	return &r
+	var c NotificationComponent
+	c.Type = MCTNotification
+	c.component.IComponent = &c
+	return &c
 }

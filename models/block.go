@@ -14,18 +14,19 @@ const (
 
 type IBlock interface {
 	GetType() MessageBlockType
-	Validate() (bool, error)
+	Validate() (bool, []error)
 }
 
-// Block is the base struct for every other block type
-type Block struct {
+// `block` is the base struct for every other block type. It is meant
+// to be embedded to a block subtype. `block` provides the embedding
+// structs with field `Type` and the basic methods for a block.
+type block struct {
 	Type MessageBlockType `json:"type"`
 }
 
-func (ths *Block) GetType() MessageBlockType {
+// GetType returns the type of the block. Use this method as the
+// alternative for getting the value of field `Type` conventionally,
+// such as when handling structs as IBlock.
+func (ths *block) GetType() MessageBlockType {
 	return ths.Type
-}
-
-func NewBlocks(blocks ...IBlock) []IBlock {
-	return blocks
 }

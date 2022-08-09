@@ -1,11 +1,9 @@
 package apps
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/sirclo-solution/sirchat/models"
 )
 
 type AppServerConfig struct {
@@ -20,7 +18,6 @@ type AppServerConfig struct {
 type App interface {
 	GetAppSecret() string
 	Command(commandName string, handler HandlerCommand)
-	Send(response models.IComponent) (interface{}, error)
 	Start(param AppServerConfig)
 }
 
@@ -45,19 +42,6 @@ func (ths *app) setup(cfg AppConfig) error {
 
 func (ths *app) GetAppSecret() string {
 	return ths.AppSecret
-}
-
-func (ths *app) Send(response models.IComponent) (interface{}, error) {
-
-	result, errs := response.Compose()
-	if errs != nil {
-		fmt.Printf("%+q\n", errs)
-		return nil, errors.New("error Blocks")
-	}
-
-	// send jsonStr to BE via http server
-
-	return string(result), nil
 }
 
 func NewApps(cfg AppConfig) App {

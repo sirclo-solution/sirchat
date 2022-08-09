@@ -1,7 +1,7 @@
 package models
 
 type CancelButton struct {
-	Button
+	button
 }
 
 func (s CancelButton) Validate() (bool, error) {
