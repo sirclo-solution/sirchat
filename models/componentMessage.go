@@ -10,15 +10,21 @@ type MessageComponent struct {
 }
 
 type MessageObject struct {
-	TenantID string              `json:"tenant_id"`
-	BrandID  string              `json:"brand_id"`
-	RoomID   string              `json:"room_id"`
-	Channel  string              `json:"channel"`
-	Texts    []MessageTextObject `json:"texts"`
+	TenantID string               `json:"tenant_id"`
+	BrandID  string               `json:"brand_id"`
+	RoomID   string               `json:"room_id"`
+	Channel  string               `json:"channel"`
+	Texts    []MessageTextObject  `json:"texts"`
+	Images   []MessageImageObject `json:"images"`
 }
 
 type MessageTextObject struct {
 	Body string `json:"body"`
+}
+
+type MessageImageObject struct {
+	Alt string `json:"alt"`
+	Src string `json:"src"`
 }
 
 func (ths *MessageComponent) Validate() (bool, []error) {

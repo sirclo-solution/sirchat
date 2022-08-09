@@ -9,9 +9,8 @@ func (ths *Action) AddButtons(buttons ...IButton) {
 	ths.Buttons = append(ths.Buttons, buttons...)
 }
 
-func NewAction(ID string, buttons ...IButton) Action {
+func NewAction(ID string) Action {
 	return Action{
-		ID:      ID,
-		Buttons: buttons,
+		ID: ID,
 	}
 }

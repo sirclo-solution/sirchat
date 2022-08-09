@@ -9,6 +9,7 @@ import (
 )
 
 type AppsError struct {
+	// struct for error component
 	AppsErr ErrDetail `json:"error"`
 }
 
@@ -26,6 +27,7 @@ func (err AppsError) Error() string {
 	return err.AppsErr.Message
 }
 
+// generate new apps error
 func NewAppsError(code int, err error, message string) error {
 	var errMsg string
 
@@ -46,6 +48,7 @@ func NewAppsError(code int, err error, message string) error {
 	}
 }
 
+// resonse error
 func ResponseError(c *gin.Context, err error) {
 	c.Header("Access-Control-Allow-Origin", "*")
 	c.Header("Content-Type", "Application/json")
@@ -66,6 +69,7 @@ func ResponseError(c *gin.Context, err error) {
 	})
 }
 
+// response success
 func ResponseSuccess(c *gin.Context, data interface{}) {
 	c.Header("Access-Control-Allow-Origin", "*")
 	c.Header("Content-Type", "Application/json")
