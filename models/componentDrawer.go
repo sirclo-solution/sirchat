@@ -23,7 +23,7 @@ func (ths *DrawerComponent) Validate() (bool, []error) {
 	}
 
 	var submitCount, cancelCount int
-	for i := 1; i < len(ths.Action.Buttons); i++ {
+	for i := 0; i < len(ths.Action.Buttons); i++ {
 		v := ths.Action.Buttons[i]
 
 		switch v.GetType() {

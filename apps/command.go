@@ -1,22 +1,24 @@
 package apps
 
 import (
-	"net/http"
-
 	"github.com/gin-gonic/gin"
 )
 
+// this is type for method Handler Command
 type HandlerCommand func(*gin.Context) (interface{}, error)
 
+// app command for handling route on group /command
 func (ths *app) Command(commandName string, commanHandler HandlerCommand) {
 	command := ths.EngineApps.Group("/command")
 
 	handler := func(c *gin.Context) {
 		result, err := commanHandler(c)
 		if err != nil {
-			c.AbortWithStatusJSON(http.StatusBadRequest, "error")
+			ResponseError(c, err)
+			return
 		}
-		c.JSON(http.StatusOK, result)
+		ResponseSuccess(c, result)
 	}
+
 	command.POST(commandName, handler)
 }

@@ -23,6 +23,7 @@ const (
 	SircloAuthorization = "Sirclo-Authorization"
 )
 
+// method for verifying request using HMAC and SHA256
 func verifyingRequest(secretKey string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		requestBody, err := c.GetRawData()
@@ -52,6 +53,7 @@ func verifyingRequest(secretKey string) gin.HandlerFunc {
 	}
 }
 
+// method for forwarding authorization sirclo (only use internal sirclo)
 func forwardingSircloAuthorization() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// only use internal Sirclo
@@ -62,6 +64,7 @@ func forwardingSircloAuthorization() gin.HandlerFunc {
 	}
 }
 
+// method for generate signature sirchat
 func GenerateSignatureSirchat(body []byte, secretKey string) string {
 	hmac := hmac.New(sha256.New, []byte(secretKey))
 	hmac.Write(body)
@@ -69,6 +72,7 @@ func GenerateSignatureSirchat(body []byte, secretKey string) string {
 	return hex.EncodeToString(hmac.Sum(nil))
 }
 
+// method for verify signature sirchat
 func VerifySignatureSirchat(body []byte, secretKey, signature string) (bool, error) {
 	sign, err := hex.DecodeString(signature)
 	if err != nil {

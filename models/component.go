@@ -52,12 +52,12 @@ func (ths *component) Compose() ([]byte, error) {
 
 	if len(errs) > 0 {
 		log.Printf("component.Compose() %+q\n", errs)
-		return nil, apps.NewAppsError(http.StatusBadRequest, nil, "invalid component/blocks")
+		return nil, apps.NewAppsError(http.StatusBadRequest, errors.New("invalid component/blocks"), "invalid component/blocks")
 	}
 
 	res, err := json.Marshal(ths.IComponent)
 	if err != nil {
-		return nil, apps.NewAppsError(http.StatusInternalServerError, nil, "error when marshaling component")
+		return nil, apps.NewAppsError(http.StatusInternalServerError, err, "error when marshaling component")
 	}
 
 	return res, nil
@@ -68,10 +68,8 @@ func (ths *component) Compose() ([]byte, error) {
 func (ths *component) Send() (interface{}, error) {
 	result, err := ths.Compose()
 	if err != nil {
-		return nil, errors.New("error Blocks")
+		return nil, err
 	}
-
-	// send jsonStr to BE via http server
 
 	return string(result), nil
 }
