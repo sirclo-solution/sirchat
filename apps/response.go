@@ -8,6 +8,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// AppsError is standard object error Sirchat
 type AppsError struct {
 	// struct for error component
 	AppsErr ErrDetail `json:"error"`
