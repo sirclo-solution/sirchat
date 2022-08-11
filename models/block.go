@@ -10,6 +10,7 @@ const (
 	MBTInput     MessageBlockType = "input"
 	MBTButton    MessageBlockType = "button"
 	MBTDivider   MessageBlockType = "divider"
+	MBTCarousel  MessageBlockType = "carousel"
 )
 
 type IBlock interface {

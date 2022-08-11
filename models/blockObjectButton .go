@@ -24,5 +24,5 @@ type ButtonBlockObject struct {
 	Action   *Action                  `json:"action,omitempty"`
 	Icon     string                   `json:"icon,omitempty"`
 	Disbaled bool                     `json:"disabled"`
-	Query    interface{}              `json:"query"`
+	Query    interface{}              `json:"query,omitempty"`
 }
