@@ -13,6 +13,8 @@ const (
 	MBTCarousel  MessageBlockType = "carousel"
 )
 
+// IBlock is the interface for blocks. All type of blocks that embed `block`
+// struct should satisfy this interface.
 type IBlock interface {
 	GetType() MessageBlockType
 	Validate() (bool, []error)

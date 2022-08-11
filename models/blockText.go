@@ -21,12 +21,13 @@ const (
 	TextBlockObjectColorDisabled  TextBlockObjectColor = "disabled"
 )
 
-// TextBlock defines a new block of type section
+// TextBlock is a subtype of block. It represents a text block.
 type TextBlock struct {
 	block
 	Text *TextBlockObject `json:"text,omitempty"`
 }
 
+// TextBlockObject holds the detail of the TextBlock.
 type TextBlockObject struct {
 	appendable
 	Body  string               `json:"body"`
@@ -35,6 +36,8 @@ type TextBlockObject struct {
 	Color TextBlockObjectColor `json:"color"`
 }
 
+// Validate performs validation to the TextBlock. Field `Body`
+// should not be empty.
 func (s TextBlock) Validate() (bool, []error) {
 	// TextBlock validation implementation
 	var errs []error

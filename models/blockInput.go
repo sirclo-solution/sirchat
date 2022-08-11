@@ -1,5 +1,7 @@
 package models
 
+import "errors"
+
 type InputBlockObjectType string
 
 const (
@@ -11,15 +13,15 @@ const (
 	InputBlockObjectTypeDistrictSelect InputBlockObjectType = "district-select"
 )
 
-// InputBlock defines a new block of type section
+// InputBlock is a subtype of block. It represents an input block.
 type InputBlock struct {
 	block
 	Input *InputBlockObject `json:"input,omitempty"`
 }
 
+// InputBlockObject holds the detail of the InputBlock.
 type InputBlockObject struct {
-	appendable
-	Type        string                    `json:"type"`
+	Type        InputBlockObjectType      `json:"type"`
 	Value       string                    `json:"value"`
 	Name        string                    `json:"name"`
 	Placeholder string                    `json:"placeholder,omitempty"`
@@ -29,18 +31,32 @@ type InputBlockObject struct {
 	Required    bool                      `json:"required,omitempty"`
 }
 
+// InputBlockOptionsObject is the options for radio InputBlockObject type.
 type InputBlockOptionsObject struct {
 	Value string `json:"value"`
 	Label string `json:"label"`
 }
 
+// Validate performs validation to the ContainerBlock. Input of type
+// radio should have field 'Options' defined.
 func (s InputBlock) Validate() (bool, []error) {
-	// InputBlock validation implementation
+	var errs []error
+	if s.Type != MBTInput {
+		errs = append(errs, errors.New("invalid input block type"))
+	}
+
+	if s.Input.Type == InputBlockObjectTypeRadio && len(s.Input.Options) == 0 {
+		errs = append(errs, errors.New("radio input must have options"))
+	}
+
+	if len(errs) > 0 {
+		return false, errs
+	}
 
 	return true, nil
 }
 
-// NewInputBlock returns a new instance of a section block to be rendered
+// NewInputBlock returns a new instance of a input block to be rendered
 func NewInputBlock(inputObj *InputBlockObject) *InputBlock {
 	block := InputBlock{
 		Input: inputObj,

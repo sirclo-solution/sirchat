@@ -11,17 +11,21 @@ const (
 	MNOTFailed  MessageNotificationObjectType = "failed"
 )
 
+// NotificationComponent is a subtype of component. It represents a
+// notfication component.
 type NotificationComponent struct {
 	component
 	Notification NotificationObject `json:"notification"`
 }
 
+// NotificationObject holds the image detail for MessageObject.
 type NotificationObject struct {
 	Type    MessageNotificationObjectType `json:"type"`
 	Title   string                        `json:"title"`
 	Message string                        `json:"message"`
 }
 
+// Validate performs validation to the NotificationComponent.
 func (ths *NotificationComponent) Validate() (bool, []error) {
 	var errs []error
 	if ths.Type != MCTNotification {
@@ -35,6 +39,7 @@ func (ths *NotificationComponent) Validate() (bool, []error) {
 	return true, nil
 }
 
+// NewNotification returns a new instance of a notification component to be rendered
 func NewNotification() *NotificationComponent {
 	var c NotificationComponent
 	c.Type = MCTNotification

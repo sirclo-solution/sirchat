@@ -4,6 +4,7 @@ import (
 	"errors"
 )
 
+// DrawerComponent is a subtype of component. It represents a drawer component.
 type DrawerComponent struct {
 	component
 	appendable
@@ -12,6 +13,9 @@ type DrawerComponent struct {
 	Subheading Subheading `json:"subheading,omitempty"`
 }
 
+// Validate performs validation to the DrawerComponent. A drawer component
+// should have its field `Action` defined. If there are any submit button or cancel
+// button, each of them should only appear once.
 func (ths *DrawerComponent) Validate() (bool, []error) {
 	var errs []error
 	if ths.Type != MCTDrawer {
@@ -36,10 +40,6 @@ func (ths *DrawerComponent) Validate() (bool, []error) {
 		if submitCount > 1 || cancelCount > 1 {
 			errs = append(errs, errors.New("there should be only one submit button and one cancel button in the action buttons"))
 		}
-
-		if i == len(ths.Action.Buttons)-1 && (submitCount == 0 || cancelCount == 0) {
-			errs = append(errs, errors.New("there should be one submit button and one cancel button in the action buttons"))
-		}
 	}
 
 	for _, v := range ths.Blocks {
@@ -55,6 +55,7 @@ func (ths *DrawerComponent) Validate() (bool, []error) {
 	return true, nil
 }
 
+// NewDrawer returns a new instance of a drawer component to be rendered
 func NewDrawer() *DrawerComponent {
 	var c DrawerComponent
 	c.Type = MCTDrawer

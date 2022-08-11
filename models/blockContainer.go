@@ -5,16 +5,21 @@ import (
 	"fmt"
 )
 
+// ContainerBlock is a subtype of block. It represents a container block and holds
+// a ContainerBlockObject in the field `Container`.
 type ContainerBlock struct {
 	block
 	Container *ContainerBlockObject `json:"container"`
 }
 
+// ContainerBlockObject holds the detail of the ContainerBlock. ContainerBlockObject
+// can contain other blocks.
 type ContainerBlockObject struct {
 	appendable
 	Direction string `json:"direction"`
 }
 
+// Validate performs validation to the ContainerBlock.
 func (s ContainerBlock) Validate() (bool, []error) {
 	// ContainerBlock validation implementation
 	var errs []error
@@ -27,6 +32,10 @@ func (s ContainerBlock) Validate() (bool, []error) {
 		break
 	default:
 		errs = append(errs, fmt.Errorf("invalid container direction (%s)", s.Container.Direction))
+	}
+
+	if s.Container == nil {
+		errs = append(errs, errors.New("field 'Container' in container block should not be empty"))
 	}
 
 	for _, v := range s.Container.Blocks {
@@ -42,7 +51,7 @@ func (s ContainerBlock) Validate() (bool, []error) {
 	return true, nil
 }
 
-// NewContainerBlock returns a new instance of a section block to be rendered
+// NewContainerBlock returns a new instance of a container block to be rendered
 func NewContainerBlock(containerBlockObj *ContainerBlockObject) *ContainerBlock {
 	block := ContainerBlock{
 		Container: containerBlockObj,
