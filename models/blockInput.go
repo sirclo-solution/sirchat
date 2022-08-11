@@ -29,6 +29,7 @@ type InputBlockObject struct {
 	Label       string                    `json:"label,omitempty"`
 	Tooltip     string                    `json:"tooltip,omitempty"`
 	Required    bool                      `json:"required,omitempty"`
+	GroupID     string                    `json:"group_id"`
 }
 
 // InputBlockOptionsObject is the options for radio InputBlockObject type.
@@ -47,6 +48,10 @@ func (s InputBlock) Validate() (bool, []error) {
 
 	if s.Input.Type == InputBlockObjectTypeRadio && len(s.Input.Options) == 0 {
 		errs = append(errs, errors.New("radio input must have options"))
+	}
+
+	if s.Input.Type == InputBlockObjectTypeCounter && s.Input.GroupID == "" {
+		errs = append(errs, errors.New("counter input must have group ID defined"))
 	}
 
 	if len(errs) > 0 {
