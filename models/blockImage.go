@@ -5,16 +5,20 @@ import (
 	"regexp"
 )
 
+// ImageBlock is a subtype of block. It represents an image block.
 type ImageBlock struct {
 	block
 	Image *ImageBlockObject `json:"image"`
 }
 
+// ImageBlockObject holds the detail of the ImageBlock.
 type ImageBlockObject struct {
 	Src string `json:"src"`
 	Alt string `json:"alt"`
 }
 
+// Validate performs validation to the ImageBlock. The supported extensions
+// for field `Src` are jpg, jpeg, gif, and png.
 func (s ImageBlock) Validate() (bool, []error) {
 	// ImageBlock validation implementation
 	var errs []error

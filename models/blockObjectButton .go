@@ -11,7 +11,7 @@ const (
 	ButtonObjectVariantContained    ButtonBlockObjectVariant = "contained"
 	ButtonObjectVariantOutlined     ButtonBlockObjectVariant = "outlined"
 	ButtonObjectVariantText         ButtonBlockObjectVariant = "text"
-	MBTTAction                      ButtonBlockObjectType    = "action"
+	MBTTAction                      ButtonBlockObjectType    = "button"
 	MBTTCancel                      ButtonBlockObjectType    = "cancel"
 	MBTTSubmit                      ButtonBlockObjectType    = "submit"
 )
@@ -21,8 +21,6 @@ type ButtonBlockObject struct {
 	Label    string                   `json:"label"`
 	Color    ButtonBlockObjectColor   `json:"color,omitempty"`
 	Variant  ButtonBlockObjectVariant `json:"variant,omitempty"`
-	Action   *Action                  `json:"action,omitempty"`
 	Icon     string                   `json:"icon,omitempty"`
-	Disbaled bool                     `json:"disabled"`
-	Query    interface{}              `json:"query,omitempty"`
+	Disabled bool                     `json:"disabled"`
 }

@@ -4,6 +4,7 @@ import (
 	"errors"
 )
 
+// DialogComponent is a subtype of component. It represents a dialog component.
 type DialogComponent struct {
 	component
 	appendable
@@ -11,6 +12,7 @@ type DialogComponent struct {
 	Action Action `json:"action"`
 }
 
+// Validate performs validation to the DrawerComponent.
 func (ths *DialogComponent) Validate() (bool, []error) {
 	var errs []error
 	if ths.Type != MCTDialog {

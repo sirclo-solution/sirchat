@@ -18,6 +18,8 @@ const (
 	MCTMessage      MessageComponentType = "message"
 )
 
+// IComponent is the interface for components. All type of components that
+// embed `component` struct should satisfy this interface.
 type IComponent interface {
 	GetType() MessageComponentType
 	Validate() (bool, []error)

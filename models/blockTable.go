@@ -2,31 +2,38 @@ package models
 
 import "errors"
 
-// TableBlock defines a new block of type section
+// TableBlock is a subtype of block. It represents a table block.
 type TableBlock struct {
 	block
 	Type  MessageBlockType  `json:"type"`
 	Table *TableBlockObject `json:"table,omitempty"`
 }
 
+// TableBlockObject holds the detail of the TableBlock. The field `Body`
+// holds a 3D array of IBlock. The outermost array represents the table rows.
+// The middle array represents the table columns. The innermost array represents
+// data in each column.
 type TableBlockObject struct {
 	appendable
 	Header []HeaderObject `json:"header"`
 	Body   [][][]IBlock   `json:"body"`
 }
 
+// HeaderObject is the struct for field `Header` in TableBlockObject. Header
+// can only be in text form.
 type HeaderObject struct {
 	Type string            `json:"type"`
 	Text *TextHeaderObject `json:"text,omitempty"`
 }
 
+// TextHeaderObject is the struct for field `Text` in HeaderObject
 type TextHeaderObject struct {
 	Align string `json:"align,omitempty"`
 	Body  string `json:"body"`
 }
 
+// Validate performs validation to the TableBlock.
 func (s TableBlock) Validate() (bool, []error) {
-	// TableBlock validation implementation
 	var errs []error
 	if s.Type != MBTTable {
 		errs = append(errs, errors.New("invalid table block type"))
@@ -49,14 +56,10 @@ func (s TableBlock) Validate() (bool, []error) {
 	return true, nil
 }
 
-// NewTableBlock returns a new instance of a section block to be rendered
+// NewTableBlock returns a new instance of a table block to be rendered
 func NewTableBlock(tableHeader []HeaderObject, body [][][]IBlock) *TableBlock {
 	block := TableBlock{
 		Type: MBTTable,
-		Table: &TableBlockObject{
-			Header: tableHeader,
-			Body:   body,
-		},
 	}
 
 	return &block

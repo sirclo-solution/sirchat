@@ -1,5 +1,8 @@
 package models
 
+// IButton is the interface used only for the buttons in field
+// `Action` in some IComponent object. Not to be confused with
+// ButtonBlock.
 type IButton interface {
 	GetType() ButtonBlockObjectType
 	Validate() (bool, error)
