@@ -68,9 +68,26 @@ func (ths *MessageComponent) Validate() (bool, []error) {
 }
 
 // NewMessage returns a new instance of a message component to be rendered
-func NewMessage() *MessageComponent {
+func NewMessage(tenantID, brandID, roomID, channel string) *MessageComponent {
 	var c MessageComponent
 	c.Type = MCTMessage
+	c.Message.TenantID = tenantID
+	c.Message.BrandID = brandID
+	c.Message.RoomID = roomID
+	c.Message.TenantID = tenantID
 	c.component.IComponent = &c
 	return &c
+}
+
+func NewMessageTextObject(body string) *MessageTextObject {
+	return &MessageTextObject{
+		Body: body,
+	}
+}
+
+func NewMessageImageObject(src, alt string) *MessageImageObject {
+	return &MessageImageObject{
+		Src: src,
+		Alt: alt,
+	}
 }

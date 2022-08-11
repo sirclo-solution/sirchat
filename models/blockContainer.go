@@ -52,11 +52,14 @@ func (s ContainerBlock) Validate() (bool, []error) {
 }
 
 // NewContainerBlock returns a new instance of a container block to be rendered
-func NewContainerBlock(containerBlockObj *ContainerBlockObject) *ContainerBlock {
-	block := ContainerBlock{
-		Container: containerBlockObj,
-	}
+func NewContainerBlock(direction string) *ContainerBlock {
+	var block ContainerBlock
 	block.Type = MBTContainer
+	block.Container.Direction = direction
 
 	return &block
+}
+
+func NewContainerBlockObject() *ContainerBlockObject {
+	return &ContainerBlockObject{}
 }

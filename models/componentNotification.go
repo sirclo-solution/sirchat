@@ -40,9 +40,12 @@ func (ths *NotificationComponent) Validate() (bool, []error) {
 }
 
 // NewNotification returns a new instance of a notification component to be rendered
-func NewNotification() *NotificationComponent {
+func NewNotification(notificationType MessageNotificationObjectType, title, message string) *NotificationComponent {
 	var c NotificationComponent
 	c.Type = MCTNotification
+	c.Notification.Type = notificationType
+	c.Notification.Title = title
+	c.Notification.Message = message
 	c.component.IComponent = &c
 	return &c
 }
