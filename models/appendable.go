@@ -1,7 +1,13 @@
 package models
 
+// IAppendable an interface which has an AddBlocks method.
+// if there is a struct that implements an appendable,
+// then the struct can use the methods contained in IAppendable
 type IAppendable interface {
+	// AddBlock this method can be used to append the block where it is called
 	AddBlocks(blocks ...IBlock)
+
+	// GetBlocks this method can be used to get the block where it is called
 	GetBlocks()
 }
 
@@ -9,6 +15,7 @@ type IAppendable interface {
 // components/blocks. `appendable` provides the embedding structs
 // with field `Blocks` of type `[]IBlock`.
 type appendable struct {
+	// Blocks is the interface that will hold the blocks
 	Blocks []IBlock `json:"blocks,omitempty"`
 }
 

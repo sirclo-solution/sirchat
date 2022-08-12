@@ -1,6 +1,8 @@
 package main
 
 import (
+	"strconv"
+
 	"github.com/gin-gonic/gin"
 	"github.com/sirclo-solution/sirchat/apps"
 	"github.com/sirclo-solution/sirchat/models"
@@ -39,7 +41,7 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 
 	// NewSubmitButton is button submit to the next process/command
 	// the action get from first param on NewAction
-	submitButton := models.NewSubmitButton("lanjutkan")
+	submitButton := models.NewSubmitButton("lanjutkan", false)
 
 	// NewAction is action from the button
 	// add buttons when creating the Action object
@@ -54,42 +56,34 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	block3 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 3"})
 	block4 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 4"})
 
-	// add header for table block
-	tableHeader1 := models.HeaderObject{
-		Type: "header",
-		Text: &models.TextHeaderObject{Align: "horizontal", Body: "Kolom Satu"},
-	}
-	tableHeader2 := models.HeaderObject{
-		Type: "header",
-		Text: &models.TextHeaderObject{Align: "horizontal", Body: "Kolom Dua"},
-	}
-	tableHeaders := []models.HeaderObject{tableHeader1, tableHeader2}
-
-	// add row on table block
-	row1 := [][]models.IBlock{
-		{
-			block1,
-		},
-		{
-			block2,
-		},
-	}
-	row2 := [][]models.IBlock{
-		{
-			block3,
-		},
-		{
-			block4,
-		},
-	}
-
-	tableRows := [][][]models.IBlock{row1, row2}
-
 	// NewTableBlock use createng new table block
-	table := models.NewTableBlock(
-		tableHeaders,
-		tableRows,
-	)
+	table := models.NewTableBlock()
+
+	// add header on table block
+	for i := 1; i <= 2; i++ {
+		table.AddHeader("header"+strconv.Itoa(i), "")
+	}
+
+	// rows is amount of data
+	var rows [][][]models.IBlock
+	for i := 1; i <= 2; i++ {
+		// columns is the data held by each row.
+		// each column can be filled more than 1 block.
+		// the number of headers and columns must be the same
+		var columns [][]models.IBlock
+		for j := 1; j <= 2; j++ {
+			column := table.AddColumn(block1, block2)
+			if j == 2 {
+				column = table.AddColumn(block3, block4)
+			}
+			columns = append(columns, column)
+		}
+		row := table.AddRow(columns...)
+		rows = append(rows, row)
+	}
+
+	// add body on table block
+	table.AddBody(rows...)
 
 	// AddBlocks on component for creating Block for wrapping all the blocks
 	newDrawer.AddBlocks(table)
@@ -111,14 +105,23 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 
 	// NewSubmitButton is button submit to the next process/command
 	// the action get from first param on NewAction
-	submitButton := models.NewSubmitButton("lanjutkan")
+	submitButton := models.NewSubmitButton("lanjutkan", false)
+
+	// NewIconButton is button icon
+	// this button has an action when clicked it will trigger to the next action
+	iconButton := models.NewIconButton(models.ButtonBlockObject{
+		Icon: models.ButtonObjectIconCart,
+		Action: &models.ButtonActionObject{
+			ID: "addToCart",
+		},
+	})
 
 	// NewAction is action from the button
 	// add buttons when creating the Action object
 	newDrawer.Action = models.NewAction("updateCartItems")
 
 	// AddButtons is method for field buttons
-	newDrawer.Action.AddButtons(cancelButton, submitButton)
+	newDrawer.Action.AddButtons(cancelButton, submitButton, iconButton)
 
 	// add new block on table block
 	block1 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 1"})
@@ -126,42 +129,34 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 	block3 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 3"})
 	block4 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 4"})
 
-	// add header for table block
-	tableHeader1 := models.HeaderObject{
-		Type: "header",
-		Text: &models.TextHeaderObject{Align: "horizontal", Body: "Kolom Satu"},
-	}
-	tableHeader2 := models.HeaderObject{
-		Type: "header",
-		Text: &models.TextHeaderObject{Align: "horizontal", Body: "Kolom Dua"},
-	}
-	tableHeaders := []models.HeaderObject{tableHeader1, tableHeader2}
-
-	// add row on table block
-	row1 := [][]models.IBlock{
-		{
-			block1,
-		},
-		{
-			block2,
-		},
-	}
-	row2 := [][]models.IBlock{
-		{
-			block3,
-		},
-		{
-			block4,
-		},
-	}
-
-	tableRows := [][][]models.IBlock{row1, row2}
-
 	// NewTableBlock use createng new table block
-	table := models.NewTableBlock(
-		tableHeaders,
-		tableRows,
-	)
+	table := models.NewTableBlock()
+
+	// add header on table block
+	for i := 1; i <= 2; i++ {
+		table.AddHeader("header"+strconv.Itoa(i), "")
+	}
+
+	// rows is amount of data
+	var rows [][][]models.IBlock
+	for i := 1; i <= 2; i++ {
+		// columns is the data held by each row
+		// each column can be filled more than 1 block
+		// the number of headers and columns must be the same
+		var columns [][]models.IBlock
+		for j := 1; j <= 3; j++ {
+			column := table.AddColumn(block1, block2)
+			if j == 2 {
+				column = table.AddColumn(block3, block4)
+			}
+			columns = append(columns, column)
+		}
+		row := table.AddRow(columns...)
+		rows = append(rows, row)
+	}
+
+	// add body on table block
+	table.AddBody(rows...)
 
 	// NewCarouselBlock use creating new carousel block
 	blockCarousel := models.NewCarouselBlock("Title Carousel")

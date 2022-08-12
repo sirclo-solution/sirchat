@@ -13,8 +13,19 @@ type ImageBlock struct {
 
 // ImageBlockObject holds the detail of the ImageBlock.
 type ImageBlockObject struct {
+	// src is image url (jpg, jpeg, gif, png)
 	Src string `json:"src"`
+
+	// alt is text or label on image
 	Alt string `json:"alt"`
+
+	// Width of image (optional)
+	// default 56px
+	Width int `json:"width,omitempty"`
+
+	// Width of image (optional)
+	// default 56px
+	Height int `json:"height,omitempty"`
 }
 
 // Validate performs validation to the ImageBlock. The supported extensions
@@ -38,11 +49,15 @@ func (s ImageBlock) Validate() (bool, []error) {
 }
 
 // NewImageBlock returns a new instance of a section block to be rendered
-func NewImageBlock(src, alt string) *ImageBlock {
+func NewImageBlock(imageObj ImageBlockObject) *ImageBlock {
 	block := ImageBlock{}
 	block.Type = MBTImage
-	block.Image.Src = src
-	block.Image.Alt = alt
+	block.Image = &ImageBlockObject{
+		Src:    imageObj.Src,
+		Alt:    imageObj.Alt,
+		Width:  imageObj.Width,
+		Height: imageObj.Height,
+	}
 
 	return &block
 }

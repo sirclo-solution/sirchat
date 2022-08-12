@@ -8,8 +8,9 @@ import (
 type DialogComponent struct {
 	component
 	appendable
-	Title  Title  `json:"title"`
-	Action Action `json:"action"`
+	Title      Title      `json:"title"`
+	Action     *Action    `json:"action"`
+	Subheading Subheading `json:"subheading,omitempty"`
 }
 
 // Validate performs validation to the DrawerComponent.

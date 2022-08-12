@@ -40,14 +40,20 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	}
 
 	// NewActionButton is button have action for next process/command
-	actionButton := models.NewActionButton("cari produk", "initSearchProduct", query)
+	actionButton := models.NewActionButton(models.ButtonBlockObject{
+		Label: "Lihat Keranjang",
+		Action: &models.ButtonActionObject{
+			ID: "viewCart",
+		},
+		Query: query,
+	})
 
 	// NewCancelButton is button cancel
 	cancelButton := models.NewCancelButton("tutup")
 
 	// NewSubmitButton is button submit to the next process/command
 	// the action get from first param on NewAction
-	submitButton := models.NewSubmitButton("lanjutkan")
+	submitButton := models.NewSubmitButton("lanjutkan", false)
 
 	// NewAction is action from the button
 	// add buttons when creating the Action object
@@ -66,11 +72,11 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	})
 
 	// NewTextBlock use for creating new image block
-	imageBlock := models.NewImageBlock(
+	imageBlock := models.NewImageBlock(models.ImageBlockObject{
 		// change to invalid url like "https://example.com/dummy.m4a" to induce error
-		"https://example.com/dummy.jpg",
-		"a dummy image",
-	)
+		Src: "https://example.com/dummy.jpg",
+		Alt: "a dummy image",
+	})
 
 	// NewContainerBlock use for creating new container block
 	// in container block can embed/append another block
@@ -99,7 +105,7 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 
 	// NewSubmitButton is button submit to the next process/command
 	// the action get from first param on NewAction
-	submitButton := models.NewSubmitButton("lanjutkan")
+	submitButton := models.NewSubmitButton("lanjutkan", false)
 
 	// NewAction is action from the button
 	// add buttons when creating the Action object
@@ -120,11 +126,11 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 	inputBlock.Input.Placeholder = "Masukkan nama produk atau SKU"
 
 	// NewTextBlock use for creating new image block
-	imageBlock := models.NewImageBlock(
+	imageBlock := models.NewImageBlock(models.ImageBlockObject{
 		// change to invalid url like "https://example.com/dummy.m4a" to induce error
-		"https://example.com/dummy.jpg",
-		"a dummy image",
-	)
+		Src: "https://example.com/dummy.jpg",
+		Alt: "a dummy image",
+	})
 
 	// NewContainerBlock use for creating new container block
 	// in container block can embed/append another block
