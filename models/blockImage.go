@@ -38,11 +38,11 @@ func (s ImageBlock) Validate() (bool, []error) {
 }
 
 // NewImageBlock returns a new instance of a section block to be rendered
-func NewImageBlock(imageBlockObj *ImageBlockObject) *ImageBlock {
-	block := ImageBlock{
-		Image: imageBlockObj,
-	}
+func NewImageBlock(src, alt string) *ImageBlock {
+	block := ImageBlock{}
 	block.Type = MBTImage
+	block.Image.Src = src
+	block.Image.Alt = alt
 
 	return &block
 }

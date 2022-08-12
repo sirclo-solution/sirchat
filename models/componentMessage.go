@@ -67,10 +67,31 @@ func (ths *MessageComponent) Validate() (bool, []error) {
 	return true, nil
 }
 
+// AddTextMessage adds MessageTextObject to MessageComponent.
+func (ths *MessageComponent) AddTextMessage(textBody string) {
+	ths.Message.Texts = append(ths.Message.Texts, MessageTextObject{Body: textBody})
+}
+
+// AddImageMessage adds ImageTextObject to MessageComponent.
+func (ths *MessageComponent) AddImageMessage(alt, src string) {
+	ths.Message.Images = append(ths.Message.Images, MessageImageObject{Alt: alt, Src: src})
+}
+
 // NewMessage returns a new instance of a message component to be rendered
-func NewMessage() *MessageComponent {
+func NewMessage(tenantID, brandID, roomID, channel string) *MessageComponent {
 	var c MessageComponent
 	c.Type = MCTMessage
+	c.Message.TenantID = tenantID
+	c.Message.BrandID = brandID
+	c.Message.RoomID = roomID
+	c.Message.TenantID = tenantID
 	c.component.IComponent = &c
 	return &c
+}
+
+func NewMessageImageObject(src, alt string) *MessageImageObject {
+	return &MessageImageObject{
+		Src: src,
+		Alt: alt,
+	}
 }

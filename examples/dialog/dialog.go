@@ -66,17 +66,15 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	})
 
 	// NewTextBlock use for creating new image block
-	imageBlock := models.NewImageBlock(&models.ImageBlockObject{
+	imageBlock := models.NewImageBlock(
 		// change to invalid url like "https://example.com/dummy.m4a" to induce error
-		Src: "https://example.com/dummy.jpg",
-		Alt: "a dummy image",
-	})
+		"https://example.com/dummy.jpg",
+		"a dummy image",
+	)
 
 	// NewContainerBlock use for creating new container block
 	// in container block can embed/append another block
-	containerBlock := models.NewContainerBlock(&models.ContainerBlockObject{
-		Direction: "row",
-	})
+	containerBlock := models.NewContainerBlock("row")
 
 	// example for add new block on container block
 	containerBlock.Container.AddBlocks(imageBlock, textBlock2)
@@ -116,25 +114,21 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 	})
 
 	// NewTextBlock use for creating new input block
-	inputBlock := models.NewInputBlock(&models.InputBlockObject{
-		Type:        "text",
-		Value:       "jacket",
-		Name:        "query",
-		Placeholder: "Masukkan nama produk atau SKU",
-	})
+	inputBlock := models.NewInputBlock(models.InputBlockObjectTypeText)
+	inputBlock.Input.Value = "jacket"
+	inputBlock.Input.Name = "query"
+	inputBlock.Input.Placeholder = "Masukkan nama produk atau SKU"
 
 	// NewTextBlock use for creating new image block
-	imageBlock := models.NewImageBlock(&models.ImageBlockObject{
+	imageBlock := models.NewImageBlock(
 		// change to invalid url like "https://example.com/dummy.m4a" to induce error
-		Src: "https://example.com/dummy.jpg",
-		Alt: "a dummy image",
-	})
+		"https://example.com/dummy.jpg",
+		"a dummy image",
+	)
 
 	// NewContainerBlock use for creating new container block
 	// in container block can embed/append another block
-	containerBlock := models.NewContainerBlock(&models.ContainerBlockObject{
-		Direction: "row",
-	})
+	containerBlock := models.NewContainerBlock("row")
 
 	// example for add new block on container block
 	containerBlock.Container.AddBlocks(imageBlock, inputBlock)
