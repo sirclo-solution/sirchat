@@ -16,8 +16,8 @@ func (ths *Action) AddButtons(buttons ...IButton) {
 }
 
 // NewAction use to create new action
-func NewAction(ID string) *Action {
-	return &Action{
+func NewAction(ID string) Action {
+	return Action{
 		ID: ID,
 	}
 }

@@ -4,6 +4,7 @@ type MessageBlockType string
 
 const (
 	MBTText      MessageBlockType = "text"
+	MBTTextList  MessageBlockType = "text_list"
 	MBTTable     MessageBlockType = "table"
 	MBTContainer MessageBlockType = "container"
 	MBTImage     MessageBlockType = "image"

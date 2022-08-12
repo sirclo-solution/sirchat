@@ -64,7 +64,9 @@ func (s ContainerBlock) Validate() (bool, []error) {
 func NewContainerBlock(direction ContainerDirection) *ContainerBlock {
 	var block ContainerBlock
 	block.Type = MBTContainer
-	block.Container.Direction = direction
+	block.Container = &ContainerBlockObject{
+		Direction: direction,
+	}
 
 	return &block
 }

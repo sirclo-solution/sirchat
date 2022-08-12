@@ -32,7 +32,9 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	newDialog := models.NewDialog()
 
 	// NewTitle for adding block title
-	newDialog.Title = models.NewTitle("Dialog Example One", "https://source.unsplash.com/random/50x50")
+	newDialog.Title = models.NewTitle(models.Title{
+		Text: "Dialog Example One",
+	})
 
 	query := map[string]interface{}{
 		"brandID": "test",
@@ -98,7 +100,9 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 	newDialog := models.NewDialog()
 
 	// NewTitle for adding block title
-	newDialog.Title = models.NewTitle("Dialog Example Two", "https://source.unsplash.com/random/50x50")
+	newDialog.Title = models.NewTitle(models.Title{
+		Text: "Dialog Example Two",
+	})
 
 	// NewCancelButton is button cancel
 	cancelButton := models.NewCancelButton("tutup")
@@ -139,8 +143,13 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 	// example for add new block on container block
 	containerBlock.Container.AddBlocks(imageBlock, inputBlock)
 
+	textListBlock := models.NewTextListBlock()
+	for i := 1; i <= 3; i++ {
+		textListBlock.AddTextBlock(textBlock)
+	}
+
 	// AddBlocks on component for creating Block for wrapping all the blocks
-	newDialog.AddBlocks(textBlock, containerBlock)
+	newDialog.AddBlocks(textBlock, containerBlock, textListBlock)
 
 	// Send is the last step for creating component
 	// there is compose, validate component and the result will be send to client

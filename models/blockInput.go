@@ -62,10 +62,12 @@ func (s InputBlock) Validate() (bool, []error) {
 }
 
 // NewInputBlock returns a new instance of a input block to be rendered
-func NewInputBlock(inputBlockObjectType InputBlockObjectType) *InputBlock {
+func NewInputBlock(inputType InputBlockObjectType) *InputBlock {
 	var block InputBlock
 	block.Type = MBTInput
-	block.Input.Type = inputBlockObjectType
+	block.Input = &InputBlockObject{
+		Type: inputType,
+	}
 
 	return &block
 }

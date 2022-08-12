@@ -34,7 +34,9 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	newDrawer := models.NewDrawer()
 
 	// NewTitle for adding block title
-	newDrawer.Title = models.NewTitle("Drawer Example One", "https://source.unsplash.com/random/50x50")
+	newDrawer.Title = models.NewTitle(models.Title{
+		Text: "Drawer Example One",
+	})
 
 	// NewCancelButton is button cancel
 	cancelButton := models.NewCancelButton("tutup")
@@ -98,7 +100,9 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 	newDrawer := models.NewDrawer()
 
 	// NewTitle for adding block title
-	newDrawer.Title = models.NewTitle("Drawer Example One", "https://source.unsplash.com/random/50x50")
+	newDrawer.Title = models.NewTitle(models.Title{
+		Text: "Drawer Example Two",
+	})
 
 	// NewCancelButton is button cancel
 	cancelButton := models.NewCancelButton("tutup")
