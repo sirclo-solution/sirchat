@@ -2,7 +2,16 @@ package models
 
 import (
 	"errors"
-	"fmt"
+)
+
+type ContainerDirection string
+
+const (
+	// CDRow this is a row direction
+	CDRow ContainerDirection = "row"
+
+	// CDColumn this is a column direction
+	CDColumn ContainerDirection = "column"
 )
 
 // ContainerBlock is a subtype of block. It represents a container block and holds
@@ -16,7 +25,7 @@ type ContainerBlock struct {
 // can contain other blocks.
 type ContainerBlockObject struct {
 	appendable
-	Direction string `json:"direction"`
+	Direction ContainerDirection `json:"direction"`
 }
 
 // Validate performs validation to the ContainerBlock.
@@ -27,12 +36,12 @@ func (s ContainerBlock) Validate() (bool, []error) {
 		errs = append(errs, errors.New("invalid container block type"))
 	}
 
-	switch s.Container.Direction {
-	case "row": // add more available value here
-		break
-	default:
-		errs = append(errs, fmt.Errorf("invalid container direction (%s)", s.Container.Direction))
-	}
+	// switch s.Container.Direction {
+	// case "row": // add more available value here
+	// 	break
+	// default:
+	// 	errs = append(errs, fmt.Errorf("invalid container direction (%s)", s.Container.Direction))
+	// }
 
 	if s.Container == nil {
 		errs = append(errs, errors.New("field 'Container' in container block should not be empty"))
@@ -52,7 +61,7 @@ func (s ContainerBlock) Validate() (bool, []error) {
 }
 
 // NewContainerBlock returns a new instance of a container block to be rendered
-func NewContainerBlock(direction string) *ContainerBlock {
+func NewContainerBlock(direction ContainerDirection) *ContainerBlock {
 	var block ContainerBlock
 	block.Type = MBTContainer
 	block.Container.Direction = direction
