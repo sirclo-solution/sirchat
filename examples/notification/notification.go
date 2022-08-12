@@ -28,7 +28,7 @@ func main() {
 
 var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	// init message component
-	newNotif := models.NewNotification()
+	newNotif := models.NewNotification(models.MNOTSuccess, "test title", "test body")
 
 	// to be update for add block notif
 

@@ -32,10 +32,9 @@ func (ths *DialogComponent) Validate() (bool, []error) {
 	return true, nil
 }
 
-func NewDialog(titleText string) *DialogComponent {
+func NewDialog() *DialogComponent {
 	var c DialogComponent
 	c.Type = MCTDialog
-	c.Title.Text = titleText
 	c.component.IComponent = &c
 	return &c
 }

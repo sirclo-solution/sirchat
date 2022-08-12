@@ -28,12 +28,13 @@ func main() {
 
 var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	// init message component
-	newMessage := models.NewMessage()
+	newMessage := models.NewMessage(
+		"chat",
+		"chat",
+		"room",
+		"channel",
+	)
 
-	newMessage.Message.TenantID = "chat"
-	newMessage.Message.BrandID = "chat"
-	newMessage.Message.RoomID = "room"
-	newMessage.Message.Channel = "channel"
 	// to be updated using method
 	newMessage.Message.Texts = []models.MessageTextObject{
 		{
