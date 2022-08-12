@@ -43,10 +43,6 @@ func NewCarouselBlock(title string) *CarouselBlock {
 	return &block
 }
 
-func NewCarouselBlockObject() *CarouselBlockObject {
-	return &CarouselBlockObject{}
-}
-
 // AddDescriptionsCarousel for to adding descriptions field on carousel block
 func (s *CarouselBlock) AddDescriptionsCarousel(desc string) {
 	s.Carousel.Descriptions = append(s.Carousel.Descriptions, desc)

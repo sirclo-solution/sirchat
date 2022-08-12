@@ -56,10 +56,9 @@ func (ths *DrawerComponent) Validate() (bool, []error) {
 }
 
 // NewDrawer returns a new instance of a drawer component to be rendered
-func NewDrawer(titleText string) *DrawerComponent {
+func NewDrawer() *DrawerComponent {
 	var c DrawerComponent
 	c.Type = MCTDrawer
-	c.Title.Text = titleText
 	c.component.IComponent = &c
 	return &c
 }

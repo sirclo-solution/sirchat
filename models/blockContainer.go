@@ -59,7 +59,3 @@ func NewContainerBlock(direction string) *ContainerBlock {
 
 	return &block
 }
-
-func NewContainerBlockObject() *ContainerBlockObject {
-	return &ContainerBlockObject{}
-}
