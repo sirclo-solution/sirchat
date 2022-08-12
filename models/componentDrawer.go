@@ -8,9 +8,9 @@ import (
 type DrawerComponent struct {
 	component
 	appendable
-	Title      Title      `json:"title"`
-	Action     *Action    `json:"action"`
-	Subheading Subheading `json:"subheading,omitempty"`
+	Title      Title       `json:"title"`
+	Action     *Action     `json:"action,omitempty"`
+	Subheading *Subheading `json:"subheading,omitempty"`
 }
 
 // Validate performs validation to the DrawerComponent. A drawer component
