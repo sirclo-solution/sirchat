@@ -13,6 +13,6 @@ type Subheading struct {
 
 // NewSubheading returns a new instance of a subheading object to be
 // used in drawer component.
-func NewSubheading(subheading Subheading) Subheading {
-	return subheading
+func NewSubheading(subheading Subheading) *Subheading {
+	return &subheading
 }

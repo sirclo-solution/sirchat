@@ -9,7 +9,7 @@ type DialogComponent struct {
 	component
 	appendable
 	Title      Title       `json:"title"`
-	Action     Action      `json:"action"`
+	Action     *Action     `json:"action,omitempty"`
 	Subheading *Subheading `json:"subheading,omitempty"`
 }
 
