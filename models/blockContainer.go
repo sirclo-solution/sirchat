@@ -18,6 +18,8 @@ const (
 // a ContainerBlockObject in the field `Container`.
 type ContainerBlock struct {
 	block
+
+	// Container contains the ButtonBlockObject that holds the detail of container block
 	Container *ContainerBlockObject `json:"container"`
 }
 
@@ -25,6 +27,8 @@ type ContainerBlock struct {
 // can contain other blocks.
 type ContainerBlockObject struct {
 	appendable
+
+	// Direction defines the content direction in the container.
 	Direction ContainerDirection `json:"direction"`
 }
 
@@ -61,12 +65,19 @@ func (s ContainerBlock) Validate() (bool, []error) {
 }
 
 // NewContainerBlock returns a new instance of a container block to be rendered
-func NewContainerBlock(direction ContainerDirection) *ContainerBlock {
+func NewContainerBlock(containerObj *ContainerBlockObject) *ContainerBlock {
+	obj := ContainerBlockObject{
+		Direction: CDColumn, // default
+	}
+
 	var block ContainerBlock
 	block.Type = MBTContainer
-	block.Container = &ContainerBlockObject{
-		Direction: direction,
+
+	if containerObj.Direction != "" {
+		obj.Direction = containerObj.Direction
 	}
+
+	block.Container = &obj
 
 	return &block
 }
