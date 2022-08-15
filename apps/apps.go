@@ -1,6 +1,7 @@
 package apps
 
 import (
+	"encoding/json"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
@@ -68,4 +69,20 @@ func NewApps(cfg AppConfig) App {
 	var c app
 	c.setup(cfg)
 	return &c
+}
+
+func GetAuthSirclo(c *gin.Context) string {
+	return c.GetString(SircloAuthorization)
+}
+
+func BindRequestBody(c *gin.Context, b any) error {
+	var byteVal []byte
+	if val, ok := c.Get(SirchatRequestBody); ok && val != nil {
+		byteVal, _ = val.([]byte)
+	}
+
+	if err := json.Unmarshal(byteVal, b); err != nil {
+		return err
+	}
+	return nil
 }
