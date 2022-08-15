@@ -1,6 +1,9 @@
 package models
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 type InputBlockObjectType string
 
@@ -40,18 +43,22 @@ type InputBlockOptionsObject struct {
 
 // Validate performs validation to the ContainerBlock. Input of type
 // radio should have field 'Options' defined.
-func (s InputBlock) Validate() (bool, []error) {
+func (ths *InputBlock) Validate() (bool, []error) {
 	var errs []error
-	if s.Type != MBTInput {
+	if ths.Type != MBTInput {
 		errs = append(errs, errors.New("invalid input block type"))
 	}
 
-	if s.Input.Type == InputBlockObjectTypeRadio && len(s.Input.Options) == 0 {
+	if ths.Input.Type == InputBlockObjectTypeRadio && len(ths.Input.Options) == 0 {
 		errs = append(errs, errors.New("radio input must have options"))
 	}
 
-	if s.Input.Type == InputBlockObjectTypeCounter && s.Input.GroupID == "" {
+	if ths.Input.Type == InputBlockObjectTypeCounter && ths.Input.GroupID == "" {
 		errs = append(errs, errors.New("counter input must have group ID defined"))
+	}
+
+	if typeValid := ths.Input.Type.validateInputObjectType(); !typeValid {
+		errs = append(errs, fmt.Errorf("invalid InputBlockObjectType %v", ths.Input.Type))
 	}
 
 	if len(errs) > 0 {
@@ -76,5 +83,24 @@ func NewInputBlockOptionsObject(value, label string) *InputBlockOptionsObject {
 	return &InputBlockOptionsObject{
 		Value: value,
 		Label: label,
+	}
+}
+
+func (t InputBlockObjectType) validateInputObjectType() bool {
+	switch t {
+	case InputBlockObjectTypeText:
+		return true
+	case InputBlockObjectTypeRadio:
+		return true
+	case InputBlockObjectTypeCounter:
+		return true
+	case InputBlockObjectTypeNumber:
+		return true
+	case InputBlockObjectTypeSelect:
+		return true
+	case InputBlockObjectTypeDistrictSelect:
+		return true
+	default:
+		return false
 	}
 }

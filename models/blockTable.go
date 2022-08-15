@@ -9,9 +9,6 @@ import (
 type TableBlock struct {
 	block
 
-	// Type is table block
-	Type MessageBlockType `json:"type"`
-
 	// object of the table block
 	Table *TableBlockObject `json:"table"`
 }
@@ -44,21 +41,21 @@ type TextHeaderObject struct {
 }
 
 // Validate performs validation to the TableBlock.
-func (s *TableBlock) Validate() (bool, []error) {
+func (ths *TableBlock) Validate() (bool, []error) {
 	var errs []error
-	if s.Type != MBTTable {
+	if ths.Type != MBTTable {
 		errs = append(errs, errors.New("invalid table block type"))
 	}
 
-	if len(s.Table.Header) > 0 && len(s.Table.Body) > 0 {
-		for _, row := range s.Table.Body {
-			if len(row) != len(s.Table.Header) {
-				errs = append(errs, fmt.Errorf("the number of headers and columns must be the same, header = %v, column = %v", len(s.Table.Header), len(row)))
+	if len(ths.Table.Header) > 0 && len(ths.Table.Body) > 0 {
+		for _, row := range ths.Table.Body {
+			if len(row) != len(ths.Table.Header) {
+				errs = append(errs, fmt.Errorf("the number of headers and columns must be the same, header = %v, column = %v", len(ths.Table.Header), len(row)))
 			}
 		}
 	}
 
-	for _, row := range s.Table.Body {
+	for _, row := range ths.Table.Body {
 		for _, column := range row {
 			for _, v := range column {
 				if valid, err := v.Validate(); !valid {
@@ -78,9 +75,9 @@ func (s *TableBlock) Validate() (bool, []error) {
 // NewTableBlock returns a new instance of a table block to be rendered
 func NewTableBlock() *TableBlock {
 	block := TableBlock{
-		Type:  MBTTable,
 		Table: &TableBlockObject{},
 	}
+	block.Type = MBTTable
 
 	return &block
 }

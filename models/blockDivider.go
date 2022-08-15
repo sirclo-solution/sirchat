@@ -1,5 +1,7 @@
 package models
 
+import "errors"
+
 // DividerBlock is a subtype of block. It represents a divider block. It
 // will render as a divider line between blocks.
 type DividerBlock struct {
@@ -7,8 +9,16 @@ type DividerBlock struct {
 }
 
 // Validate performs validation to the DividerBlock.
-func (s DividerBlock) Validate() (bool, []error) {
+func (ths *DividerBlock) Validate() (bool, []error) {
 	// DividerBlock validation implementation
+	var errs []error
+	if ths.Type != MBTDivider {
+		errs = append(errs, errors.New("invalid container block type"))
+	}
+
+	if len(errs) > 0 {
+		return false, errs
+	}
 
 	return true, nil
 }

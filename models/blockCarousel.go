@@ -17,10 +17,10 @@ type CarouselBlockObject struct {
 }
 
 // Validate Carousel Block
-func (s CarouselBlock) Validate() (bool, []error) {
+func (ths *CarouselBlock) Validate() (bool, []error) {
 	var errs []error
 
-	if len(s.Carousel.Images) == 0 {
+	if len(ths.Carousel.Images) == 0 {
 		errs = append(errs, errors.New("there must be at least one image in the carousel"))
 	}
 
