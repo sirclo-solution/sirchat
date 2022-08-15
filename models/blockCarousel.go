@@ -5,15 +5,28 @@ import "errors"
 // CarouselBlock defines a new block of carousel
 type CarouselBlock struct {
 	block
+
+	// Carousel contains the CarouselBlockObject that holds the detail of carousel block
 	Carousel *CarouselBlockObject `json:"carousel,omitempty"`
 }
 
 // CarouselBlockObject defines detail of block carousel
 type CarouselBlockObject struct {
 	appendable
-	Title        string       `json:"title"`
-	Descriptions []string     `json:"descriptions"`
-	Images       []ImageBlock `json:"images"`
+
+	// Title is the title of the carousel.
+	// This field is required.
+	Title string `json:"title"`
+
+	// Descriptions is the array of descriptions for
+	// each item in carousel block.
+	// This field is required.
+	Descriptions []string `json:"descriptions"`
+
+	// Descriptions is the array of descriptions for
+	// each item in carousel block.
+	// This field is required.
+	Images []ImageBlock `json:"images"`
 }
 
 // Validate Carousel Block

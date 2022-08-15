@@ -32,7 +32,7 @@ type InputBlockObject struct {
 	Label       string                    `json:"label,omitempty"`
 	Tooltip     string                    `json:"tooltip,omitempty"`
 	Required    bool                      `json:"required,omitempty"`
-	GroupID     string                    `json:"group_id"`
+	GroupID     string                    `json:"group_id,omitempty"`
 }
 
 // InputBlockOptionsObject is the options for radio InputBlockObject type.
@@ -69,21 +69,20 @@ func (ths *InputBlock) Validate() (bool, []error) {
 }
 
 // NewInputBlock returns a new instance of a input block to be rendered
-func NewInputBlock(inputType InputBlockObjectType) *InputBlock {
+func NewInputBlock(inputBlockObj *InputBlockObject) *InputBlock {
 	var block InputBlock
 	block.Type = MBTInput
-	block.Input = &InputBlockObject{
-		Type: inputType,
-	}
+	block.Input = inputBlockObj
 
 	return &block
 }
 
-func NewInputBlockOptionsObject(value, label string) *InputBlockOptionsObject {
-	return &InputBlockOptionsObject{
+// AddInputBlockOptionsObject adds options to field Options for input of type "select"
+func (ths *InputBlock) AddInputBlockOptionsObject(value, label string) {
+	ths.Input.Options = append(ths.Input.Options, InputBlockOptionsObject{
 		Value: value,
 		Label: label,
-	}
+	})
 }
 
 func (t InputBlockObjectType) validateInputObjectType() bool {

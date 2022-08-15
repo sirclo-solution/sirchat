@@ -58,6 +58,7 @@ const (
 	ButtonObjectIconDelete ButtonBlockObjectIcon = "delete"
 )
 
+// ButtonBlockObject holds the detail of the ButtonBlock.
 type ButtonBlockObject struct {
 	// Type is a type of button (button/action, cancel, submit).
 	// This field is required.
@@ -282,6 +283,8 @@ func (t ButtonBlockObjectIcon) validateButtonObjectIcon() bool {
 	case ButtonObjectIconDelete:
 		return true
 	case ButtonObjectIconTrash:
+		return true
+	case "":
 		return true
 	default:
 		return false

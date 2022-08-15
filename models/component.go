@@ -32,7 +32,8 @@ type IComponent interface {
 // and the basic methods for a component.
 type component struct {
 	IComponent `json:"-"`
-	Type       MessageComponentType `json:"type"`
+	// Type is the component type of a component.
+	Type MessageComponentType `json:"type"`
 }
 
 // GetType returns the type of the component. Use this method as the
