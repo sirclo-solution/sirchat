@@ -139,7 +139,9 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 	})
 
 	// NewTextBlock use for creating new input block
-	inputBlock := models.NewInputBlock(models.InputBlockObjectTypeText)
+	inputBlock := models.NewInputBlock(&models.InputBlockObject{
+		Type: models.InputBlockObjectTypeText,
+	})
 	inputBlock.Input.Value = "jacket"
 	inputBlock.Input.Name = "query"
 	inputBlock.Input.Placeholder = "Masukkan nama produk atau SKU"
