@@ -42,7 +42,8 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	}
 
 	// NewActionButton is button have action for next process/command
-	actionButton := models.NewActionButton(models.ButtonBlockObject{
+	actionButton := models.NewButtonBlock(&models.ButtonBlockObject{
+		Type:  models.MBTTAction,
 		Label: "Lihat Keranjang",
 		Action: &models.ButtonActionObject{
 			ID: "viewCart",
@@ -51,18 +52,24 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	})
 
 	// NewCancelButton is button cancel
-	cancelButton := models.NewCancelButton("tutup")
+	cancelButton := models.NewButtonBlock(&models.ButtonBlockObject{
+		Type:  models.MBTTCancel,
+		Label: "tutup",
+	})
 
 	// NewSubmitButton is button submit to the next process/command
 	// the action get from first param on NewAction
-	submitButton := models.NewSubmitButton("lanjutkan", false)
+	submitButton := models.NewButtonBlock(&models.ButtonBlockObject{
+		Type:  models.MBTTSubmit,
+		Label: "lanjutkan",
+	})
 
 	// NewAction is action from the button
 	// add buttons when creating the Action object
 	newDialog.Action = models.NewAction("updateCartItems")
 
 	// AddButtons is method for field buttons
-	newDialog.Action.AddButtons(actionButton, cancelButton, submitButton)
+	newDialog.Action.AddButtons(actionButton.Button, cancelButton.Button, submitButton.Button)
 
 	// NewTextBlock use for creating new text block
 	textBlock := models.NewTextBlock(&models.TextBlockObject{
@@ -82,7 +89,9 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 
 	// NewContainerBlock use for creating new container block
 	// in container block can embed/append another block
-	containerBlock := models.NewContainerBlock("row")
+	containerBlock := models.NewContainerBlock(&models.ContainerBlockObject{
+		Direction: models.CDRow,
+	})
 
 	// example for add new block on container block
 	containerBlock.Container.AddBlocks(imageBlock, textBlock2)
@@ -105,18 +114,24 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 	})
 
 	// NewCancelButton is button cancel
-	cancelButton := models.NewCancelButton("tutup")
+	cancelButton := models.NewButtonBlock(&models.ButtonBlockObject{
+		Type:  models.MBTTCancel,
+		Label: "tutup",
+	})
 
 	// NewSubmitButton is button submit to the next process/command
 	// the action get from first param on NewAction
-	submitButton := models.NewSubmitButton("lanjutkan", false)
+	submitButton := models.NewButtonBlock(&models.ButtonBlockObject{
+		Type:  models.MBTTSubmit,
+		Label: "lanjutkan",
+	})
 
 	// NewAction is action from the button
 	// add buttons when creating the Action object
 	newDialog.Action = models.NewAction("addToCart")
 
 	// AddButtons is method for field buttons
-	newDialog.Action.AddButtons(cancelButton, submitButton)
+	newDialog.Action.AddButtons(cancelButton.Button, submitButton.Button)
 
 	// NewTextBlock use for creating new text block
 	textBlock := models.NewTextBlock(&models.TextBlockObject{
@@ -138,7 +153,9 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 
 	// NewContainerBlock use for creating new container block
 	// in container block can embed/append another block
-	containerBlock := models.NewContainerBlock("row")
+	containerBlock := models.NewContainerBlock(&models.ContainerBlockObject{
+		Direction: "row",
+	})
 
 	// example for add new block on container block
 	containerBlock.Container.AddBlocks(imageBlock, inputBlock)

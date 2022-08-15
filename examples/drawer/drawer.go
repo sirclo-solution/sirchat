@@ -39,18 +39,24 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	})
 
 	// NewCancelButton is button cancel
-	cancelButton := models.NewCancelButton("tutup")
+	cancelButton := models.NewButtonBlock(&models.ButtonBlockObject{
+		Type:  models.MBTTCancel,
+		Label: "tutup",
+	})
 
 	// NewSubmitButton is button submit to the next process/command
 	// the action get from first param on NewAction
-	submitButton := models.NewSubmitButton("lanjutkan", false)
+	submitButton := models.NewButtonBlock(&models.ButtonBlockObject{
+		Type:  models.MBTTSubmit,
+		Label: "lanjutkan",
+	})
 
 	// NewAction is action from the button
 	// add buttons when creating the Action object
 	newDrawer.Action = models.NewAction("updateCartItems")
 
 	// AddButtons is method for field buttons
-	newDrawer.Action.AddButtons(cancelButton, submitButton)
+	newDrawer.Action.AddButtons(cancelButton.Button, submitButton.Button)
 
 	// add new block on table block
 	block1 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 1"})
@@ -105,15 +111,22 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 	})
 
 	// NewCancelButton is button cancel
-	cancelButton := models.NewCancelButton("tutup")
+	cancelButton := models.NewButtonBlock(&models.ButtonBlockObject{
+		Type:  models.MBTTCancel,
+		Label: "tutup",
+	})
 
 	// NewSubmitButton is button submit to the next process/command
 	// the action get from first param on NewAction
-	submitButton := models.NewSubmitButton("lanjutkan", false)
+	submitButton := models.NewButtonBlock(&models.ButtonBlockObject{
+		Type:  models.MBTTSubmit,
+		Label: "lanjutkan",
+	})
 
 	// NewIconButton is button icon
 	// this button has an action when clicked it will trigger to the next action
-	iconButton := models.NewIconButton(models.ButtonBlockObject{
+	iconButton := models.NewButtonBlock(&models.ButtonBlockObject{
+		Type: models.MBTTAction,
 		Icon: models.ButtonObjectIconCart,
 		Action: &models.ButtonActionObject{
 			ID: "addToCart",
@@ -125,7 +138,7 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 	newDrawer.Action = models.NewAction("updateCartItems")
 
 	// AddButtons is method for field buttons
-	newDrawer.Action.AddButtons(cancelButton, submitButton, iconButton)
+	newDrawer.Action.AddButtons(cancelButton.Button, submitButton.Button, iconButton.Button)
 
 	// add new block on table block
 	block1 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 1"})

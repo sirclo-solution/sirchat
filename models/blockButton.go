@@ -1,5 +1,7 @@
 package models
 
+import "errors"
+
 // ButtonBlockObjectType this is type of the button
 type ButtonBlockObjectType string
 
@@ -54,31 +56,36 @@ const (
 )
 
 type ButtonBlockObject struct {
-	// Type is a type of button (button/action, cancel, submit)
-	// its default each button
+	// Type is a type of button (button/action, cancel, submit).
+	// This field is required.
 	Type ButtonBlockObjectType `json:"type"`
 
-	// Label is a content text of the button
+	// Label is a content text of the button.
+	// This field is required.
 	Label string `json:"label"`
 
-	// Color is a color of the button (primary, secondary, danger)
+	// Color is a color of the button (primary, secondary, danger).
+	// Default to primary.
 	Color ButtonBlockObjectColor `json:"color,omitempty"`
 
-	// Variant is a variant of the button (text, outlined, contained)
+	// Variant is a variant of the button (text, outlined, contained).
+	// Default to outlined.
 	// Ref: https://mui.com/material-ui/react-button/#main-content
 	Variant ButtonBlockObjectVariant `json:"variant,omitempty"`
 
 	// Icon is a icon on button.
-	// this field can only be used for button icon
+	// This field can only be used for button icon.
+	// This field is optional.
 	Icon ButtonBlockObjectIcon `json:"icon,omitempty"`
 
-	// field Action will trigger to the next action when the button is clicked
-	// This field can only be used when the button has a trigger for the next action
+	// Field Action will trigger the next action when the button is clicked.
+	// This field can only be used when the button has a trigger for the next action.
+	// This field is required only for button type "button" (action).
 	Action *ButtonActionObject `json:"action,omitempty"`
 
 	// field Query contains the payload that will be brought when the button is clicked
 	// This field can only be used when the button has a trigger and a payload for the next action
-	// The query can be empty if the next action does not need a payload
+	// This field is optional.
 	Query interface{} `json:"query,omitempty"`
 
 	// disabled is unclickable button,
@@ -86,24 +93,120 @@ type ButtonBlockObject struct {
 	Disabled bool `json:"disabled"`
 }
 
-// IButton is the interface used only for the buttons in field
-// `Action` in some IComponent object. Not to be confused with
-// ButtonBlock.
-type IButton interface {
-	GetType() ButtonBlockObjectType
-	Validate() (bool, []error)
+// ButtonActionObject
+type ButtonActionObject struct {
+	// ID is action id that will trigger the next action/command
+	ID string `json:"id"`
 }
 
-// `button` is the base struct for every other button type. It is meant
-// to be embedded to a button subtype. `button` provides the embedding
-// structs with fields and the basic methods for a button.
-type button struct {
-	ButtonBlockObject
+// ButtonBlock is a subtype of block. It represents a button container block and holds
+// a ButtonBlockObject in the field `Button`.
+type ButtonBlock struct {
+	block
+
+	// Button contains the ButtonBlockObject that holds the detail of button block
+	Button ButtonBlockObject `json:"button"`
 }
 
-// GetType returns the type of the button. Use this method as the
-// alternative for getting the value of field `Type` conventionally,
-// such as when handling structs as IButton.
-func (ths *button) GetType() ButtonBlockObjectType {
-	return ths.Type
+// Validate performs validation to the ButtonBlock.
+func (ths *ButtonBlock) Validate() (bool, []error) {
+	var valid bool
+	var errs []error
+	switch ths.Button.Type {
+	case MBTTAction:
+		validateActionButton(*ths)
+	case MBTTSubmit:
+		validateSubmitButton(*ths)
+	case MBTTCancel:
+		validateCancelButton(*ths)
+	}
+
+	return valid, errs
+}
+
+// NewButtonBlock returns a new instance of a button block to be rendered
+func NewButtonBlock(buttonObj *ButtonBlockObject) *ButtonBlock {
+	obj := ButtonBlockObject{
+		Type:     buttonObj.Type,
+		Label:    buttonObj.Label,
+		Color:    ButtonBlockObjectColorPrimary, // default
+		Variant:  ButtonObjectVariantOutlined,   // default
+		Icon:     buttonObj.Icon,
+		Action:   buttonObj.Action,
+		Query:    buttonObj.Query,
+		Disabled: false, // default
+	}
+
+	if buttonObj.Color != "" {
+		obj.Color = buttonObj.Color
+	}
+
+	if buttonObj.Variant != "" {
+		obj.Variant = buttonObj.Variant
+	}
+
+	if buttonObj.Disabled {
+		obj.Disabled = buttonObj.Disabled
+	}
+
+	return &ButtonBlock{block: block{Type: MBTButton}, Button: obj}
+}
+
+func validateActionButton(btn ButtonBlock) (bool, []error) {
+	var errs []error
+	if btn.Button.Type != MBTTAction {
+		errs = append(errs, errors.New("invalid action button block object type"))
+	}
+
+	if btn.Button.Label == "" {
+		errs = append(errs, errors.New("action button must have content of label object"))
+	}
+
+	if btn.Button.Action == nil {
+		errs = append(errs, errors.New("action button must have action object"))
+	}
+
+	if btn.Button.Action.ID == "" {
+		errs = append(errs, errors.New("field `ID` in action object should not be empty"))
+	}
+
+	if len(errs) > 0 {
+		return false, errs
+	}
+
+	return true, nil
+}
+
+func validateSubmitButton(btn ButtonBlock) (bool, []error) {
+	var errs []error
+	if btn.Button.Type != MBTTSubmit {
+		errs = append(errs, errors.New("invalid submit button block object type"))
+	}
+
+	if btn.Button.Label == "" {
+		errs = append(errs, errors.New("submit button must have content of label object"))
+	}
+
+	if len(errs) > 0 {
+		return false, errs
+	}
+
+	return true, nil
+}
+
+func validateCancelButton(btn ButtonBlock) (bool, []error) {
+	var errs []error
+	if btn.Button.Type != MBTTCancel {
+		errs = append(errs, errors.New("invalid cancel button block object type"))
+	}
+
+	if btn.Button.Label == "" {
+		errs = append(errs, errors.New("cancel button must have content of label object"))
+	}
+
+	if len(errs) > 0 {
+		return false, errs
+	}
+
+	return true, nil
 }

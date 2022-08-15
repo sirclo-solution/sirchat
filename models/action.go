@@ -7,11 +7,11 @@ type Action struct {
 	ID string `json:"id"`
 
 	// Buttons can contain multiple buttons
-	Buttons []IButton `json:"buttons,omitempty"`
+	Buttons []ButtonBlockObject `json:"buttons,omitempty"`
 }
 
 // AddButtons used to append button on Action
-func (ths *Action) AddButtons(buttons ...IButton) {
+func (ths *Action) AddButtons(buttons ...ButtonBlockObject) {
 	ths.Buttons = append(ths.Buttons, buttons...)
 }
 
