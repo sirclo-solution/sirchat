@@ -5,11 +5,21 @@ import (
 )
 
 // DialogComponent is a subtype of component. It represents a dialog component.
+// DialogComponent can contain blocks.
 type DialogComponent struct {
 	component
 	appendable
-	Title      Title       `json:"title"`
-	Action     *Action     `json:"action,omitempty"`
+
+	// Title is the title of the dialog.
+	// This field is required.
+	Title Title `json:"title"`
+
+	// Action contains the Action object that will trigger another command/action.
+	// This field is optional.
+	Action *Action `json:"action,omitempty"`
+
+	// Subheading is the text under the title.
+	// This field is optional.
 	Subheading *Subheading `json:"subheading,omitempty"`
 }
 

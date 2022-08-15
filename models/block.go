@@ -25,6 +25,7 @@ type IBlock interface {
 // to be embedded to a block subtype. `block` provides the embedding
 // structs with field `Type` and the basic methods for a block.
 type block struct {
+	// Type is the block type of a block.
 	Type MessageBlockType `json:"type"`
 }
 
