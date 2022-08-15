@@ -1,6 +1,8 @@
 package main
 
 import (
+	"log"
+
 	"github.com/gin-gonic/gin"
 	"github.com/sirclo-solution/sirchat/apps"
 	"github.com/sirclo-solution/sirchat/models"
@@ -9,6 +11,22 @@ import (
 const (
 	SECRET_KEY = "sirchat-sirclochat"
 )
+
+type RequestExampleOne struct {
+	Chat      ChatDetail `json:"chat"`
+	PayloadSP *Payload   `json:"payload"`
+}
+
+type ChatDetail struct {
+	TenantId string `json:"tenantId"`
+	BrandId  string `json:"brandId"`
+	RoomId   string `json:"roomId"`
+	Channel  string `json:"channel"`
+}
+
+type Payload struct {
+	Query string `json:"query"`
+}
 
 func main() {
 	// creating new apps
@@ -28,6 +46,21 @@ func main() {
 }
 
 var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
+	// get auth sirclo (only use internal sirclo)
+	authSirclo := apps.GetAuthSirclo(c)
+
+	log.Println("Auth Sirclo", authSirclo)
+
+	var req RequestExampleOne
+
+	// bind request  body
+	if err := apps.BindRequestBody(c, &req); err != nil {
+		log.Println("Error Bind Request Body", err)
+		return nil, err
+	}
+
+	log.Println("Request Body", req)
+
 	// init dialog component
 	newDialog := models.NewDialog()
 

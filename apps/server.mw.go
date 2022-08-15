@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"io/ioutil"
 	"log"
 	"net/http"
 
@@ -21,12 +22,15 @@ const (
 
 	// key of Authorization Sirclo (its only use internal SIRCLO)
 	SircloAuthorization = "Sirclo-Authorization"
+
+	// key of get Request Body
+	SirchatRequestBody = "Sirchat-Request-Body"
 )
 
 // method for verifying request using HMAC and SHA256
 func verifyingRequest(secretKey string) gin.HandlerFunc {
 	return func(c *gin.Context) {
-		requestBody, err := c.GetRawData()
+		requestBody, err := ioutil.ReadAll(c.Request.Body)
 		if err != nil {
 			ResponseError(c, NewAppsError(http.StatusBadRequest, err, "bad request"))
 			return
@@ -48,6 +52,9 @@ func verifyingRequest(secretKey string) gin.HandlerFunc {
 			ResponseError(c, NewAppsError(http.StatusUnauthorized, err, "signature is required"))
 			return
 		}
+
+		// set request body to Sirchat-Request-Body
+		c.Set(SirchatRequestBody, requestBody)
 
 		c.Next()
 	}
@@ -81,7 +88,6 @@ func VerifySignatureSirchat(body []byte, secretKey, signature string) (bool, err
 
 	mac := hmac.New(sha256.New, []byte(secretKey))
 	mac.Write(body)
-	log.Println("verify hmac", hex.EncodeToString(mac.Sum(nil))) // for testing
 
 	return hmac.Equal(sign, mac.Sum(nil)), nil
 }
