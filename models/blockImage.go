@@ -8,6 +8,8 @@ import (
 // ImageBlock is a subtype of block. It represents an image block.
 type ImageBlock struct {
 	block
+
+	// Image contains the ImageBlockObject that holds the detail of image block
 	Image *ImageBlockObject `json:"image"`
 }
 
@@ -30,14 +32,14 @@ type ImageBlockObject struct {
 
 // Validate performs validation to the ImageBlock. The supported extensions
 // for field `Src` are jpg, jpeg, gif, and png.
-func (s ImageBlock) Validate() (bool, []error) {
+func (ths *ImageBlock) Validate() (bool, []error) {
 	// ImageBlock validation implementation
 	var errs []error
-	if s.Type != MBTImage {
+	if ths.Type != MBTImage {
 		errs = append(errs, errors.New("invalid image block type"))
 	}
 
-	if match, _ := regexp.MatchString("^(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|jpeg|gif|png)$", s.Image.Src); !match {
+	if match, _ := regexp.MatchString("^(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|jpeg|gif|png)$", ths.Image.Src); !match {
 		errs = append(errs, errors.New("invalid image src"))
 	}
 

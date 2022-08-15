@@ -42,7 +42,7 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	}
 
 	// NewActionButton is button have action for next process/command
-	actionButton := models.NewButtonBlock(&models.ButtonBlockObject{
+	actionButton := models.NewButtonBlock(models.ButtonBlockObject{
 		Type:  models.MBTTAction,
 		Label: "Lihat Keranjang",
 		Action: &models.ButtonActionObject{
@@ -52,14 +52,14 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	})
 
 	// NewCancelButton is button cancel
-	cancelButton := models.NewButtonBlock(&models.ButtonBlockObject{
+	cancelButton := models.NewButtonBlock(models.ButtonBlockObject{
 		Type:  models.MBTTCancel,
 		Label: "tutup",
 	})
 
 	// NewSubmitButton is button submit to the next process/command
 	// the action get from first param on NewAction
-	submitButton := models.NewButtonBlock(&models.ButtonBlockObject{
+	submitButton := models.NewButtonBlock(models.ButtonBlockObject{
 		Type:  models.MBTTSubmit,
 		Label: "lanjutkan",
 	})
@@ -89,7 +89,7 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 
 	// NewContainerBlock use for creating new container block
 	// in container block can embed/append another block
-	containerBlock := models.NewContainerBlock(&models.ContainerBlockObject{
+	containerBlock := models.NewContainerBlock(models.ContainerBlockObject{
 		Direction: models.CDRow,
 	})
 
@@ -114,14 +114,14 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 	})
 
 	// NewCancelButton is button cancel
-	cancelButton := models.NewButtonBlock(&models.ButtonBlockObject{
+	cancelButton := models.NewButtonBlock(models.ButtonBlockObject{
 		Type:  models.MBTTCancel,
 		Label: "tutup",
 	})
 
 	// NewSubmitButton is button submit to the next process/command
 	// the action get from first param on NewAction
-	submitButton := models.NewButtonBlock(&models.ButtonBlockObject{
+	submitButton := models.NewButtonBlock(models.ButtonBlockObject{
 		Type:  models.MBTTSubmit,
 		Label: "lanjutkan",
 	})
@@ -153,7 +153,7 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 
 	// NewContainerBlock use for creating new container block
 	// in container block can embed/append another block
-	containerBlock := models.NewContainerBlock(&models.ContainerBlockObject{
+	containerBlock := models.NewContainerBlock(models.ContainerBlockObject{
 		Direction: "row",
 	})
 

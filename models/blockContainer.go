@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"fmt"
 )
 
 type ContainerDirection string
@@ -33,25 +34,22 @@ type ContainerBlockObject struct {
 }
 
 // Validate performs validation to the ContainerBlock.
-func (s ContainerBlock) Validate() (bool, []error) {
+func (ths *ContainerBlock) Validate() (bool, []error) {
 	// ContainerBlock validation implementation
 	var errs []error
-	if s.Type != MBTContainer {
+	if ths.Type != MBTContainer {
 		errs = append(errs, errors.New("invalid container block type"))
 	}
 
-	// switch s.Container.Direction {
-	// case "row": // add more available value here
-	// 	break
-	// default:
-	// 	errs = append(errs, fmt.Errorf("invalid container direction (%s)", s.Container.Direction))
-	// }
+	if directionValid := ths.Container.Direction.validateContainerObjectDirection(); !directionValid {
+		errs = append(errs, fmt.Errorf("invalid ContainerDirection %v", ths.Container.Direction))
+	}
 
-	if s.Container == nil {
+	if ths.Container == nil {
 		errs = append(errs, errors.New("field 'Container' in container block should not be empty"))
 	}
 
-	for _, v := range s.Container.Blocks {
+	for _, v := range ths.Container.Blocks {
 		if valid, err := v.Validate(); !valid {
 			errs = append(errs, err...)
 		}
@@ -65,9 +63,10 @@ func (s ContainerBlock) Validate() (bool, []error) {
 }
 
 // NewContainerBlock returns a new instance of a container block to be rendered
-func NewContainerBlock(containerObj *ContainerBlockObject) *ContainerBlock {
+func NewContainerBlock(containerObj ContainerBlockObject) *ContainerBlock {
 	obj := ContainerBlockObject{
-		Direction: CDColumn, // default
+		// default direction is column
+		Direction: CDColumn,
 	}
 
 	var block ContainerBlock
@@ -80,4 +79,15 @@ func NewContainerBlock(containerObj *ContainerBlockObject) *ContainerBlock {
 	block.Container = &obj
 
 	return &block
+}
+
+func (t ContainerDirection) validateContainerObjectDirection() bool {
+	switch t {
+	case CDColumn:
+		return true
+	case CDRow:
+		return true
+	default:
+		return false
+	}
 }

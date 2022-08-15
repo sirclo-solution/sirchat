@@ -1,6 +1,9 @@
 package models
 
-import "errors"
+import (
+	"errors"
+	"fmt"
+)
 
 // TextBlockObjectAlign is a type to define align text
 type TextBlockObjectAlign string
@@ -87,11 +90,23 @@ type TextBlockObject struct {
 
 // Validate performs validation to the TextBlock. Field `Body`
 // should not be empty.
-func (s *TextBlock) Validate() (bool, []error) {
+func (ths *TextBlock) Validate() (bool, []error) {
 	// TextBlock validation implementation
 	var errs []error
-	if s.Text.Body == "" {
+	if ths.Text.Body == "" {
 		errs = append(errs, errors.New("body is missing"))
+	}
+
+	if alignValid := ths.Text.Align.validateTextObjectAlign(); !alignValid {
+		errs = append(errs, fmt.Errorf("invalid TextBlockObjectAlign %v", ths.Text.Align))
+	}
+
+	if typeValid := ths.Text.Type.validateTextObjectType(); !typeValid {
+		errs = append(errs, fmt.Errorf("invalid TextBlockObjectType %v", ths.Text.Type))
+	}
+
+	if colorValid := ths.Text.Color.validateTextObjectColor(); !colorValid {
+		errs = append(errs, fmt.Errorf("invalid TextBlockObjectColor %v", ths.Text.Color))
 	}
 
 	if len(errs) > 0 {
@@ -136,4 +151,58 @@ func NewTextBlock(textObj *TextBlockObject) *TextBlock {
 	block.Type = MBTText
 
 	return &block
+}
+
+func (t TextBlockObjectAlign) validateTextObjectAlign() bool {
+	switch t {
+	case TextBlockObjectAlignCenter:
+		return true
+	case TextBlockObjectAlignLeft:
+		return true
+	case TextBlockObjectAlignRight:
+		return true
+	default:
+		return false
+	}
+}
+
+func (t TextBlockObjectType) validateTextObjectType() bool {
+	switch t {
+	// empty string is default value TextBlockObjectType
+	case "":
+		return true
+	case TextBlockObjectTypeSpan:
+		return true
+	case TextBlockObjectTypeLabel:
+		return true
+	case TextBlockObjectTypeParagraph:
+		return true
+	case TextBlockObjectTypeHeading:
+		return true
+	case TextBlockObjectTypeSubheading:
+		return true
+	case TextBlockObjectTypeSubheading2:
+		return true
+	case TextBlockObjectTypeFigure:
+		return true
+	default:
+		return false
+	}
+}
+
+func (t TextBlockObjectColor) validateTextObjectColor() bool {
+	switch t {
+	case TextBlockObjectColorText:
+		return true
+	case TextBlockObjectColorSecondary:
+		return true
+	case TextBlockObjectColorPrimary:
+		return true
+	case TextBlockObjectColorDanger:
+		return true
+	case TextBlockObjectColorDisabled:
+		return true
+	default:
+		return false
+	}
 }

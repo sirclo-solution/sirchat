@@ -39,14 +39,14 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	})
 
 	// NewCancelButton is button cancel
-	cancelButton := models.NewButtonBlock(&models.ButtonBlockObject{
+	cancelButton := models.NewButtonBlock(models.ButtonBlockObject{
 		Type:  models.MBTTCancel,
 		Label: "tutup",
 	})
 
 	// NewSubmitButton is button submit to the next process/command
 	// the action get from first param on NewAction
-	submitButton := models.NewButtonBlock(&models.ButtonBlockObject{
+	submitButton := models.NewButtonBlock(models.ButtonBlockObject{
 		Type:  models.MBTTSubmit,
 		Label: "lanjutkan",
 	})
@@ -111,21 +111,21 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 	})
 
 	// NewCancelButton is button cancel
-	cancelButton := models.NewButtonBlock(&models.ButtonBlockObject{
+	cancelButton := models.NewButtonBlock(models.ButtonBlockObject{
 		Type:  models.MBTTCancel,
 		Label: "tutup",
 	})
 
 	// NewSubmitButton is button submit to the next process/command
 	// the action get from first param on NewAction
-	submitButton := models.NewButtonBlock(&models.ButtonBlockObject{
+	submitButton := models.NewButtonBlock(models.ButtonBlockObject{
 		Type:  models.MBTTSubmit,
 		Label: "lanjutkan",
 	})
 
 	// NewIconButton is button icon
 	// this button has an action when clicked it will trigger to the next action
-	iconButton := models.NewButtonBlock(&models.ButtonBlockObject{
+	iconButton := models.NewButtonBlock(models.ButtonBlockObject{
 		Type: models.MBTTAction,
 		Icon: models.ButtonObjectIconCart,
 		Action: &models.ButtonActionObject{
