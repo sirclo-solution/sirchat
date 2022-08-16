@@ -28,9 +28,6 @@ const (
 	// span type is 12px medium
 	TextBlockObjectTypeSpan TextBlockObjectType = "span"
 
-	// label type is 12px medium (display: block)
-	TextBlockObjectTypeLabel TextBlockObjectType = "label"
-
 	// paragraph type is 14px medium
 	TextBlockObjectTypeParagraph TextBlockObjectType = "paragraph"
 
@@ -172,8 +169,6 @@ func (t TextBlockObjectType) validateTextObjectType() bool {
 	case "":
 		return true
 	case TextBlockObjectTypeSpan:
-		return true
-	case TextBlockObjectTypeLabel:
 		return true
 	case TextBlockObjectTypeParagraph:
 		return true

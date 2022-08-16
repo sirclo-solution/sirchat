@@ -14,7 +14,8 @@ type ButtonBlockObjectColor string
 // ButtonBlockObjectVariant this is a variant of the button
 type ButtonBlockObjectVariant string
 
-// ButtonBlockObjectIcon this is a icon of the button
+// ButtonBlockObjectIcon this is a icon of the button.
+// there is example icon on file assets/icon
 type ButtonBlockObjectIcon string
 
 const (
