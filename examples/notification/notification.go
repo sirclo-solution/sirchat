@@ -28,9 +28,11 @@ func main() {
 
 var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	// init message component
-	newNotif := models.NewNotification(models.MNOTSuccess, "test title", "test body")
-
-	// to be update for add block notif
+	newNotif := models.NewNotification(models.NotificationObject{
+		Type:    models.MNOTSuccess,
+		Title:   "test title",
+		Message: "test body",
+	})
 
 	// Send is the last step for creating component
 	// there is compose, validate component and the result will be send to client
