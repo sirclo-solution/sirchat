@@ -102,6 +102,7 @@ func (ths *MessageComponent) AddImageMessage(alt, src string) {
 	ths.Message.Images = append(ths.Message.Images, MessageImageObject{Alt: alt, Src: src})
 }
 
+// NewMessage used for initialization of new message components
 // NewMessage returns a new instance of a message component to be rendered
 func NewMessage(messageComponentObj MessageObject) *MessageComponent {
 	var c MessageComponent

@@ -99,14 +99,17 @@ func (ths *TableBlock) AddHeader(body string, align string) {
 	ths.Table.Header = append(ths.Table.Header, headerObj)
 }
 
+// AddColumn use to add column on body table
 func (ths *TableBlock) AddColumn(column ...IBlock) []IBlock {
 	return column
 }
 
+// AddRow use to add row on body table
 func (ths *TableBlock) AddRow(row ...[]IBlock) [][]IBlock {
 	return row
 }
 
+// AddBody use to add body on table
 func (ths *TableBlock) AddBody(rows ...[][]IBlock) {
 	ths.Table.Body = rows
 }

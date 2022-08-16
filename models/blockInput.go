@@ -85,7 +85,12 @@ type InputBlockObject struct {
 	// to be filled or not.
 	// The default is true.
 	// This field is optional.
-	Required bool `json:"required,omitempty"`
+	Required bool `json:"required"`
+
+	// Disabled is the boolean that defines whether the input is disable or not
+	// The default is false.
+	// This field is optional.
+	Disabled bool `json:"disabled"`
 
 	// GroupID is the identifier for the multiple input that needs to
 	// be aggregated. GroupID can be used to refer to all the input with
