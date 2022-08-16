@@ -12,6 +12,12 @@ const (
 	// InputBlockObjectTypeText is the type for text input
 	InputBlockObjectTypeText InputBlockObjectType = "text"
 
+	// InputBlockObjectTypeTextArea is the type for text area input
+	InputBlockObjectTypeTextArea InputBlockObjectType = "textarea"
+
+	// InputBlockObjectTypePassword is the type for text area input
+	InputBlockObjectTypePassword InputBlockObjectType = "password"
+
 	// InputBlockObjectTypeRadio is the type for radio input
 	InputBlockObjectTypeRadio InputBlockObjectType = "radio"
 
@@ -27,8 +33,8 @@ const (
 	// InputBlockObjectTypeSelect is the type for select input
 	InputBlockObjectTypeSelect InputBlockObjectType = "select"
 
-	// InputBlockObjectTypeDistrictSelect is the type for district-select input
-	InputBlockObjectTypeDistrictSelect InputBlockObjectType = "district-select"
+	// InputBlockObjectTypeDistrictSelect is the type for district_select input
+	InputBlockObjectTypeDistrictSelect InputBlockObjectType = "district_select"
 )
 
 // InputBlock is a subtype of block. It represents an input block.
@@ -42,7 +48,7 @@ type InputBlock struct {
 // InputBlockObject holds the detail of the InputBlock.
 type InputBlockObject struct {
 	// Type is the input type. The available value is text, radio,
-	// counter, number, select, district-select.
+	// counter, number, select, district_select.
 	// This field is required.
 	Type InputBlockObjectType `json:"type"`
 
@@ -62,7 +68,7 @@ type InputBlockObject struct {
 	Placeholder string `json:"placeholder,omitempty"`
 
 	// Options defines the list for options in input type: radio, checkbox,
-	// select, and district-select.
+	// select, and district_select.
 	// This field is optional for input besides the input mentioned above.
 	Options []InputBlockOptionsObject `json:"options,omitempty"`
 
@@ -107,14 +113,10 @@ func (ths *InputBlock) Validate() (bool, []error) {
 		errs = append(errs, errors.New("input block field 'name' cannot be empty"))
 	}
 
-	if ths.Input.Value == "" {
-		errs = append(errs, errors.New("input block field 'name' cannot be empty"))
-	}
-
 	if (ths.Input.Type == InputBlockObjectTypeRadio || ths.Input.Type == InputBlockObjectTypeSelect ||
 		ths.Input.Type == InputBlockObjectTypeCheckbox || ths.Input.Type == InputBlockObjectTypeCounter) &&
 		len(ths.Input.Options) == 0 {
-		errs = append(errs, errors.New("radio, select, district-select, checkbox, or counter input must have options"))
+		errs = append(errs, errors.New("radio, select, checkbox, or counter input must have options"))
 	}
 
 	if typeValid := ths.Input.Type.validateInputObjectType(); !typeValid {
@@ -148,6 +150,10 @@ func (ths *InputBlock) AddInputBlockOptionsObject(value, label string) {
 func (t InputBlockObjectType) validateInputObjectType() bool {
 	switch t {
 	case InputBlockObjectTypeText:
+		return true
+	case InputBlockObjectTypeTextArea:
+		return true
+	case InputBlockObjectTypePassword:
 		return true
 	case InputBlockObjectTypeRadio:
 		return true
