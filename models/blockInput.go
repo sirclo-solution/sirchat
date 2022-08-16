@@ -87,7 +87,7 @@ type InputBlockObject struct {
 	// to be filled or not.
 	// The default is true.
 	// This field is optional.
-	Required bool `json:"required"`
+	Required *bool `json:"required"`
 
 	// Disabled is the boolean that defines whether the input is disable or not
 	// The default is false.
@@ -150,6 +150,7 @@ func (ths *InputBlock) Validate() (bool, []error) {
 func NewInputBlock(inputBlockObj *InputBlockObject) *InputBlock {
 	var block InputBlock
 
+	requiredTrue := true
 	block.Type = MBTInput
 	inputBlock := InputBlockObject{
 		Type:        inputBlockObj.Type,
@@ -159,11 +160,11 @@ func NewInputBlock(inputBlockObj *InputBlockObject) *InputBlock {
 		Tooltip:     inputBlockObj.Tooltip,
 		GroupID:     inputBlockObj.GroupID,
 		Value:       "", // default
-		Required:    inputBlockObj.Required,
+		Required:    &requiredTrue,
 		Disabled:    false, // default
 	}
 
-	if !inputBlockObj.Required {
+	if inputBlockObj.Required != nil {
 		inputBlock.Required = inputBlockObj.Required
 	}
 
