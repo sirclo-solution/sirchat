@@ -34,8 +34,6 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 		Message: "test body",
 	})
 
-	// to be update for add block notif
-
 	// Send is the last step for creating component
 	// there is compose, validate component and the result will be send to client
 	return newNotif.Send()

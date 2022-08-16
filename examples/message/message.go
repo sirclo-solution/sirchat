@@ -35,26 +35,13 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 		Channel:  "channel",
 	})
 
-	// to be updated using method
-	newMessage.Message.Texts = []models.MessageTextObject{
-		{
-			Body: "message 1",
-		},
-		{
-			Body: "message 2",
-		},
-	}
-	//// to be updated using method
-	newMessage.Message.Images = []models.MessageImageObject{
-		{
-			Alt: "Image 1",
-			Src: "https://example.com/dummy.jpg",
-		},
-		{
-			Alt: "Image 2",
-			Src: "https://example.com/dummy.jpg",
-		},
-	}
+	// Add text to the message. A message can contain many texts
+	newMessage.AddTextMessage("message 1")
+	newMessage.AddTextMessage("message 2")
+
+	// Message can also contain images
+	newMessage.AddImageMessage("the first image", "https://example.com/dummy1.jpg")
+	newMessage.AddImageMessage("the second image", "https://example.com/dummy2.jpg")
 
 	// Send is the last step for creating component
 	// there is compose, validate component and the result will be send to client

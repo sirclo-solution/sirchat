@@ -5,15 +5,29 @@ import (
 	"fmt"
 )
 
+// InputBlockObjectType is a type for field `Input` in InputBlockObject
 type InputBlockObjectType string
 
 const (
-	InputBlockObjectTypeText           InputBlockObjectType = "text"
-	InputBlockObjectTypeRadio          InputBlockObjectType = "radio"
-	InputBlockObjectTypeCounter        InputBlockObjectType = "counter"
-	InputBlockObjectTypeCheckbox       InputBlockObjectType = "checkbox"
-	InputBlockObjectTypeNumber         InputBlockObjectType = "number"
-	InputBlockObjectTypeSelect         InputBlockObjectType = "select"
+	// InputBlockObjectTypeText is the type for text input
+	InputBlockObjectTypeText InputBlockObjectType = "text"
+
+	// InputBlockObjectTypeRadio is the type for radio input
+	InputBlockObjectTypeRadio InputBlockObjectType = "radio"
+
+	// InputBlockObjectTypeCounter is the type for counter input
+	InputBlockObjectTypeCounter InputBlockObjectType = "counter"
+
+	// InputBlockObjectTypeCheckbox is the type for checkbox input
+	InputBlockObjectTypeCheckbox InputBlockObjectType = "checkbox"
+
+	// InputBlockObjectTypeNumber is the type for number input
+	InputBlockObjectTypeNumber InputBlockObjectType = "number"
+
+	// InputBlockObjectTypeSelect is the type for select input
+	InputBlockObjectTypeSelect InputBlockObjectType = "select"
+
+	// InputBlockObjectTypeDistrictSelect is the type for district-select input
 	InputBlockObjectTypeDistrictSelect InputBlockObjectType = "district-select"
 )
 
@@ -98,8 +112,7 @@ func (ths *InputBlock) Validate() (bool, []error) {
 	}
 
 	if (ths.Input.Type == InputBlockObjectTypeRadio || ths.Input.Type == InputBlockObjectTypeSelect ||
-		ths.Input.Type == InputBlockObjectTypeDistrictSelect || ths.Input.Type == InputBlockObjectTypeCheckbox ||
-		ths.Input.Type == InputBlockObjectTypeCounter) &&
+		ths.Input.Type == InputBlockObjectTypeCheckbox || ths.Input.Type == InputBlockObjectTypeCounter) &&
 		len(ths.Input.Options) == 0 {
 		errs = append(errs, errors.New("radio, select, district-select, checkbox, or counter input must have options"))
 	}
