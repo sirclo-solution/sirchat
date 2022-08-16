@@ -3,6 +3,7 @@ package models
 import (
 	"errors"
 	"fmt"
+	"regexp"
 )
 
 // InputBlockObjectType is a type for field `Input` in InputBlockObject
@@ -54,6 +55,7 @@ type InputBlockObject struct {
 
 	// Value is the value that the input holds.
 	// This field is required.
+	// If type number or counter, the value should be number string
 	Value string `json:"value"`
 
 	// Name is the unique identifier for the input. It can be used as a
@@ -118,6 +120,15 @@ func (ths *InputBlock) Validate() (bool, []error) {
 		errs = append(errs, errors.New("input block field 'name' cannot be empty"))
 	}
 
+	// Validation value of Type Number or Counter should be number string.
+	// But type Number default value is string "" and type Counter is string "0"
+	if (ths.Input.Value != "" && ths.Input.Type == InputBlockObjectTypeNumber) || (ths.Input.Value != "" && ths.Input.Type == InputBlockObjectTypeCounter) {
+		regexNumber := regexp.MustCompile(`\d+`)
+		if ok := regexNumber.MatchString(ths.Input.Value); !ok {
+			errs = append(errs, fmt.Errorf("input block field 'value' and type %v should be number string, not like this %v", ths.Input.Type, ths.Input.Value))
+		}
+	}
+
 	if (ths.Input.Type == InputBlockObjectTypeRadio || ths.Input.Type == InputBlockObjectTypeSelect ||
 		ths.Input.Type == InputBlockObjectTypeCheckbox || ths.Input.Type == InputBlockObjectTypeCounter) &&
 		len(ths.Input.Options) == 0 {
@@ -138,8 +149,38 @@ func (ths *InputBlock) Validate() (bool, []error) {
 // NewInputBlock returns a new instance of a input block to be rendered
 func NewInputBlock(inputBlockObj *InputBlockObject) *InputBlock {
 	var block InputBlock
+
 	block.Type = MBTInput
-	block.Input = inputBlockObj
+	inputBlock := InputBlockObject{
+		Type:        inputBlockObj.Type,
+		Name:        inputBlockObj.Name,
+		Placeholder: inputBlockObj.Placeholder,
+		Label:       inputBlockObj.Label,
+		Tooltip:     inputBlockObj.Tooltip,
+		GroupID:     inputBlockObj.GroupID,
+		Value:       "",    // default
+		Required:    true,  // default
+		Disabled:    false, // default
+	}
+
+	if !inputBlockObj.Required {
+		inputBlock.Required = inputBlockObj.Required
+	}
+
+	if inputBlockObj.Disabled {
+		inputBlock.Disabled = inputBlockObj.Disabled
+	}
+
+	// specifically for the number type, if the value is not filled, then the default is "0"
+	if inputBlockObj.Type == InputBlockObjectTypeNumber {
+		inputBlock.Value = "0"
+	}
+
+	if inputBlockObj.Value != "" {
+		inputBlock.Value = inputBlockObj.Value
+	}
+
+	block.Input = &inputBlock
 
 	return &block
 }

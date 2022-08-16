@@ -95,6 +95,11 @@ type ButtonBlockObject struct {
 	// disabled is unclickable button,
 	// default is false
 	Disabled bool `json:"disabled"`
+
+	// FullWidth is the width of the button, if true then the width is 100%.
+	// otherwise the width follows the label of the button
+	// default is false
+	FullWidth bool `json:"fullWidth"`
 }
 
 // ButtonActionObject
@@ -151,14 +156,15 @@ func (ths *ButtonBlock) Validate() (bool, []error) {
 // NewButtonBlock returns a new instance of a button block to be rendered
 func NewButtonBlock(buttonObj ButtonBlockObject) *ButtonBlock {
 	obj := ButtonBlockObject{
-		Type:     buttonObj.Type,
-		Label:    buttonObj.Label,
-		Color:    ButtonBlockObjectColorPrimary, // default
-		Variant:  ButtonObjectVariantOutlined,   // default
-		Icon:     buttonObj.Icon,
-		Action:   buttonObj.Action,
-		Query:    buttonObj.Query,
-		Disabled: false, // default
+		Type:      buttonObj.Type,
+		Label:     buttonObj.Label,
+		Color:     ButtonBlockObjectColorPrimary, // default
+		Variant:   ButtonObjectVariantOutlined,   // default
+		Icon:      buttonObj.Icon,
+		Action:    buttonObj.Action,
+		Query:     buttonObj.Query,
+		Disabled:  false, // default
+		FullWidth: false, // default
 	}
 
 	if buttonObj.Color != "" {
@@ -171,6 +177,10 @@ func NewButtonBlock(buttonObj ButtonBlockObject) *ButtonBlock {
 
 	if buttonObj.Disabled {
 		obj.Disabled = buttonObj.Disabled
+	}
+
+	if buttonObj.FullWidth {
+		obj.FullWidth = buttonObj.FullWidth
 	}
 
 	return &ButtonBlock{block: block{Type: MBTButton}, Button: obj}
