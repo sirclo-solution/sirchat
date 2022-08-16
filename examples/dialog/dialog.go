@@ -171,12 +171,17 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 		Body: "Cari Produk",
 	})
 
-	// NewTextBlock use for creating new input block
+	// NewTextBlock use for creating new input block.
+	// Field `Required`` is default to true. You can set it to
+	// false by passing a pointer to false value. You can either
+	// create a boolean variable and then pass the pointer or directly
+	// pass pointer of boolean with `new(bool)`
 	inputBlock := models.NewInputBlock(&models.InputBlockObject{
 		Type:        models.InputBlockObjectTypeText,
 		Value:       "jacket",
 		Name:        "query",
 		Placeholder: "Masukkan nama produk atau SKU",
+		Required:    new(bool),
 	})
 
 	// NewTextBlock use for creating new image block
