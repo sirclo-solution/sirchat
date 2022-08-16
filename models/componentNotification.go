@@ -39,6 +39,7 @@ func (ths *NotificationComponent) Validate() (bool, []error) {
 	return true, nil
 }
 
+// NewNotification used for initialization of new notification components
 // NewNotification returns a new instance of a notification component to be rendered
 func NewNotification(notificationComponentObj NotificationObject) *NotificationComponent {
 	var c NotificationComponent

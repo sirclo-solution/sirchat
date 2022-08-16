@@ -65,6 +65,7 @@ func (ths *DrawerComponent) Validate() (bool, []error) {
 	return true, nil
 }
 
+// NewDrawer used for initialization of new drawer components.
 // NewDrawer returns a new instance of a drawer component to be rendered
 func NewDrawer() *DrawerComponent {
 	var c DrawerComponent

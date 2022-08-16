@@ -71,10 +71,12 @@ func NewApps(cfg AppConfig) App {
 	return &c
 }
 
+// GetAuthSirclo used to get authorization SIRCLO (only use internal SIRCLO)
 func GetAuthSirclo(c *gin.Context) string {
 	return c.GetString(SircloAuthorization)
 }
 
+// BindRequestBody used to bind request body
 func BindRequestBody(c *gin.Context, b any) error {
 	var byteVal []byte
 	if val, ok := c.Get(SirchatRequestBody); ok && val != nil {

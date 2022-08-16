@@ -43,6 +43,8 @@ func (ths *DialogComponent) Validate() (bool, []error) {
 	return true, nil
 }
 
+// NewDialog used for initialization of new dialog components
+// NewDialog returns a new instance of a dialog component to be rendered
 func NewDialog() *DialogComponent {
 	var c DialogComponent
 	c.Type = MCTDialog
