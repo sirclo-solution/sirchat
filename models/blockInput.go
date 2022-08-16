@@ -158,8 +158,8 @@ func NewInputBlock(inputBlockObj *InputBlockObject) *InputBlock {
 		Label:       inputBlockObj.Label,
 		Tooltip:     inputBlockObj.Tooltip,
 		GroupID:     inputBlockObj.GroupID,
-		Value:       "",    // default
-		Required:    true,  // default
+		Value:       "", // default
+		Required:    inputBlockObj.Required,
 		Disabled:    false, // default
 	}
 

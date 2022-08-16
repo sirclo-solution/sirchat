@@ -3,15 +3,32 @@ package models
 type MessageBlockType string
 
 const (
-	MBTText      MessageBlockType = "text"
-	MBTTextList  MessageBlockType = "text_list"
-	MBTTable     MessageBlockType = "table"
+	// MBTText is the type for text block
+	MBTText MessageBlockType = "text"
+
+	// MBTTextList is the type for text list block
+	MBTTextList MessageBlockType = "text_list"
+
+	// MBTTable is the type for table block
+	MBTTable MessageBlockType = "table"
+
+	// MBTContainer is the type for container block
 	MBTContainer MessageBlockType = "container"
-	MBTImage     MessageBlockType = "image"
-	MBTInput     MessageBlockType = "input"
-	MBTButton    MessageBlockType = "button"
-	MBTDivider   MessageBlockType = "divider"
-	MBTCarousel  MessageBlockType = "carousel"
+
+	// MBTImage is the type for image block
+	MBTImage MessageBlockType = "image"
+
+	// MBTInput is the type for input block
+	MBTInput MessageBlockType = "input"
+
+	// MBTButton is the type for button block
+	MBTButton MessageBlockType = "button"
+
+	// MBTDivider is the type for divider block
+	MBTDivider MessageBlockType = "divider"
+
+	// MBTCarousel is the type for carousel block
+	MBTCarousel MessageBlockType = "carousel"
 )
 
 // IBlock is the interface for blocks. All type of blocks that embed `block`

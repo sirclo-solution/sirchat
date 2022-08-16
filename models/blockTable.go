@@ -13,14 +13,18 @@ type TableBlock struct {
 	Table *TableBlockObject `json:"table"`
 }
 
-// TableBlockObject holds the detail of the TableBlock. The field `Body`
-// holds a 3D array of IBlock. The outermost array represents the table rows.
-// The middle array represents the table columns. The innermost array represents
-// data in each column.
+// TableBlockObject holds the detail of the TableBlock.
 type TableBlockObject struct {
 	appendable
+
+	// Header contains an array of HeaderObject. All table headers should be
+	// defined here.
 	Header []HeaderObject `json:"header,omitempty"`
-	Body   [][][]IBlock   `json:"body"`
+
+	// The field `Body` holds a 3D array of IBlock. The outermost array represents
+	// the table rows. The middle array represents the table columns. The innermost
+	// array represents data in each column.
+	Body [][][]IBlock `json:"body"`
 }
 
 // HeaderObject is the struct for field `Header` in TableBlockObject. Header

@@ -41,7 +41,7 @@ func verifyingRequest(secretKey string) gin.HandlerFunc {
 					log.Println("Error VerifySignatureSirchat(): ", err)
 				}
 				if err == nil {
-					err = fmt.Errorf("%v invalid signature", sirchatSignature)
+					err = fmt.Errorf("invalid signature")
 				}
 				ResponseError(c, NewAppsError(http.StatusUnauthorized, err, "invalid signature"))
 				return
