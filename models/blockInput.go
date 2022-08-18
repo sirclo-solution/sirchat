@@ -130,9 +130,9 @@ func (ths *InputBlock) Validate() (bool, []error) {
 	}
 
 	if (ths.Input.Type == InputBlockObjectTypeRadio || ths.Input.Type == InputBlockObjectTypeSelect ||
-		ths.Input.Type == InputBlockObjectTypeCheckbox || ths.Input.Type == InputBlockObjectTypeCounter) &&
+		ths.Input.Type == InputBlockObjectTypeCheckbox) &&
 		len(ths.Input.Options) == 0 {
-		errs = append(errs, errors.New("radio, select, checkbox, or counter input must have options"))
+		errs = append(errs, errors.New("radio, select, or checkbox input must have options"))
 	}
 
 	if typeValid := ths.Input.Type.validateInputObjectType(); !typeValid {
