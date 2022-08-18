@@ -10,6 +10,12 @@ Read [the documentation](https://pkg.go.dev/github.com/sirclo-solution/sirchat) 
 go install github.com/sirclo-solution/sirchat
 ```
 
+or
+
+```bash
+go get -u github.com/sirclo-solution/sirchat
+```
+
 ## Initialization
 
 Create an app by calling the constructor, which is a top-level export.
@@ -29,3 +35,7 @@ app.Start(apps.AppServerConfig{
     Port:    "8080",
 })
 ```
+
+## Example
+
+See a more complete example of using the block kit [here](https://github.com/sirclo-solution/sirchat/tree/main/examples)
