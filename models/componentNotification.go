@@ -7,8 +7,11 @@ import (
 type MessageNotificationObjectType string
 
 const (
+	// MNOTSuccess is the type for success notification
 	MNOTSuccess MessageNotificationObjectType = "success"
-	MNOTFailed  MessageNotificationObjectType = "failed"
+
+	// MNOTFailed is the type for failed notification
+	MNOTFailed MessageNotificationObjectType = "failed"
 )
 
 // NotificationComponent is a subtype of component. It represents a
@@ -20,9 +23,14 @@ type NotificationComponent struct {
 
 // NotificationObject holds the image detail for MessageObject.
 type NotificationObject struct {
-	Type    MessageNotificationObjectType `json:"type"`
-	Title   string                        `json:"title"`
-	Message string                        `json:"message"`
+	// Type is the type of the notification.
+	Type MessageNotificationObjectType `json:"type"`
+
+	// Title is the text that will be shown as the title of notification.
+	Title string `json:"title"`
+
+	// Message is the text that will be shown as the body of notification.
+	Message string `json:"message"`
 }
 
 // Validate performs validation to the NotificationComponent.

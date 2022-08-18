@@ -12,10 +12,17 @@ import (
 type MessageComponentType string
 
 const (
-	MCTDialog       MessageComponentType = "dialog"
-	MCTDrawer       MessageComponentType = "drawer"
+	// MCTDialog is the type for dialog component
+	MCTDialog MessageComponentType = "dialog"
+
+	// MCTDrawer is the type for drawer component
+	MCTDrawer MessageComponentType = "drawer"
+
+	// MCTNotification is the type for notification component
 	MCTNotification MessageComponentType = "notification"
-	MCTMessage      MessageComponentType = "message"
+
+	// MCTMessage is the type for message component
+	MCTMessage MessageComponentType = "message"
 )
 
 // IComponent is the interface for components. All type of components that
