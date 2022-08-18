@@ -104,8 +104,16 @@ type InputBlockObject struct {
 
 // InputBlockOptionsObject is the options for radio InputBlockObject type.
 type InputBlockOptionsObject struct {
+	// Value is a field/key which will be put in the payload
+	// when proceeding to the next action
 	Value string `json:"value"`
+
+	// Label is a contain of option
 	Label string `json:"label"`
+
+	// Description is a detail content or description of option.
+	// Description is optional
+	Description string `json:"description,omitempty"`
 }
 
 // Validate performs validation to the ContainerBlock. Input of type
@@ -187,10 +195,11 @@ func NewInputBlock(inputBlockObj *InputBlockObject) *InputBlock {
 }
 
 // AddInputBlockOptionsObject adds options to field Options for input of type "select"
-func (ths *InputBlock) AddInputBlockOptionsObject(value, label string) {
+func (ths *InputBlock) AddInputBlockOptionsObject(optionObject InputBlockOptionsObject) {
 	ths.Input.Options = append(ths.Input.Options, InputBlockOptionsObject{
-		Value: value,
-		Label: label,
+		Value:       optionObject.Value,
+		Label:       optionObject.Label,
+		Description: optionObject.Description,
 	})
 }
 
