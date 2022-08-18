@@ -10,6 +10,12 @@ Read [the documentation](https://pkg.go.dev/github.com/sirclo-solution/sirchat) 
 go install github.com/sirclo-solution/sirchat
 ```
 
+or
+
+```bash
+go get -u github.com/sirclo-solution/sirchat
+```
+
 ## Initialization
 
 Create an app by calling the constructor, which is a top-level export.
