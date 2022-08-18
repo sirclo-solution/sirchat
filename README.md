@@ -35,3 +35,7 @@ app.Start(apps.AppServerConfig{
     Port:    "8080",
 })
 ```
+
+## Example
+
+See a more complete example of using the block kit [here](https://github.com/sirclo-solution/sirchat/tree/main/examples)
