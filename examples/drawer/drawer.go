@@ -64,6 +64,21 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	block3 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 3"})
 	block4 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 4"})
 
+	// add new input block type radio
+	newInputRadio := models.NewInputBlock(&models.InputBlockObject{
+		Type: models.InputBlockObjectTypeRadio,
+		Name: "shippingMethod",
+	})
+
+	// input radio should be have minimal 1 options.
+	// AddInputBlockOptionsObject use to be add options on input radio.
+	// parameter Description is optional
+	newInputRadio.AddInputBlockOptionsObject(models.InputBlockOptionsObject{
+		Value:       "JNE-REG",
+		Label:       "JNE Reguler",
+		Description: "1-2 hari",
+	})
+
 	// NewTableBlock use createng new table block
 	table := models.NewTableBlock()
 
@@ -80,7 +95,7 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 		// the number of headers and columns must be the same
 		var columns [][]models.IBlock
 		for j := 1; j <= 2; j++ {
-			column := table.AddColumn(block1, block2)
+			column := table.AddColumn(block1, block2, newInputRadio)
 			if j == 2 {
 				column = table.AddColumn(block3, block4)
 			}
