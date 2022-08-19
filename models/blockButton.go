@@ -31,7 +31,7 @@ const (
 	// ButtonBlockObjectColorPrimary this is a primary color (#269CD9)
 	ButtonBlockObjectColorPrimary ButtonBlockObjectColor = "primary"
 
-	// ButtonBlockObjectColorSecondary this is a secondary color (#D0D9E0)
+	// ButtonBlockObjectColorSecondary this is a secondary color (#52697A)
 	ButtonBlockObjectColorSecondary ButtonBlockObjectColor = "secondary"
 
 	// ButtonBlockObjectColorDanger this is a danger color (#D64241)
@@ -111,7 +111,7 @@ type ButtonActionObject struct {
 
 // ButtonBlock is a subtype of block. It represents a button container block and holds
 // a ButtonBlockObject in the field `Button`.
-type ButtonBlock struct {
+type buttonBlock struct {
 	block
 
 	// Button contains the ButtonBlockObject that holds the detail of button block
@@ -119,7 +119,7 @@ type ButtonBlock struct {
 }
 
 // Validate performs validation to the ButtonBlock.
-func (ths *ButtonBlock) Validate() (bool, []error) {
+func (ths *buttonBlock) Validate() (bool, []error) {
 	var valid bool
 	var errs []error
 	switch ths.Button.Type {
@@ -155,7 +155,7 @@ func (ths *ButtonBlock) Validate() (bool, []error) {
 }
 
 // NewButtonBlock returns a new instance of a button block to be rendered
-func NewButtonBlock(buttonObj ButtonBlockObject) *ButtonBlock {
+func NewButtonBlock(buttonObj ButtonBlockObject) *buttonBlock {
 	obj := ButtonBlockObject{
 		Type:      buttonObj.Type,
 		Label:     buttonObj.Label,
@@ -166,6 +166,11 @@ func NewButtonBlock(buttonObj ButtonBlockObject) *ButtonBlock {
 		Query:     buttonObj.Query,
 		Disabled:  false, // default
 		FullWidth: false, // default
+	}
+
+	if obj.Icon != "" {
+		obj.Color = ""
+		obj.Variant = ""
 	}
 
 	if buttonObj.Color != "" {
@@ -184,10 +189,10 @@ func NewButtonBlock(buttonObj ButtonBlockObject) *ButtonBlock {
 		obj.FullWidth = buttonObj.FullWidth
 	}
 
-	return &ButtonBlock{block: block{Type: MBTButton}, Button: obj}
+	return &buttonBlock{block: block{Type: MBTButton}, Button: obj}
 }
 
-func (t *ButtonBlock) validateActionButton() (bool, []error) {
+func (t *buttonBlock) validateActionButton() (bool, []error) {
 	var errs []error
 	if t.Button.Type != MBTTAction {
 		errs = append(errs, errors.New("invalid action button block object type"))
@@ -212,7 +217,7 @@ func (t *ButtonBlock) validateActionButton() (bool, []error) {
 	return true, nil
 }
 
-func (t *ButtonBlock) validateSubmitButton() (bool, []error) {
+func (t *buttonBlock) validateSubmitButton() (bool, []error) {
 	var errs []error
 	if t.Button.Type != MBTTSubmit {
 		errs = append(errs, errors.New("invalid submit button block object type"))
@@ -229,7 +234,7 @@ func (t *ButtonBlock) validateSubmitButton() (bool, []error) {
 	return true, nil
 }
 
-func (t *ButtonBlock) validateCancelButton() (bool, []error) {
+func (t *buttonBlock) validateCancelButton() (bool, []error) {
 	var errs []error
 	if t.Button.Type != MBTTCancel {
 		errs = append(errs, errors.New("invalid cancel button block object type"))
@@ -267,6 +272,8 @@ func (t ButtonBlockObjectColor) validateButtonObjectColor() bool {
 		return true
 	case ButtonBlockObjectColorDanger:
 		return true
+	case "":
+		return true
 	default:
 		return false
 	}
@@ -279,6 +286,8 @@ func (t ButtonBlockObjectVariant) validateButtonObjectVariant() bool {
 	case ButtonObjectVariantOutlined:
 		return true
 	case ButtonObjectVariantText:
+		return true
+	case "":
 		return true
 	default:
 		return false

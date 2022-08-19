@@ -5,7 +5,7 @@ import (
 )
 
 // MessageComponent is a subtype of component. It represents a message component.
-type MessageComponent struct {
+type messageComponent struct {
 	component
 
 	// Message contains the MessageObject that holds the detail of message component
@@ -59,7 +59,7 @@ type MessageImageObject struct {
 
 // Validate performs validation to the MessageComponent. The texts
 // or images in the message component should be defined.
-func (ths *MessageComponent) Validate() (bool, []error) {
+func (ths *messageComponent) Validate() (bool, []error) {
 	var errs []error
 	if ths.Type != MCTMessage {
 		errs = append(errs, errors.New("invalid message component type"))
@@ -93,19 +93,19 @@ func (ths *MessageComponent) Validate() (bool, []error) {
 }
 
 // AddTextMessage adds MessageTextObject to MessageComponent.
-func (ths *MessageComponent) AddTextMessage(textBody string) {
+func (ths *messageComponent) AddTextMessage(textBody string) {
 	ths.Message.Texts = append(ths.Message.Texts, MessageTextObject{Body: textBody})
 }
 
 // AddImageMessage adds ImageTextObject to MessageComponent.
-func (ths *MessageComponent) AddImageMessage(alt, src string) {
+func (ths *messageComponent) AddImageMessage(alt, src string) {
 	ths.Message.Images = append(ths.Message.Images, MessageImageObject{Alt: alt, Src: src})
 }
 
 // NewMessage used for initialization of new message components
 // NewMessage returns a new instance of a message component to be rendered
-func NewMessage(messageComponentObj MessageObject) *MessageComponent {
-	var c MessageComponent
+func NewMessage(messageComponentObj MessageObject) *messageComponent {
+	var c messageComponent
 	c.Type = MCTMessage
 	c.Message = messageComponentObj
 	c.component.IComponent = &c

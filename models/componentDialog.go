@@ -6,7 +6,7 @@ import (
 
 // DialogComponent is a subtype of component. It represents a dialog component.
 // DialogComponent can contain blocks.
-type DialogComponent struct {
+type dialogComponent struct {
 	component
 	appendable
 
@@ -24,7 +24,7 @@ type DialogComponent struct {
 }
 
 // Validate performs validation to the DrawerComponent.
-func (ths *DialogComponent) Validate() (bool, []error) {
+func (ths *dialogComponent) Validate() (bool, []error) {
 	var errs []error
 	if ths.Type != MCTDialog {
 		errs = append(errs, errors.New("invalid dialog component type"))
@@ -45,8 +45,8 @@ func (ths *DialogComponent) Validate() (bool, []error) {
 
 // NewDialog used for initialization of new dialog components
 // NewDialog returns a new instance of a dialog component to be rendered
-func NewDialog() *DialogComponent {
-	var c DialogComponent
+func NewDialog() *dialogComponent {
+	var c dialogComponent
 	c.Type = MCTDialog
 	c.component.IComponent = &c
 	return &c

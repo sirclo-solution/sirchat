@@ -39,7 +39,7 @@ const (
 )
 
 // InputBlock is a subtype of block. It represents an input block.
-type InputBlock struct {
+type inputBlock struct {
 	block
 
 	// Input contains the InputBlockObject that holds the detail of input block
@@ -118,7 +118,7 @@ type InputBlockOptionsObject struct {
 
 // Validate performs validation to the ContainerBlock. Input of type
 // radio should have field 'Options' defined.
-func (ths *InputBlock) Validate() (bool, []error) {
+func (ths *inputBlock) Validate() (bool, []error) {
 	var errs []error
 	if ths.Type != MBTInput {
 		errs = append(errs, errors.New("invalid input block type"))
@@ -155,8 +155,8 @@ func (ths *InputBlock) Validate() (bool, []error) {
 }
 
 // NewInputBlock returns a new instance of a input block to be rendered
-func NewInputBlock(inputBlockObj *InputBlockObject) *InputBlock {
-	var block InputBlock
+func NewInputBlock(inputBlockObj *InputBlockObject) *inputBlock {
+	var block inputBlock
 
 	requiredTrue := true
 	block.Type = MBTInput
@@ -195,7 +195,7 @@ func NewInputBlock(inputBlockObj *InputBlockObject) *InputBlock {
 }
 
 // AddInputBlockOptionsObject adds options to field Options for input of type "select"
-func (ths *InputBlock) AddInputBlockOptionsObject(optionObject InputBlockOptionsObject) {
+func (ths *inputBlock) AddInputBlockOptionsObject(optionObject InputBlockOptionsObject) {
 	ths.Input.Options = append(ths.Input.Options, InputBlockOptionsObject{
 		Value:       optionObject.Value,
 		Label:       optionObject.Label,

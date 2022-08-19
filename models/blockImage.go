@@ -6,7 +6,7 @@ import (
 )
 
 // ImageBlock is a subtype of block. It represents an image block.
-type ImageBlock struct {
+type imageBlock struct {
 	block
 
 	// Image contains the ImageBlockObject that holds the detail of image block
@@ -32,7 +32,7 @@ type ImageBlockObject struct {
 
 // Validate performs validation to the ImageBlock. The supported extensions
 // for field `Src` are jpg, jpeg, gif, and png.
-func (ths *ImageBlock) Validate() (bool, []error) {
+func (ths *imageBlock) Validate() (bool, []error) {
 	// ImageBlock validation implementation
 	var errs []error
 	if ths.Type != MBTImage {
@@ -51,8 +51,8 @@ func (ths *ImageBlock) Validate() (bool, []error) {
 }
 
 // NewImageBlock returns a new instance of a section block to be rendered
-func NewImageBlock(imageObj ImageBlockObject) *ImageBlock {
-	block := ImageBlock{}
+func NewImageBlock(imageObj ImageBlockObject) *imageBlock {
+	block := imageBlock{}
 	block.Type = MBTImage
 	block.Image = &ImageBlockObject{
 		Src:    imageObj.Src,

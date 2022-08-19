@@ -8,7 +8,7 @@ type TextListBlock struct {
 	block
 
 	// TextList is a field to contain textBlocks
-	TextList []*TextBlock `json:"text_list"`
+	TextList []*textBlock `json:"text_list"`
 }
 
 // Validate performs validation to the TextListBlock. Field `Body`
@@ -39,6 +39,6 @@ func NewTextListBlock() *TextListBlock {
 }
 
 // AddTextBlock use to be add textBlock on the text list block
-func (ths *TextListBlock) AddTextBlock(textBlock *TextBlock) {
+func (ths *TextListBlock) AddTextBlock(textBlock *textBlock) {
 	ths.TextList = append(ths.TextList, textBlock)
 }
