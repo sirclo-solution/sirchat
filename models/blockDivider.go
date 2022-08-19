@@ -4,12 +4,12 @@ import "errors"
 
 // DividerBlock is a subtype of block. It represents a divider block. It
 // will render as a divider line between blocks.
-type DividerBlock struct {
+type dividerBlock struct {
 	block
 }
 
 // Validate performs validation to the DividerBlock.
-func (ths *DividerBlock) Validate() (bool, []error) {
+func (ths *dividerBlock) Validate() (bool, []error) {
 	// DividerBlock validation implementation
 	var errs []error
 	if ths.Type != MBTDivider {
@@ -24,8 +24,8 @@ func (ths *DividerBlock) Validate() (bool, []error) {
 }
 
 // NewDividerBlock returns a new instance of a divider block to be rendered
-func NewDividerBlock() *DividerBlock {
-	block := DividerBlock{}
+func NewDividerBlock() *dividerBlock {
+	block := dividerBlock{}
 	block.Type = MBTDivider
 
 	return &block

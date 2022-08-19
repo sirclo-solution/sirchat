@@ -3,7 +3,7 @@ package models
 import "errors"
 
 // CarouselBlock defines a new block of carousel
-type CarouselBlock struct {
+type carouselBlock struct {
 	block
 
 	// Carousel contains the CarouselBlockObject that holds the detail of carousel block
@@ -26,11 +26,11 @@ type CarouselBlockObject struct {
 	// Descriptions is the array of descriptions for
 	// each item in carousel block.
 	// This field is required.
-	Images []ImageBlock `json:"images"`
+	Images []imageBlock `json:"images"`
 }
 
 // Validate Carousel Block
-func (ths *CarouselBlock) Validate() (bool, []error) {
+func (ths *carouselBlock) Validate() (bool, []error) {
 	var errs []error
 
 	if len(ths.Carousel.Images) == 0 {
@@ -45,8 +45,8 @@ func (ths *CarouselBlock) Validate() (bool, []error) {
 }
 
 // NewCarouselBlock returns a new instance of a section block to be rendered
-func NewCarouselBlock(title string) *CarouselBlock {
-	block := CarouselBlock{
+func NewCarouselBlock(title string) *carouselBlock {
+	block := carouselBlock{
 		Carousel: &CarouselBlockObject{
 			Title: title,
 		},
@@ -57,13 +57,13 @@ func NewCarouselBlock(title string) *CarouselBlock {
 }
 
 // AddDescriptionsCarousel for to adding descriptions field on carousel block
-func (s *CarouselBlock) AddDescriptionsCarousel(desc string) {
+func (s *carouselBlock) AddDescriptionsCarousel(desc string) {
 	s.Carousel.Descriptions = append(s.Carousel.Descriptions, desc)
 }
 
 // AddImageCarousel for to adding images field on carousel block
-func (s *CarouselBlock) AddImageCarousel(alt string, src string) {
-	image := ImageBlock{
+func (s *carouselBlock) AddImageCarousel(alt string, src string) {
+	image := imageBlock{
 		Image: &ImageBlockObject{
 			Src: src,
 			Alt: alt,

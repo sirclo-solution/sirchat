@@ -6,7 +6,7 @@ import (
 )
 
 // TableBlock is a subtype of block. It represents a table block.
-type TableBlock struct {
+type tableBlock struct {
 	block
 
 	// object of the table block
@@ -45,7 +45,7 @@ type TextHeaderObject struct {
 }
 
 // Validate performs validation to the TableBlock.
-func (ths *TableBlock) Validate() (bool, []error) {
+func (ths *tableBlock) Validate() (bool, []error) {
 	var errs []error
 	if ths.Type != MBTTable {
 		errs = append(errs, errors.New("invalid table block type"))
@@ -77,8 +77,8 @@ func (ths *TableBlock) Validate() (bool, []error) {
 }
 
 // NewTableBlock returns a new instance of a table block to be rendered
-func NewTableBlock() *TableBlock {
-	block := TableBlock{
+func NewTableBlock() *tableBlock {
+	block := tableBlock{
 		Table: &TableBlockObject{},
 	}
 	block.Type = MBTTable
@@ -87,7 +87,7 @@ func NewTableBlock() *TableBlock {
 }
 
 // AddHeader have 2 params (body and align) but body is required, align have default value is left
-func (ths *TableBlock) AddHeader(body string, align string) {
+func (ths *tableBlock) AddHeader(body string, align string) {
 	var headerObj HeaderObject
 	var alignText string
 
@@ -104,16 +104,16 @@ func (ths *TableBlock) AddHeader(body string, align string) {
 }
 
 // AddColumn use to add column on body table
-func (ths *TableBlock) AddColumn(column ...IBlock) []IBlock {
+func (ths *tableBlock) AddColumn(column ...IBlock) []IBlock {
 	return column
 }
 
 // AddRow use to add row on body table
-func (ths *TableBlock) AddRow(row ...[]IBlock) [][]IBlock {
+func (ths *tableBlock) AddRow(row ...[]IBlock) [][]IBlock {
 	return row
 }
 
 // AddBody use to add body on table
-func (ths *TableBlock) AddBody(rows ...[][]IBlock) {
+func (ths *tableBlock) AddBody(rows ...[][]IBlock) {
 	ths.Table.Body = rows
 }

@@ -6,7 +6,7 @@ import (
 
 // DrawerComponent is a subtype of component. It represents a drawer component.
 // DrawerComponent can contain blocks.
-type DrawerComponent struct {
+type drawerComponent struct {
 	component
 	appendable
 
@@ -26,7 +26,7 @@ type DrawerComponent struct {
 // Validate performs validation to the DrawerComponent. A drawer component
 // should have its field `Action` defined. If there are any submit button or cancel
 // button, each of them should only appear once.
-func (ths *DrawerComponent) Validate() (bool, []error) {
+func (ths *drawerComponent) Validate() (bool, []error) {
 	var errs []error
 	if ths.Type != MCTDrawer {
 		errs = append(errs, errors.New("invalid drawer component type"))
@@ -67,8 +67,8 @@ func (ths *DrawerComponent) Validate() (bool, []error) {
 
 // NewDrawer used for initialization of new drawer components.
 // NewDrawer returns a new instance of a drawer component to be rendered
-func NewDrawer() *DrawerComponent {
-	var c DrawerComponent
+func NewDrawer() *drawerComponent {
+	var c drawerComponent
 	c.Type = MCTDrawer
 	c.component.IComponent = &c
 	return &c

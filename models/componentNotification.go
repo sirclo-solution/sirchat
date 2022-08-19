@@ -16,7 +16,7 @@ const (
 
 // NotificationComponent is a subtype of component. It represents a
 // notfication component.
-type NotificationComponent struct {
+type notificationComponent struct {
 	component
 	Notification NotificationObject `json:"notification"`
 }
@@ -34,7 +34,7 @@ type NotificationObject struct {
 }
 
 // Validate performs validation to the NotificationComponent.
-func (ths *NotificationComponent) Validate() (bool, []error) {
+func (ths *notificationComponent) Validate() (bool, []error) {
 	var errs []error
 	if ths.Type != MCTNotification {
 		errs = append(errs, errors.New("invalid notification component type"))
@@ -49,8 +49,8 @@ func (ths *NotificationComponent) Validate() (bool, []error) {
 
 // NewNotification used for initialization of new notification components
 // NewNotification returns a new instance of a notification component to be rendered
-func NewNotification(notificationComponentObj NotificationObject) *NotificationComponent {
-	var c NotificationComponent
+func NewNotification(notificationComponentObj NotificationObject) *notificationComponent {
+	var c notificationComponent
 	c.Type = MCTNotification
 	c.Notification = notificationComponentObj
 	c.component.IComponent = &c

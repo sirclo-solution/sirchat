@@ -17,7 +17,7 @@ const (
 
 // ContainerBlock is a subtype of block. It represents a container block and holds
 // a ContainerBlockObject in the field `Container`.
-type ContainerBlock struct {
+type containerBlock struct {
 	block
 
 	// Container contains the ButtonBlockObject that holds the detail of container block
@@ -34,7 +34,7 @@ type ContainerBlockObject struct {
 }
 
 // Validate performs validation to the ContainerBlock.
-func (ths *ContainerBlock) Validate() (bool, []error) {
+func (ths *containerBlock) Validate() (bool, []error) {
 	// ContainerBlock validation implementation
 	var errs []error
 	if ths.Type != MBTContainer {
@@ -63,13 +63,13 @@ func (ths *ContainerBlock) Validate() (bool, []error) {
 }
 
 // NewContainerBlock returns a new instance of a container block to be rendered
-func NewContainerBlock(containerObj ContainerBlockObject) *ContainerBlock {
+func NewContainerBlock(containerObj ContainerBlockObject) *containerBlock {
 	obj := ContainerBlockObject{
 		// default direction is column
 		Direction: CDColumn,
 	}
 
-	var block ContainerBlock
+	var block containerBlock
 	block.Type = MBTContainer
 
 	if containerObj.Direction != "" {

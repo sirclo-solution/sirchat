@@ -60,7 +60,7 @@ const (
 )
 
 // TextBlock is a subtype of block. It represents a text block.
-type TextBlock struct {
+type textBlock struct {
 	block
 	Text *TextBlockObject `json:"text"`
 }
@@ -87,7 +87,7 @@ type TextBlockObject struct {
 
 // Validate performs validation to the TextBlock. Field `Body`
 // should not be empty.
-func (ths *TextBlock) Validate() (bool, []error) {
+func (ths *textBlock) Validate() (bool, []error) {
 	// TextBlock validation implementation
 	var errs []error
 	if ths.Text.Body == "" {
@@ -114,7 +114,7 @@ func (ths *TextBlock) Validate() (bool, []error) {
 }
 
 // NewTextBlock returns a new instance of a section block to be rendered
-func NewTextBlock(textObj *TextBlockObject) *TextBlock {
+func NewTextBlock(textObj *TextBlockObject) *textBlock {
 	var (
 		alignText TextBlockObjectAlign
 		typeText  TextBlockObjectType
@@ -137,7 +137,7 @@ func NewTextBlock(textObj *TextBlockObject) *TextBlock {
 		colorText = textObj.Color
 	}
 
-	block := TextBlock{
+	block := textBlock{
 		Text: &TextBlockObject{
 			Body:  textObj.Body,
 			Align: alignText,
