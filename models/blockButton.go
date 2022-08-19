@@ -173,11 +173,11 @@ func NewButtonBlock(buttonObj ButtonBlockObject) *buttonBlock {
 		obj.Variant = ""
 	}
 
-	if buttonObj.Color != "" && obj.Icon == "" {
+	if buttonObj.Color != "" {
 		obj.Color = buttonObj.Color
 	}
 
-	if buttonObj.Variant != "" && obj.Icon == "" {
+	if buttonObj.Variant != "" {
 		obj.Variant = buttonObj.Variant
 	}
 
