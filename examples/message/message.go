@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	SECRET_KEY = "sirchat-sirclochat"
+	SECRET_KEY = "dummy-key"
 )
 
 func main() {
@@ -36,12 +36,22 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	})
 
 	// Add text to the message. A message can contain many texts
-	newMessage.AddTextMessage("message 1")
-	newMessage.AddTextMessage("message 2")
+	newMessage.AddTextMessage(models.MessageTextObject{
+		Body: "message 1",
+	})
+	newMessage.AddTextMessage(models.MessageTextObject{
+		Body: "message 2",
+	})
 
 	// Message can also contain images
-	newMessage.AddImageMessage("the first image", "https://example.com/dummy1.jpg")
-	newMessage.AddImageMessage("the second image", "https://example.com/dummy2.jpg")
+	newMessage.AddImageMessage(models.MessageImageObject{
+		Alt: "the first image",
+		Src: "https://example.com/dummy1.jpg",
+	})
+	newMessage.AddImageMessage(models.MessageImageObject{
+		Alt: "the second image",
+		Src: "https://example.com/dummy2.jpg",
+	})
 
 	// Send is the last step for creating component
 	// there is compose, validate component and the result will be send to client

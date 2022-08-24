@@ -77,7 +77,7 @@ func GetAuthSirclo(c *gin.Context) string {
 }
 
 // BindRequestBody used to bind request body
-func BindRequestBody(c *gin.Context, b any) error {
+func BindRequestBody(c *gin.Context, b interface{}) error {
 	var byteVal []byte
 	if val, ok := c.Get(SirchatRequestBody); ok && val != nil {
 		byteVal, _ = val.([]byte)

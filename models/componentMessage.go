@@ -93,13 +93,13 @@ func (ths *messageComponent) Validate() (bool, []error) {
 }
 
 // AddTextMessage adds MessageTextObject to MessageComponent.
-func (ths *messageComponent) AddTextMessage(textBody string) {
-	ths.Message.Texts = append(ths.Message.Texts, MessageTextObject{Body: textBody})
+func (ths *messageComponent) AddTextMessage(msgTextObj MessageTextObject) {
+	ths.Message.Texts = append(ths.Message.Texts, msgTextObj)
 }
 
 // AddImageMessage adds ImageTextObject to MessageComponent.
-func (ths *messageComponent) AddImageMessage(alt, src string) {
-	ths.Message.Images = append(ths.Message.Images, MessageImageObject{Alt: alt, Src: src})
+func (ths *messageComponent) AddImageMessage(msgImgObj MessageImageObject) {
+	ths.Message.Images = append(ths.Message.Images, msgImgObj)
 }
 
 // NewMessage used for initialization of new message components

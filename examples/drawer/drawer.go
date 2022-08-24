@@ -9,7 +9,7 @@ import (
 )
 
 const (
-	SECRET_KEY = "sirchat-sirclochat"
+	SECRET_KEY = "dummy-key"
 )
 
 func main() {
@@ -84,7 +84,9 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 
 	// add header on table block
 	for i := 1; i <= 2; i++ {
-		table.AddHeader("header"+strconv.Itoa(i), "")
+		table.AddHeader(models.TextHeaderObject{
+			Body: "header" + strconv.Itoa(i),
+		})
 	}
 
 	// rows is amount of data
@@ -166,7 +168,9 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 
 	// add header on table block
 	for i := 1; i <= 2; i++ {
-		table.AddHeader("header"+strconv.Itoa(i), "")
+		table.AddHeader(models.TextHeaderObject{
+			Body: "header" + strconv.Itoa(i),
+		})
 	}
 
 	// rows is amount of data
@@ -176,7 +180,7 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 		// each column can be filled more than 1 block
 		// the number of headers and columns must be the same
 		var columns [][]models.IBlock
-		for j := 1; j <= 3; j++ {
+		for j := 1; j <= 2; j++ {
 			column := table.AddColumn(block1, block2)
 			if j == 2 {
 				column = table.AddColumn(block3, block4)
@@ -194,8 +198,14 @@ var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
 	blockCarousel := models.NewCarouselBlock("Title Carousel")
 	blockCarousel.AddDescriptionsCarousel("description 1")
 	blockCarousel.AddDescriptionsCarousel("description 2")
-	blockCarousel.AddImageCarousel("image 1", "https://example.com/dummy1.jpg")
-	blockCarousel.AddImageCarousel("image 2", "https://example.com/dummy2.jpg")
+	blockCarousel.AddImageCarousel(models.ImageBlockObject{
+		Alt: "image 1",
+		Src: "https://example.com/dummy1.jpg",
+	})
+	blockCarousel.AddImageCarousel(models.ImageBlockObject{
+		Alt: "image 2",
+		Src: "https://example.com/dummy2.jpg",
+	})
 
 	// AddBlocks on component for creating Block for wrapping all the blocks
 	newDrawer.AddBlocks(table, blockCarousel)
