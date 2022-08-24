@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	SECRET_KEY = "sirchat-sirclochat"
+	SECRET_KEY = "dummy-key"
 )
 
 func main() {

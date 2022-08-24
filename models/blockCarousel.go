@@ -62,11 +62,13 @@ func (s *carouselBlock) AddDescriptionsCarousel(desc string) {
 }
 
 // AddImageCarousel for to adding images field on carousel block
-func (s *carouselBlock) AddImageCarousel(alt string, src string) {
+func (s *carouselBlock) AddImageCarousel(imgObj ImageBlockObject) {
 	image := imageBlock{
 		Image: &ImageBlockObject{
-			Src: src,
-			Alt: alt,
+			Src:    imgObj.Src,
+			Alt:    imgObj.Alt,
+			Width:  imgObj.Width,
+			Height: imgObj.Height,
 		},
 	}
 	image.Type = MBTImage

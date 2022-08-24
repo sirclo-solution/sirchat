@@ -86,34 +86,39 @@ func NewTableBlock() *tableBlock {
 	return &block
 }
 
-// AddHeader have 2 params (body and align) but body is required, align have default value is left
-func (ths *tableBlock) AddHeader(body string, align string) {
+// AddHeader use to add header of table.
+// AddHeader have 2 params TextHeaderObject (body and align) but body is required,
+// align have default value is left.
+func (ths *tableBlock) AddHeader(textHeaderObj TextHeaderObject) {
 	var headerObj HeaderObject
 	var alignText string
 
 	alignText = "left"
-	if align != "" {
-		alignText = align
+	if textHeaderObj.Align != "" {
+		alignText = textHeaderObj.Align
 	}
 	headerObj.Type = "text"
 	headerObj.Text = &TextHeaderObject{
 		Align: alignText,
-		Body:  body,
+		Body:  textHeaderObj.Body,
 	}
 	ths.Table.Header = append(ths.Table.Header, headerObj)
 }
 
-// AddColumn use to add column on body table
+// AddColumn use to add column on body table.
+// AddColumn have param IBlocks, so any block can be added here.
 func (ths *tableBlock) AddColumn(column ...IBlock) []IBlock {
 	return column
 }
 
-// AddRow use to add row on body table
+// AddRow use to add row on body table.
+// AddRow have param []IBlocks, so any block or result from AddColumn can be added here.
 func (ths *tableBlock) AddRow(row ...[]IBlock) [][]IBlock {
 	return row
 }
 
-// AddBody use to add body on table
+// AddBody use to add body on table.
+// AddBody have params [][]IBlocks, so any block or result from AddRow can be added here.
 func (ths *tableBlock) AddBody(rows ...[][]IBlock) {
 	ths.Table.Body = rows
 }
