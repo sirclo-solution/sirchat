@@ -1,9 +1,9 @@
 package main
 
 import (
+	"context"
 	"strconv"
 
-	"github.com/gin-gonic/gin"
 	"github.com/sirclo-solution/sirchat/apps"
 	"github.com/sirclo-solution/sirchat/models"
 )
@@ -29,7 +29,7 @@ func main() {
 	})
 }
 
-var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
+var cmdExampleOne = func(c context.Context) (interface{}, error) {
 	// init drawer component
 	newDrawer := models.NewDrawer()
 
@@ -118,7 +118,7 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	return newDrawer.Send()
 }
 
-var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
+var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 	// init drawer component
 	newDrawer := models.NewDrawer()
 

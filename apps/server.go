@@ -2,7 +2,6 @@ package apps
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -14,25 +13,10 @@ import (
 )
 
 // init your apps server
-func InitServer(secretKey string) *gin.Engine {
+func initServer(secretKey string) *gin.Engine {
 	// its always set Release mode
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
-
-	// LoggerWithFormatter middleware will write the logs to gin.DefaultWriter
-	// By default gin.DefaultWriter = os.Stdout
-	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
-		return fmt.Sprintf("[Sirchat] - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
-			param.TimeStamp.Format(time.RFC1123),
-			param.Method,
-			param.Path,
-			param.Request.Proto,
-			param.StatusCode,
-			param.Latency,
-			param.Request.UserAgent(),
-			param.ErrorMessage,
-		)
-	}))
 
 	// Middleware for verifying request usgin HMAC and SHA256
 	router.Use(verifyingRequest(secretKey))
@@ -54,7 +38,7 @@ func (a *app) Start(param AppServerConfig) {
 	}
 	srv := &http.Server{
 		Addr:           ":" + param.Port,
-		Handler:        a.EngineApps,
+		Handler:        a.engineApps,
 		ReadTimeout:    time.Duration(timeout) * time.Second,
 		WriteTimeout:   time.Duration(timeout) * time.Second,
 		MaxHeaderBytes: 1 << 20,

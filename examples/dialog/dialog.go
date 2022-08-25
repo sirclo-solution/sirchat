@@ -1,10 +1,10 @@
 package main
 
 import (
-	"log"
+	"context"
 
-	"github.com/gin-gonic/gin"
 	"github.com/sirclo-solution/sirchat/apps"
+	"github.com/sirclo-solution/sirchat/logger"
 	"github.com/sirclo-solution/sirchat/models"
 )
 
@@ -45,21 +45,25 @@ func main() {
 	})
 }
 
-var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
+var cmdExampleOne = func(c context.Context) (interface{}, error) {
 	// get auth sirclo (only use internal sirclo)
-	authSirclo := apps.GetAuthSirclo(c)
+	authSirclo, err := apps.GetAuthSirclo(c)
+	if err != nil {
+		logger.Get().Error("[dialogExampleOne] - Error GetAuthSirclo", "Error", err)
+		return nil, err
+	}
 
-	log.Println("Auth Sirclo", authSirclo)
+	logger.Get().Info("[dialogExampleOne] - Auth Sirclo", "Info", authSirclo)
 
 	var req RequestExampleOne
 
 	// bind request  body
 	if err := apps.BindRequestBody(c, &req); err != nil {
-		log.Println("Error Bind Request Body", err)
+		logger.Get().Error("[dialogExampleOne] - Error Bind Request Body", "Error", err)
 		return nil, err
 	}
 
-	log.Println("Request Body", req)
+	logger.Get().Info("[dialogExampleOne] - Request body", "Info", req)
 
 	// init dialog component
 	newDialog := models.NewDialog()
@@ -137,7 +141,7 @@ var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
 	return newDialog.Send()
 }
 
-var cmdExampleTwo = func(c *gin.Context) (interface{}, error) {
+var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 	// init dialog component
 	newDialog := models.NewDialog()
 

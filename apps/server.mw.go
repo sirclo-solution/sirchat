@@ -1,30 +1,24 @@
 package apps
 
 import (
+	"context"
 	"crypto/hmac"
 	"crypto/sha256"
 	"encoding/hex"
 	"errors"
 	"fmt"
 	"io/ioutil"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirclo-solution/sirchat/logger"
 )
 
+type key int
+
 const (
-	// key of header signature HMAC for verifying request
-	HeaderSirchatSignature = "X-Sirchat-Signature"
-
-	// key of header Authorization Sirclo (its only use internal SIRCLO)
-	HeaderSircloAuthorization = "X-Sirclo-Authorization"
-
-	// key of Authorization Sirclo (its only use internal SIRCLO)
-	SircloAuthorization = "Sirclo-Authorization"
-
-	// key of get Request Body
-	SirchatRequestBody = "Sirchat-Request-Body"
+	reqBody key = iota
+	sircloAuth
 )
 
 // method for verifying request using HMAC and SHA256
@@ -35,10 +29,10 @@ func verifyingRequest(secretKey string) gin.HandlerFunc {
 			ResponseError(c, NewAppsError(http.StatusBadRequest, err, "bad request"))
 			return
 		}
-		if sirchatSignature := c.GetHeader(HeaderSirchatSignature); sirchatSignature != "" {
+		if sirchatSignature := c.GetHeader("X-Sirchat-Signature"); sirchatSignature != "" {
 			if ok, err := VerifySignatureSirchat(requestBody, secretKey, sirchatSignature); !ok {
 				if err != nil {
-					log.Println("Error VerifySignatureSirchat(): ", err)
+					logger.Get().ErrorWithoutSTT("Verify Signature Sirchat", "Error", err)
 				}
 				if err == nil {
 					err = fmt.Errorf("invalid signature")
@@ -47,14 +41,15 @@ func verifyingRequest(secretKey string) gin.HandlerFunc {
 				return
 			}
 		} else {
-			log.Println("[Sirchat] - signature is required")
+			logger.Get().ErrorWithoutSTT("Header Sirchat Signature", "Error", "signature is required")
 			err = errors.New("signature is required")
 			ResponseError(c, NewAppsError(http.StatusUnauthorized, err, "signature is required"))
 			return
 		}
 
 		// set request body to Sirchat-Request-Body
-		c.Set(SirchatRequestBody, requestBody)
+		ctx := context.WithValue(c.Request.Context(), reqBody, requestBody)
+		c.Request = c.Request.WithContext(ctx)
 
 		c.Next()
 	}
@@ -64,8 +59,9 @@ func verifyingRequest(secretKey string) gin.HandlerFunc {
 func forwardingSircloAuthorization() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		// only use internal Sirclo
-		if authSirclo := c.GetHeader(HeaderSircloAuthorization); authSirclo != "" {
-			c.Set(SircloAuthorization, authSirclo)
+		if authSirclo := c.GetHeader("X-Sirclo-Authorization"); authSirclo != "" {
+			ctx := context.WithValue(c.Request.Context(), sircloAuth, authSirclo)
+			c.Request = c.Request.WithContext(ctx)
 		}
 		c.Next()
 	}
