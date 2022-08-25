@@ -1,10 +1,13 @@
 package apps
 
 import (
+	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirclo-solution/sirchat/logger"
 )
 
 // AppServerConfig as a parameter of a Start()
@@ -44,7 +47,7 @@ type app struct {
 	AppSecret string `json:"app_secret"`
 
 	// EngineApps used for configuring your application with the server
-	EngineApps *gin.Engine
+	engineApps *gin.Engine
 }
 
 // setup use to setup application
@@ -52,11 +55,12 @@ type app struct {
 // This method includes creating a new server / initial Server
 func (ths *app) setup(cfg AppConfig) error {
 	if cfg.AppSecret == "" {
+		logger.Get().ErrorWithoutSTT("Error setup", "Error", "invalid app secret string")
 		return fmt.Errorf("client Setup(): invalid app secret string")
 	}
 	ths.AppSecret = cfg.AppSecret
 
-	ths.EngineApps = InitServer(cfg.AppSecret)
+	ths.engineApps = initServer(cfg.AppSecret)
 	return nil
 }
 
@@ -72,17 +76,20 @@ func NewApps(cfg AppConfig) App {
 }
 
 // GetAuthSirclo used to get authorization SIRCLO (only use internal SIRCLO)
-func GetAuthSirclo(c *gin.Context) string {
-	return c.GetString(SircloAuthorization)
+func GetAuthSirclo(c context.Context) (string, error) {
+	sircloAuth, ok := c.Value(sircloAuth).(string)
+	if !ok {
+		return "", errors.New("authorization sirclo invalid")
+	}
+	return sircloAuth, nil
 }
 
 // BindRequestBody used to bind request body
-func BindRequestBody(c *gin.Context, b interface{}) error {
-	var byteVal []byte
-	if val, ok := c.Get(SirchatRequestBody); ok && val != nil {
-		byteVal, _ = val.([]byte)
+func BindRequestBody(c context.Context, b interface{}) error {
+	byteVal, ok := c.Value(reqBody).([]byte)
+	if !ok {
+		return errors.New("invalid request")
 	}
-
 	if err := json.Unmarshal(byteVal, b); err != nil {
 		return err
 	}

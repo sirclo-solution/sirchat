@@ -3,10 +3,10 @@ package models
 import (
 	"encoding/json"
 	"errors"
-	"log"
 	"net/http"
 
 	"github.com/sirclo-solution/sirchat/apps"
+	"github.com/sirclo-solution/sirchat/logger"
 )
 
 type MessageComponentType string
@@ -61,7 +61,7 @@ func (ths *component) Compose() ([]byte, error) {
 	}
 
 	if len(errs) > 0 {
-		log.Printf("component.Compose() %+q\n", errs)
+		logger.Get().ErrorWithoutSTT("Error compose component", "Error", errs)
 		return nil, apps.NewAppsError(http.StatusBadRequest, errors.New("invalid component/blocks"), "invalid component/blocks")
 	}
 
@@ -76,10 +76,16 @@ func (ths *component) Compose() ([]byte, error) {
 // Send returns the JSON string representation of the embedding
 // struct. It calls the component's Compose function in the process.
 func (ths *component) Send() (interface{}, error) {
-	result, err := ths.Compose()
+	compose, err := ths.Compose()
 	if err != nil {
 		return nil, err
 	}
 
-	return string(result), nil
+	var result interface{}
+	err = json.Unmarshal(compose, &result)
+	if err != nil {
+		return nil, apps.NewAppsError(http.StatusInternalServerError, err, "error when unmarshaling component")
+	}
+
+	return result, nil
 }

@@ -2,10 +2,10 @@ package apps
 
 import (
 	"errors"
-	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
+	"github.com/sirclo-solution/sirchat/logger"
 )
 
 // AppsError is standard object error Sirchat
@@ -55,13 +55,13 @@ func ResponseError(c *gin.Context, err error) {
 	c.Header("Content-Type", "Application/json")
 	var ae AppsError
 	if errors.As(err, &ae) {
-		log.Println(ae.AppsErr.Err.Error())
+		logger.Get().ErrorWithoutSTT("Response AppsError", "Error", ae.AppsErr.Err.Error())
 		c.AbortWithStatusJSON(ae.AppsErr.Code, ae)
 		return
 	}
 
 	// handle non AppsError types
-	log.Println(err.Error())
+	logger.Get().ErrorWithoutSTT("Response Error", "Error", err.Error())
 	c.AbortWithStatusJSON(http.StatusInternalServerError, AppsError{
 		AppsErr: ErrDetail{
 			Code:    http.StatusInternalServerError,

@@ -1,7 +1,8 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
+	"context"
+
 	"github.com/sirclo-solution/sirchat/apps"
 	"github.com/sirclo-solution/sirchat/models"
 )
@@ -26,7 +27,7 @@ func main() {
 	})
 }
 
-var cmdExampleOne = func(c *gin.Context) (interface{}, error) {
+var cmdExampleOne = func(c context.Context) (interface{}, error) {
 	// init message component
 	newMessage := models.NewMessage(models.MessageObject{
 		TenantID: "chat",
