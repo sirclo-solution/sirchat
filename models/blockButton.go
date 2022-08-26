@@ -100,7 +100,7 @@ type ButtonBlockObject struct {
 	// FullWidth is the width of the button, if true then the width is 100%.
 	// otherwise the width follows the label of the button
 	// default is false
-	FullWidth bool `json:"fullWidth"`
+	FullWidth bool `json:"full_width"`
 }
 
 // ButtonActionObject
