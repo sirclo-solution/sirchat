@@ -27,7 +27,7 @@ const (
 	CPStart ContainerPosition = "start"
 
 	// CPCenter this is a center position.
-	CPCenter ContainerPosition = "Center"
+	CPCenter ContainerPosition = "center"
 
 	// CPEnd this is a final position according to direction.
 	CPEnd ContainerPosition = "end"
