@@ -68,21 +68,22 @@ type textBlock struct {
 // TextBlockObject holds the detail of the TextBlock.
 type TextBlockObject struct {
 	appendable
-	// body is content of text block
+	// body is content of text block,
 	// this field is required
 	Body string `json:"body"`
 
-	// align is positioning of the text
+	// align is positioning of the text,
 	// align has the default value left
 	Align TextBlockObjectAlign `json:"align"`
 
-	// type is the size of the text (px)
+	// type is the size of the text (px),
 	// type has the default value is not field type (*default: 16px medium)
 	Type TextBlockObjectType `json:"type,omitempty"`
 
-	// color is the color of the text
-	// color has the default value text
-	Color TextBlockObjectColor `json:"color"`
+	// color is the color of the text,
+	// color is optional, default value is not field color or empty string,
+	// but in FE has default value text color
+	Color TextBlockObjectColor `json:"color,omitempty"`
 }
 
 // Validate performs validation to the TextBlock. Field `Body`
@@ -118,11 +119,9 @@ func NewTextBlock(textObj *TextBlockObject) *textBlock {
 	var (
 		alignText TextBlockObjectAlign
 		typeText  TextBlockObjectType
-		colorText TextBlockObjectColor
 	)
 
 	alignText = TextBlockObjectAlignLeft
-	colorText = TextBlockObjectColorText
 	typeText = ""
 
 	if string(textObj.Align) != "" {
@@ -133,16 +132,12 @@ func NewTextBlock(textObj *TextBlockObject) *textBlock {
 		typeText = textObj.Type
 	}
 
-	if string(textObj.Color) != "" {
-		colorText = textObj.Color
-	}
-
 	block := textBlock{
 		Text: &TextBlockObject{
 			Body:  textObj.Body,
 			Align: alignText,
 			Type:  typeText,
-			Color: colorText,
+			Color: textObj.Color,
 		},
 	}
 	block.Type = MBTText
@@ -187,6 +182,8 @@ func (t TextBlockObjectType) validateTextObjectType() bool {
 
 func (t TextBlockObjectColor) validateTextObjectColor() bool {
 	switch t {
+	case "":
+		return true
 	case TextBlockObjectColorText:
 		return true
 	case TextBlockObjectColorSecondary:
