@@ -85,7 +85,9 @@ type ButtonBlockObject struct {
 
 	// Field Action will trigger the next action when the button is clicked.
 	// This field can only be used when the button has a trigger for the next action.
-	// This field is required only for button type "button" (action).
+	// This field is required only for button type "button" (action) and is optional
+	// for button type "cancel". When cancel button that has action and query is
+	// clicked, the current action and button that is rendered will be closed.
 	Action *ButtonActionObject `json:"action,omitempty"`
 
 	// field Query contains the payload that will be brought when the button is clicked
