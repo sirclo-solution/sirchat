@@ -32,6 +32,11 @@ func (ths *drawerComponent) Validate() (bool, []error) {
 		errs = append(errs, errors.New("invalid drawer component type"))
 	}
 
+	if ths.Action.Buttons == nil {
+		errs = append(errs, errors.New("action buttons in the component is not defined"))
+		return false, errs
+	}
+
 	if len(ths.Action.Buttons) == 0 {
 		errs = append(errs, errors.New("there are no action buttons in the component"))
 	}
