@@ -30,30 +30,28 @@ func (ths *dialogComponent) Validate() (bool, []error) {
 		errs = append(errs, errors.New("invalid dialog component type"))
 	}
 
-	if ths.Action.Buttons == nil {
-		errs = append(errs, errors.New("action buttons in the component is not defined"))
-		return false, errs
-	}
-
-	if len(ths.Action.Buttons) == 0 {
-		errs = append(errs, errors.New("there are no action buttons in the component"))
-	}
-
-	var submitCount, cancelCount int
-	for i := 0; i < len(ths.Action.Buttons); i++ {
-		v := ths.Action.Buttons[i]
-
-		switch v.Type {
-		case MBTTSubmit:
-			submitCount++
-		case MBTTCancel:
-			cancelCount++
+	if ths.Action != nil {
+		if len(ths.Action.Buttons) == 0 {
+			errs = append(errs, errors.New("there are no action buttons in the component"))
 		}
 
-		if submitCount > 1 || cancelCount > 1 {
-			errs = append(errs, errors.New("there should be only one submit button and one cancel button in the action buttons"))
+		var submitCount, cancelCount int
+		for i := 0; i < len(ths.Action.Buttons); i++ {
+			v := ths.Action.Buttons[i]
+
+			switch v.Type {
+			case MBTTSubmit:
+				submitCount++
+			case MBTTCancel:
+				cancelCount++
+			}
+
+			if submitCount > 1 || cancelCount > 1 {
+				errs = append(errs, errors.New("there should be only one submit button and one cancel button in the action buttons"))
+			}
 		}
 	}
+
 	for _, v := range ths.Blocks {
 		if valid, err := v.Validate(); !valid {
 			errs = append(errs, err...)
