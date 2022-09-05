@@ -46,6 +46,13 @@ type inputBlock struct {
 	Input *InputBlockObject `json:"input,omitempty"`
 }
 
+// InputActionObject is an action that will trigger to the next action
+// with the appropriate payload filled in the input
+type InputActionObject struct {
+	// ID is action id that will trigger the next action/command
+	ID string `json:"id"`
+}
+
 // InputBlockObject holds the detail of the InputBlock.
 type InputBlockObject struct {
 	// Type is the input type. The available value is text, radio,
@@ -100,6 +107,11 @@ type InputBlockObject struct {
 	// an input that has dynamic field `Name`.
 	// This field is optional.
 	GroupID string `json:"group_id,omitempty"`
+
+	// Field Action will trigger the next action when there is an adjustment in your input.
+	// This field can only be used when the input has a trigger for the next action.
+	// This field is optional.
+	Action *InputActionObject `json:"action,omitempty"`
 }
 
 // InputBlockOptionsObject is the options for radio InputBlockObject type.
@@ -167,6 +179,7 @@ func NewInputBlock(inputBlockObj *InputBlockObject) *inputBlock {
 		Label:       inputBlockObj.Label,
 		Tooltip:     inputBlockObj.Tooltip,
 		GroupID:     inputBlockObj.GroupID,
+		Action:      inputBlockObj.Action,
 		Value:       "",            // default
 		Required:    &requiredTrue, // default
 		Disabled:    false,         // default
