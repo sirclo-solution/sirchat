@@ -160,6 +160,15 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 	// add new block on table block
 	block1 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 1"})
 	block2 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 2"})
+	inputCounter := models.NewInputBlock(&models.InputBlockObject{
+		Type:    models.InputBlockObjectTypeCounter,
+		Value:   "1",
+		Name:    "tas",
+		GroupID: "addItem",
+		Action: &models.InputActionObject{
+			ID: "updateCartItem",
+		},
+	})
 	block3 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 3"})
 	block4 := models.NewTextBlock(&models.TextBlockObject{Body: "isi 4"})
 
@@ -181,7 +190,7 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 		// the number of headers and columns must be the same
 		var columns [][]models.IBlock
 		for j := 1; j <= 2; j++ {
-			column := table.AddColumn(block1, block2)
+			column := table.AddColumn(block1, block2, inputCounter)
 			if j == 2 {
 				column = table.AddColumn(block3, block4)
 			}
