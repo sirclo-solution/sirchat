@@ -41,7 +41,7 @@ func (ths *imageBlock) Validate() (bool, []error) {
 	}
 
 	if match, err := regexp.MatchString(`^(https:\/\/)([^\s(["<,>/]*)(\/)[^\s[",><]*(.png|.jpg|.jpeg)(\?[^\s[",><]*)?$`, ths.Image.Src); !match {
-		errs = append(errs, fmt.Errorf("invalid image src: %s", err.Error()))
+		errs = append(errs, fmt.Errorf("\"%s\" invalid image src: %s", ths.Image.Src, err.Error()))
 	}
 
 	if len(errs) > 0 {
