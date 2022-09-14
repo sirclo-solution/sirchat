@@ -40,8 +40,12 @@ func (ths *imageBlock) Validate() (bool, []error) {
 		errs = append(errs, errors.New("invalid image block type"))
 	}
 
-	if match, err := regexp.MatchString(`^(https:\/\/)([^\s(["<,>/]*)(\/)[^\s[",><]*(.png|.jpg|.jpeg)(\?[^\s[",><]*)?$`, ths.Image.Src); !match {
-		errs = append(errs, fmt.Errorf("\"%s\" invalid image src: %s", ths.Image.Src, err.Error()))
+	match, err := regexp.MatchString(`^(https:\/\/)([^\s(["<,>/]*)(\/)[^\s[",><]*(.png|.jpg|.jpeg)(\?[^\s[",><]*)?$`, ths.Image.Src)
+	if !match {
+		errs = append(errs, fmt.Errorf("invalid image src: %s", ths.Image.Src))
+	}
+	if err != nil {
+		errs = append(errs, fmt.Errorf("error when validating image src: %s", err.Error()))
 	}
 
 	if len(errs) > 0 {
