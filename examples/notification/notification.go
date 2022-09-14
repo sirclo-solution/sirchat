@@ -19,6 +19,7 @@ func main() {
 
 	// creating new action/command/api
 	app.Command("/notificationExampleOne", cmdExampleOne)
+	app.Command("/notificationExampleTwo", cmdExampleTwo)
 
 	// start service
 	app.Start(apps.AppServerConfig{
@@ -30,7 +31,21 @@ func main() {
 var cmdExampleOne = func(c context.Context) (interface{}, error) {
 	// init message component
 	newNotif := models.NewNotification(models.NotificationObject{
-		Type:    models.MNOTSuccess,
+		Type:       models.MNOTSuccess,
+		Title:      "test title",
+		Message:    "test body",
+		CloseBlock: true,
+	})
+
+	// Send is the last step for creating component
+	// there is compose, validate component and the result will be send to client
+	return newNotif.Send()
+}
+
+var cmdExampleTwo = func(c context.Context) (interface{}, error) {
+	// init message component
+	newNotif := models.NewNotification(models.NotificationObject{
+		Type:    models.MNOTFailed,
 		Title:   "test title",
 		Message: "test body",
 	})
