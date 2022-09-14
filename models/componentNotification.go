@@ -31,6 +31,12 @@ type NotificationObject struct {
 
 	// Message is the text that will be shown as the body of notification.
 	Message string `json:"message"`
+
+	// Close Block used to close the current block.
+	// If `true` current block is closed,
+	// if `false` current block is not closed.
+	// Default value is false.
+	CloseBlock bool `json:"close_block"`
 }
 
 // Validate performs validation to the NotificationComponent.

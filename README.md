@@ -26,7 +26,7 @@ app := apps.NewApps(apps.AppConfig{
 })
 
 // Example Command
-app.Command("/exampleOne", commandHandler func(c *gin.Context) (interface{}, error){
+app.Command("/exampleOne", commandHandler func(c context.Context) (interface{}, error){
     /* Process logic here */
 })
 
