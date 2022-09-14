@@ -2,6 +2,7 @@ package models
 
 import (
 	"errors"
+	"fmt"
 	"regexp"
 )
 
@@ -39,8 +40,8 @@ func (ths *imageBlock) Validate() (bool, []error) {
 		errs = append(errs, errors.New("invalid image block type"))
 	}
 
-	if match, _ := regexp.MatchString("^(http(s?):)([/|.|\\w|\\s|-])*\\.(?:jpg|jpeg|gif|png)$", ths.Image.Src); !match {
-		errs = append(errs, errors.New("invalid image src"))
+	if match, err := regexp.MatchString(`^(https:\/\/)([^\s(["<,>/]*)(\/)[^\s[",><]*(.png|.jpg|.jpeg)(\?[^\s[",><]*)?$`, ths.Image.Src); !match {
+		errs = append(errs, fmt.Errorf("\"%s\" invalid image src: %s", ths.Image.Src, err.Error()))
 	}
 
 	if len(errs) > 0 {
