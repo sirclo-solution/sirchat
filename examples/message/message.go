@@ -19,6 +19,7 @@ func main() {
 
 	// creating new action/command/api
 	app.Command("/messageExampleOne", cmdExampleOne)
+	app.Command("/messageExampleTwo", cmdExampleTwo)
 
 	// start service
 	app.Start(apps.AppServerConfig{
@@ -34,6 +35,39 @@ var cmdExampleOne = func(c context.Context) (interface{}, error) {
 		BrandID:  "chat",
 		RoomID:   "room",
 		Channel:  "channel",
+	})
+
+	// Add text to the message. A message can contain many texts
+	newMessage.AddTextMessage(models.MessageTextObject{
+		Body: "message 1",
+	})
+	newMessage.AddTextMessage(models.MessageTextObject{
+		Body: "message 2",
+	})
+
+	// Message can also contain images
+	newMessage.AddImageMessage(models.MessageImageObject{
+		Alt: "the first image",
+		Src: "https://example.com/dummy1.jpg",
+	})
+	newMessage.AddImageMessage(models.MessageImageObject{
+		Alt: "the second image",
+		Src: "https://example.com/dummy2.jpg",
+	})
+
+	// Send is the last step for creating component
+	// there is compose, validate component and the result will be send to client
+	return newMessage.Send()
+}
+
+var cmdExampleTwo = func(c context.Context) (interface{}, error) {
+	// init message component
+	newMessage := models.NewMessage(models.MessageObject{
+		TenantID:   "chat",
+		BrandID:    "chat",
+		RoomID:     "room",
+		Channel:    "channel",
+		CloseBlock: true,
 	})
 
 	// Add text to the message. A message can contain many texts
