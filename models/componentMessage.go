@@ -31,6 +31,12 @@ type MessageObject struct {
 	// This field is required.
 	Channel string `json:"channel"`
 
+	// Close Block used to close the current block.
+	// If `true` current block is closed,
+	// if `false` current block is not closed.
+	// Default value is false.
+	CloseBlock bool `json:"close_block"`
+
 	// Texts defines the array of MessageTextObject that the message will contain.
 	// This field is optional if the Images field is not empty.
 	Texts []MessageTextObject `json:"texts"`
