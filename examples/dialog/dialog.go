@@ -195,6 +195,27 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 		Alt: "a dummy image",
 	})
 
+	// NewTextBlock use for creating new image block
+	imageBlock2 := models.NewImageBlock(models.ImageBlockObject{
+		// change to invalid url like "https://example.com/dummy.m4a" to induce error
+		Src: "https://storage.googleapis.com/sirclo-1152-storefront/products/fd6bcc6d-506e-4e14-a530-b1ea55c33fd6-bajaksawah%.jpg",
+		Alt: "a dummy image",
+	})
+
+	// NewTextBlock use for creating new image block
+	imageBlock3 := models.NewImageBlock(models.ImageBlockObject{
+		// change to invalid url like "https://example.com/dummy.m4a" to induce error
+		Src: "https://storage.googleapis.com/sirclo-1152-storefront/products/53628732-167b-4938-955e-7da5c1c010ca-17 agustus.jpeg",
+		Alt: "a dummy image",
+	})
+
+	// NewTextBlock use for creating new image block
+	imageBlock4 := models.NewImageBlock(models.ImageBlockObject{
+		// change to invalid url like "https://example.com/dummy.m4a" to induce error
+		Src: "https://storage.googleapis.com/sirclo-1152-storefront/products/53628732-167b-4938-955e-7da5c1c&%34010ca-17 agustus.png",
+		Alt: "a dummy image",
+	})
+
 	// NewContainerBlock use for creating new container block
 	// in container block can embed/append another block
 	containerBlock := models.NewContainerBlock(models.ContainerBlockObject{
@@ -202,7 +223,7 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 	})
 
 	// example for add new block on container block
-	containerBlock.Container.AddBlocks(imageBlock, inputBlock)
+	containerBlock.Container.AddBlocks(imageBlock, imageBlock2, imageBlock3, imageBlock4, inputBlock)
 
 	textListBlock := models.NewTextListBlock()
 	for i := 1; i <= 3; i++ {
