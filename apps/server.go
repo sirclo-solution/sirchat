@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,6 +18,9 @@ func initServer(secretKey string) *gin.Engine {
 	// its always set Release mode
 	gin.SetMode(gin.ReleaseMode)
 	router := gin.New()
+
+	// allow cors all origin
+	router.Use(cors.Default())
 
 	// Middleware for verifying request usgin HMAC and SHA256
 	router.Use(verifyingRequest(secretKey))
