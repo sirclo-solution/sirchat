@@ -108,6 +108,16 @@ type InputBlockObject struct {
 	// This field is optional.
 	GroupID string `json:"group_id,omitempty"`
 
+	// MinInput is minimal input for the block input.
+	// MinInput only use in counter and number type.
+	// Default value is 0 and this field is optional.
+	MinInput *int `json:"min_input,omitempty"`
+
+	// MaxInput is maximal input for the block input.
+	// MaxInput can use in all input type.
+	// Default value is unlimited and this field is optional.
+	MaxInput int `json:"max_input,omitempty"`
+
 	// Field Action will trigger the next action when there is an adjustment in your input.
 	// This field can only be used when the input has a trigger for the next action.
 	// This field is optional.
@@ -183,6 +193,7 @@ func NewInputBlock(inputBlockObj *InputBlockObject) *inputBlock {
 		Value:       "",            // default
 		Required:    &requiredTrue, // default
 		Disabled:    false,         // default
+		MaxInput:    inputBlockObj.MaxInput,
 	}
 
 	if inputBlockObj.Required != nil {
@@ -200,6 +211,14 @@ func NewInputBlock(inputBlockObj *InputBlockObject) *inputBlock {
 
 	if inputBlockObj.Value != "" {
 		inputBlock.Value = inputBlockObj.Value
+	}
+
+	minInputNumber := 0
+	if inputBlockObj.Type == InputBlockObjectTypeNumber || inputBlockObj.Type == InputBlockObjectTypeCounter {
+		inputBlock.MinInput = &minInputNumber
+		if inputBlockObj.MinInput != nil {
+			inputBlock.MinInput = inputBlockObj.MinInput
+		}
 	}
 
 	block.Input = &inputBlock

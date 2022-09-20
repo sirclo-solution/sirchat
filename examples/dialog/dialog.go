@@ -216,6 +216,28 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 		Alt: "a dummy image",
 	})
 
+	inputCounter := models.NewInputBlock(&models.InputBlockObject{
+		Type:  models.InputBlockObjectTypeCounter,
+		Value: "1",
+		Name:  "counter1",
+	})
+
+	inputNumber := models.NewInputBlock(&models.InputBlockObject{
+		Type:     models.InputBlockObjectTypeNumber,
+		Value:    "1",
+		Name:     "number",
+		MaxInput: 20,
+	})
+
+	minInput := 1
+	inputCounter2 := models.NewInputBlock(&models.InputBlockObject{
+		Type:     models.InputBlockObjectTypeCounter,
+		Value:    "1",
+		Name:     "counter2",
+		MinInput: &minInput,
+		MaxInput: 10,
+	})
+
 	// NewContainerBlock use for creating new container block
 	// in container block can embed/append another block
 	containerBlock := models.NewContainerBlock(models.ContainerBlockObject{
@@ -223,7 +245,7 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 	})
 
 	// example for add new block on container block
-	containerBlock.Container.AddBlocks(imageBlock, imageBlock2, imageBlock3, imageBlock4, inputBlock)
+	containerBlock.Container.AddBlocks(imageBlock, imageBlock2, imageBlock3, imageBlock4, inputBlock, inputCounter, inputNumber, inputCounter2)
 
 	textListBlock := models.NewTextListBlock()
 	for i := 1; i <= 3; i++ {
