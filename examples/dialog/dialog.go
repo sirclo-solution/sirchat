@@ -175,6 +175,8 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 		Body: "Cari Produk",
 	})
 
+	minInputText := 1
+
 	// NewTextBlock use for creating new input block.
 	// Field `Required`` is default to true. You can set it to
 	// false by passing a pointer to false value. You can either
@@ -186,6 +188,18 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 		Name:        "query",
 		Placeholder: "Masukkan nama produk atau SKU",
 		Required:    new(bool),
+		MinInput:    &minInputText,
+		MaxInput:    &minInputText,
+	})
+
+	inputBlockRadio := models.NewInputBlock(&models.InputBlockObject{
+		Type:        models.InputBlockObjectTypeDistrictSelect,
+		Value:       "jacket",
+		Name:        "query",
+		Placeholder: "Masukkan nama produk atau SKU",
+		Required:    new(bool),
+		MinInput:    &minInputText,
+		MaxInput:    &minInputText,
 	})
 
 	// NewTextBlock use for creating new image block
@@ -222,20 +236,22 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 		Name:  "counter1",
 	})
 
+	maxInputNumber := 20
 	inputNumber := models.NewInputBlock(&models.InputBlockObject{
 		Type:     models.InputBlockObjectTypeNumber,
 		Value:    "1",
 		Name:     "number",
-		MaxInput: 20,
+		MaxInput: &maxInputNumber,
 	})
 
 	minInput := 1
+	maxInput := 10
 	inputCounter2 := models.NewInputBlock(&models.InputBlockObject{
 		Type:     models.InputBlockObjectTypeCounter,
 		Value:    "1",
 		Name:     "counter2",
 		MinInput: &minInput,
-		MaxInput: 10,
+		MaxInput: &maxInput,
 	})
 
 	// NewContainerBlock use for creating new container block
@@ -245,7 +261,7 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 	})
 
 	// example for add new block on container block
-	containerBlock.Container.AddBlocks(imageBlock, imageBlock2, imageBlock3, imageBlock4, inputBlock, inputCounter, inputNumber, inputCounter2)
+	containerBlock.Container.AddBlocks(imageBlock, imageBlock2, imageBlock3, imageBlock4, inputBlock, inputCounter, inputNumber, inputCounter2, inputBlockRadio)
 
 	textListBlock := models.NewTextListBlock()
 	for i := 1; i <= 3; i++ {
