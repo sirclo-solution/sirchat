@@ -118,6 +118,11 @@ type InputBlockObject struct {
 	// Default value is unlimited (`empty field`) and this field is optional.
 	MaxInput *int `json:"max_input,omitempty"`
 
+	// NumberOnly is an input that is only filled with numbers if value `true`.
+	// Default value is false and can only be used in text type.
+	// this field is optional
+	NumberOnly *bool `json:"number_only,omitempty"`
+
 	// Field Action will trigger the next action when there is an adjustment in your input.
 	// This field can only be used when the input has a trigger for the next action.
 	// This field is optional.
@@ -224,6 +229,14 @@ func NewInputBlock(inputBlockObj *InputBlockObject) *inputBlock {
 		inputBlockObj.Type == InputBlockObjectTypeTextArea || inputBlockObj.Type == InputBlockObjectTypePassword {
 		if inputBlockObj.MaxInput != nil {
 			inputBlock.MaxInput = inputBlockObj.MaxInput
+		}
+	}
+
+	if inputBlockObj.Type == InputBlockObjectTypeText {
+		var numberOnly bool
+		inputBlock.NumberOnly = &numberOnly
+		if inputBlockObj.NumberOnly != nil {
+			inputBlock.NumberOnly = inputBlockObj.NumberOnly
 		}
 	}
 

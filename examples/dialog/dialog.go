@@ -236,12 +236,14 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 		Name:  "counter1",
 	})
 
+	numberOnly := true
 	maxInputNumber := 20
 	inputNumber := models.NewInputBlock(&models.InputBlockObject{
-		Type:     models.InputBlockObjectTypeNumber,
-		Value:    "1",
-		Name:     "number",
-		MaxInput: &maxInputNumber,
+		Type:       models.InputBlockObjectTypeNumber,
+		Value:      "1",
+		Name:       "number",
+		MaxInput:   &maxInputNumber,
+		NumberOnly: &numberOnly,
 	})
 
 	minInput := 1
@@ -254,6 +256,17 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 		MaxInput: &maxInput,
 	})
 
+	inputBlockNumberOnly := models.NewInputBlock(&models.InputBlockObject{
+		Type:        models.InputBlockObjectTypeText,
+		Value:       "jacket",
+		Name:        "query",
+		Placeholder: "Masukkan nama produk atau SKU",
+		Required:    new(bool),
+		MinInput:    &minInputText,
+		MaxInput:    &minInputText,
+		NumberOnly:  &numberOnly,
+	})
+
 	// NewContainerBlock use for creating new container block
 	// in container block can embed/append another block
 	containerBlock := models.NewContainerBlock(models.ContainerBlockObject{
@@ -261,7 +274,7 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 	})
 
 	// example for add new block on container block
-	containerBlock.Container.AddBlocks(imageBlock, imageBlock2, imageBlock3, imageBlock4, inputBlock, inputCounter, inputNumber, inputCounter2, inputBlockRadio)
+	containerBlock.Container.AddBlocks(imageBlock, imageBlock2, imageBlock3, imageBlock4, inputBlock, inputCounter, inputNumber, inputCounter2, inputBlockRadio, inputBlockNumberOnly)
 
 	textListBlock := models.NewTextListBlock()
 	for i := 1; i <= 3; i++ {
