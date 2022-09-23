@@ -267,6 +267,12 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 		NumberOnly:  &numberOnly,
 	})
 
+	textTitleBlock := models.NewTextBlock(&models.TextBlockObject{
+		Type:  models.TextBlockObjectTypeTitle,
+		Body:  "Ini Title",
+		Color: models.TextBlockObjectColorPrimary,
+	})
+
 	// NewContainerBlock use for creating new container block
 	// in container block can embed/append another block
 	containerBlock := models.NewContainerBlock(models.ContainerBlockObject{
@@ -274,7 +280,7 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 	})
 
 	// example for add new block on container block
-	containerBlock.Container.AddBlocks(imageBlock, imageBlock2, imageBlock3, imageBlock4, inputBlock, inputCounter, inputNumber, inputCounter2, inputBlockRadio, inputBlockNumberOnly)
+	containerBlock.Container.AddBlocks(imageBlock, imageBlock2, imageBlock3, imageBlock4, inputBlock, inputCounter, inputNumber, inputCounter2, inputBlockRadio, inputBlockNumberOnly, textTitleBlock)
 
 	textListBlock := models.NewTextListBlock()
 	for i := 1; i <= 3; i++ {
