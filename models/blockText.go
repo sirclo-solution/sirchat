@@ -43,6 +43,9 @@ const (
 	// figure type is 16px bold (color: primary (#269CD9))
 	TextBlockObjectTypeFigure TextBlockObjectType = "figure"
 
+	// title type is 24px bold
+	TextBlockObjectTypeTitle TextBlockObjectType = "title"
+
 	// text color is text (#3D4F5C)
 	TextBlockObjectColorText TextBlockObjectColor = "text"
 
@@ -174,6 +177,8 @@ func (t TextBlockObjectType) validateTextObjectType() bool {
 	case TextBlockObjectTypeSubheading2:
 		return true
 	case TextBlockObjectTypeFigure:
+		return true
+	case TextBlockObjectTypeTitle:
 		return true
 	default:
 		return false
