@@ -22,6 +22,10 @@ func (ths *TextListBlock) Validate() (bool, []error) {
 		}
 	}
 
+	if len(ths.TextList) == 0 {
+		errs = append(errs, errors.New("text block in text list block should not be empty"))
+	}
+
 	if len(errs) > 0 {
 		return false, errs
 	}
