@@ -230,6 +230,13 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 		Alt: "a dummy image",
 	})
 
+	// NewTextBlock use for creating new image block
+	imageBlockWithoutExt := models.NewImageBlock(models.ImageBlockObject{
+		// change to invalid url like "https://example.com/dummy.m4a" to induce error
+		Src: "https://sirclocdn.com/chat/products/_210323141909_2",
+		Alt: "a dummy image",
+	})
+
 	inputCounter := models.NewInputBlock(&models.InputBlockObject{
 		Type:  models.InputBlockObjectTypeCounter,
 		Value: "1",
@@ -280,7 +287,7 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 	})
 
 	// example for add new block on container block
-	containerBlock.Container.AddBlocks(imageBlock, imageBlock2, imageBlock3, imageBlock4, inputBlock, inputCounter, inputNumber, inputCounter2, inputBlockRadio, inputBlockNumberOnly, textTitleBlock)
+	containerBlock.Container.AddBlocks(imageBlock, imageBlock2, imageBlock3, imageBlock4, imageBlockWithoutExt, inputBlock, inputCounter, inputNumber, inputCounter2, inputBlockRadio, inputBlockNumberOnly, textTitleBlock)
 
 	textListBlock := models.NewTextListBlock()
 	for i := 1; i <= 3; i++ {
