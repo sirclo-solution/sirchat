@@ -144,9 +144,13 @@ type InputBlockOptionsObject struct {
 	Label string `json:"label"`
 
 	// Description is a detail content or description of option.
+	// Description is optional
+	Description string `json:"description,omitempty"`
+
+	// Descriptions is a detail contents or a list of descriptions of an option.
 	// It contains an array of text blocks.
 	// When the input is "select" type, the descriptions will not be rendered in the UI.
-	// Description is optional
+	// Descriptions is optional
 	Descriptions []textBlock `json:"descriptions,omitempty"`
 }
 
