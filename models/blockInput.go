@@ -38,6 +38,9 @@ const (
 
 	// InputBlockObjectTypeDistrictSelect is the type for district_select input
 	InputBlockObjectTypeDistrictSelect InputBlockObjectType = "district_select"
+
+	// InputBlockObjectTypeEmail is the type for email input
+	InputBlockObjectTypeEmail InputBlockObjectType = "email"
 )
 
 // InputBlock is a subtype of block. It represents an input block.
@@ -291,6 +294,8 @@ func (t InputBlockObjectType) validateInputObjectType() bool {
 	case InputBlockObjectTypeSelect:
 		return true
 	case InputBlockObjectTypeDistrictSelect:
+		return true
+	case InputBlockObjectTypeEmail:
 		return true
 	default:
 		return false
