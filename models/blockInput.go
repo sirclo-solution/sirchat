@@ -36,6 +36,9 @@ const (
 
 	// InputBlockObjectTypeDistrictSelect is the type for district_select input
 	InputBlockObjectTypeDistrictSelect InputBlockObjectType = "district_select"
+
+	// InputBlockObjectTypeEmail is the type for email input
+	InputBlockObjectTypeEmail InputBlockObjectType = "email"
 )
 
 // InputBlock is a subtype of block. It represents an input block.
@@ -141,6 +144,12 @@ type InputBlockOptionsObject struct {
 	// Description is a detail content or description of option.
 	// Description is optional
 	Description string `json:"description,omitempty"`
+
+	// Descriptions is a detail contents or a list of descriptions of an option.
+	// It contains an array of text blocks.
+	// When the input is "select" type, the descriptions will not be rendered in the UI.
+	// Descriptions is optional
+	Descriptions []textBlock `json:"descriptions,omitempty"`
 }
 
 // Validate performs validation to the ContainerBlock. Input of type
@@ -172,6 +181,14 @@ func (ths *inputBlock) Validate() (bool, []error) {
 
 	if typeValid := ths.Input.Type.validateInputObjectType(); !typeValid {
 		errs = append(errs, fmt.Errorf("invalid InputBlockObjectType %v", ths.Input.Type))
+	}
+
+	for _, option := range ths.Input.Options {
+		for _, description := range option.Descriptions {
+			if valid, err := description.Validate(); !valid {
+				errs = append(errs, err...)
+			}
+		}
 	}
 
 	if len(errs) > 0 {
@@ -245,13 +262,20 @@ func NewInputBlock(inputBlockObj *InputBlockObject) *inputBlock {
 	return &block
 }
 
-// AddInputBlockOptionsObject adds options to field Options for input of type "select"
+// AddInputBlockOptionsObject adds options to field Options for input of type radio, checkbox, and select.
 func (ths *inputBlock) AddInputBlockOptionsObject(optionObject InputBlockOptionsObject) {
 	ths.Input.Options = append(ths.Input.Options, InputBlockOptionsObject{
-		Value:       optionObject.Value,
-		Label:       optionObject.Label,
-		Description: optionObject.Description,
+		Value:        optionObject.Value,
+		Label:        optionObject.Label,
+		Descriptions: optionObject.Descriptions,
 	})
+}
+
+// AddDescriptions adds descriptions to field Options for input type radio, checkbox, and select.
+// When the input is type select, field Descriptions can still be added with text blocks, but the
+// descriptions will not be rendered in the UI.
+func (ths *InputBlockOptionsObject) AddDescriptions(descriptions ...textBlock) {
+	ths.Descriptions = append(ths.Descriptions, descriptions...)
 }
 
 func (t InputBlockObjectType) validateInputObjectType() bool {
@@ -271,6 +295,8 @@ func (t InputBlockObjectType) validateInputObjectType() bool {
 	case InputBlockObjectTypeSelect:
 		return true
 	case InputBlockObjectTypeDistrictSelect:
+		return true
+	case InputBlockObjectTypeEmail:
 		return true
 	default:
 		return false
