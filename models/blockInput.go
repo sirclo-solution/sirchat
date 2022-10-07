@@ -184,7 +184,7 @@ func (ths *inputBlock) Validate() (bool, []error) {
 	}
 
 	for _, option := range ths.Input.Options {
-		for j, description := range option.Descriptions {
+		for _, description := range option.Descriptions {
 			if valid, err := description.Validate(); !valid {
 				errs = append(errs, err...)
 			}
