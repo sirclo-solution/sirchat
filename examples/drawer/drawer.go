@@ -71,13 +71,21 @@ var cmdExampleOne = func(c context.Context) (interface{}, error) {
 	})
 
 	// input radio should be have minimal 1 options.
+	inputRadioOption := models.InputBlockOptionsObject{
+		Value: "JNE-REG",
+		Label: "JNE Reguler",
+	}
+
+	// use AddDescriptions to add array of text block as the descriptions for each option.
+	// when the input is "select" type, the descriptions will not be rendered in the UI.
+	// parameter Descriptions is optional
+	inputRadioOption.AddDescriptions(
+		*models.NewTextBlock(&models.TextBlockObject{Body: "1-2 Hari"}),
+		*models.NewTextBlock(&models.TextBlockObject{Body: "P. Jawa dan luar P. Jawa"}),
+	)
+
 	// AddInputBlockOptionsObject use to be add options on input radio.
-	// parameter Description is optional
-	newInputRadio.AddInputBlockOptionsObject(models.InputBlockOptionsObject{
-		Value:       "JNE-REG",
-		Label:       "JNE Reguler",
-		Description: "1-2 hari",
-	})
+	newInputRadio.AddInputBlockOptionsObject(inputRadioOption)
 
 	// NewTableBlock use createng new table block
 	table := models.NewTableBlock()

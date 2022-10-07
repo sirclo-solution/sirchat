@@ -4,6 +4,8 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
+
+	"github.com/sirclo-solution/sirchat/logger"
 )
 
 // InputBlockObjectType is a type for field `Input` in InputBlockObject
@@ -139,8 +141,10 @@ type InputBlockOptionsObject struct {
 	Label string `json:"label"`
 
 	// Description is a detail content or description of option.
+	// It contains an array of text blocks.
+	// When the input is "select" type, the descriptions will not be rendered in the UI.
 	// Description is optional
-	Description string `json:"description,omitempty"`
+	Descriptions []textBlock `json:"descriptions,omitempty"`
 }
 
 // Validate performs validation to the ContainerBlock. Input of type
@@ -172,6 +176,15 @@ func (ths *inputBlock) Validate() (bool, []error) {
 
 	if typeValid := ths.Input.Type.validateInputObjectType(); !typeValid {
 		errs = append(errs, fmt.Errorf("invalid InputBlockObjectType %v", ths.Input.Type))
+	}
+
+	for _, option := range ths.Input.Options {
+		for j, description := range option.Descriptions {
+			logger.Get().Error("j & description.Text.Body:", "j", j, "description.Text.Body", description.Text.Body)
+			if valid, err := description.Validate(); !valid {
+				errs = append(errs, err...)
+			}
+		}
 	}
 
 	if len(errs) > 0 {
@@ -245,13 +258,20 @@ func NewInputBlock(inputBlockObj *InputBlockObject) *inputBlock {
 	return &block
 }
 
-// AddInputBlockOptionsObject adds options to field Options for input of type "select"
+// AddInputBlockOptionsObject adds options to field Options for input of type radio, checkbox, and select.
 func (ths *inputBlock) AddInputBlockOptionsObject(optionObject InputBlockOptionsObject) {
 	ths.Input.Options = append(ths.Input.Options, InputBlockOptionsObject{
-		Value:       optionObject.Value,
-		Label:       optionObject.Label,
-		Description: optionObject.Description,
+		Value:        optionObject.Value,
+		Label:        optionObject.Label,
+		Descriptions: optionObject.Descriptions,
 	})
+}
+
+// AddDescriptions adds descriptions to field Options for input type radio, checkbox, and select.
+// When the input is type select, field Descriptions can still be added with text blocks, but the
+// descriptions will not be rendered in the UI.
+func (ths *InputBlockOptionsObject) AddDescriptions(descriptions ...textBlock) {
+	ths.Descriptions = append(ths.Descriptions, descriptions...)
 }
 
 func (t InputBlockObjectType) validateInputObjectType() bool {
