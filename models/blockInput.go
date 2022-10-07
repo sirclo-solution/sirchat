@@ -4,8 +4,6 @@ import (
 	"errors"
 	"fmt"
 	"regexp"
-
-	"github.com/sirclo-solution/sirchat/logger"
 )
 
 // InputBlockObjectType is a type for field `Input` in InputBlockObject
@@ -187,7 +185,6 @@ func (ths *inputBlock) Validate() (bool, []error) {
 
 	for _, option := range ths.Input.Options {
 		for j, description := range option.Descriptions {
-			logger.Get().Error("j & description.Text.Body:", "j", j, "description.Text.Body", description.Text.Body)
 			if valid, err := description.Validate(); !valid {
 				errs = append(errs, err...)
 			}
