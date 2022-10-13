@@ -26,8 +26,8 @@ type ImageBlockObject struct {
 	// default 56px
 	Width int `json:"width,omitempty"`
 
-	// Width of image (optional)
-	// default 56px
+	// Height of image (optional).
+	// In table block, it defaults to the original height of the image, else it defaults to 56px.
 	Height int `json:"height,omitempty"`
 }
 
