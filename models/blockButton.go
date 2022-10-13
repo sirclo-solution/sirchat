@@ -57,6 +57,9 @@ const (
 
 	// ButtonObjectIconTrash this is a delete icon (X)
 	ButtonObjectIconDelete ButtonBlockObjectIcon = "delete"
+
+	// ButtonObjectIconNote this is a cart item note icon
+	ButtonObjectIconEdit ButtonBlockObjectIcon = "edit"
 )
 
 // ButtonBlockObject holds the detail of the ButtonBlock.
@@ -200,8 +203,8 @@ func (t *buttonBlock) validateActionButton() (bool, []error) {
 		errs = append(errs, errors.New("invalid action button block object type"))
 	}
 
-	if t.Button.Label == "" {
-		errs = append(errs, errors.New("action button must have content of label object"))
+	if t.Button.Label == "" && t.Button.Icon == "" {
+		errs = append(errs, errors.New("action button must have content of label or icon or both"))
 	}
 
 	if t.Button.Action == nil {
@@ -305,6 +308,8 @@ func (t ButtonBlockObjectIcon) validateButtonObjectIcon() bool {
 	case ButtonObjectIconDelete:
 		return true
 	case ButtonObjectIconTrash:
+		return true
+	case ButtonObjectIconEdit:
 		return true
 	case "":
 		return true
