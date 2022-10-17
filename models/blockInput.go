@@ -141,6 +141,7 @@ type InputBlockOptionsObject struct {
 	// Label is a contain of option
 	Label string `json:"label"`
 
+	// Description is deprecated, instead of `Descriptions`
 	// Description is a detail content or description of option.
 	// Description is optional
 	Description string `json:"description,omitempty"`
@@ -150,6 +151,11 @@ type InputBlockOptionsObject struct {
 	// When the input is "select" type, the descriptions will not be rendered in the UI.
 	// Descriptions is optional
 	Descriptions []textBlock `json:"descriptions,omitempty"`
+
+	// Disabled is the boolean that defines whether the input is disable or not.
+	// This field props in the Options Input Block and the default is false.
+	// This field is optional.
+	Disabled bool `json:"disabled"`
 }
 
 // Validate performs validation to the ContainerBlock. Input of type
@@ -268,6 +274,7 @@ func (ths *inputBlock) AddInputBlockOptionsObject(optionObject InputBlockOptions
 		Value:        optionObject.Value,
 		Label:        optionObject.Label,
 		Descriptions: optionObject.Descriptions,
+		Disabled:     optionObject.Disabled,
 	})
 }
 
