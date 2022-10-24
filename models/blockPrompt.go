@@ -32,11 +32,19 @@ func (ths *promptBlock) Validate() (bool, []error) {
 	// PromptBlock validation implementation
 	var errs []error
 	if ths.CancelButton == nil {
-		errs = append(errs, errors.New("CancelButton in prompt block object should not be empty"))
+		errs = append(errs, errors.New("CancelButton in prompt block should not be empty"))
+	} else {
+		if ths.CancelButton.Prompt != nil {
+			errs = append(errs, errors.New("CancelButton in prompt block cannot add more prompt"))
+		}
 	}
 
 	if ths.ContinueButton == nil {
-		errs = append(errs, errors.New("ContinueButton in prompt block object should not be empty"))
+		errs = append(errs, errors.New("ContinueButton in prompt block should not be empty"))
+	} else {
+		if ths.ContinueButton.Prompt != nil {
+			errs = append(errs, errors.New("ContinueButton in prompt block cannot add more prompt"))
+		}
 	}
 
 	for _, v := range ths.Blocks {
