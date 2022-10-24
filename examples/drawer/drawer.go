@@ -21,6 +21,7 @@ func main() {
 	// creating new action/command/api
 	app.Command("/drawerExampleOne", cmdExampleOne)
 	app.Command("/drawerExampleTwo", cmdExampleTwo)
+	app.Command("/drawerExampleThree", cmdExampleThree)
 
 	// start service
 	app.Start(apps.AppServerConfig{
@@ -226,6 +227,80 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 
 	// AddBlocks on component for creating Block for wrapping all the blocks
 	newDrawer.AddBlocks(table, blockCarousel)
+
+	// Send is the last step for creating component
+	// there is compose, validate component and the result will be send to client
+	return newDrawer.Send()
+}
+
+var cmdExampleThree = func(c context.Context) (interface{}, error) {
+	// init drawer component
+	newDrawer := models.NewDrawer()
+
+	// NewTitle for adding block title
+	newDrawer.Title = models.NewTitle(models.Title{
+		Text: "Drawer Example Three",
+	})
+
+	// NewCancelButton is button cancel
+	cancelButton := models.NewButtonBlock(models.ButtonBlockObject{
+		Type:  models.MBTTCancel,
+		Label: "tutup",
+	})
+
+	// NewSubmitButton is button submit to the next process/command
+	// the action get from first param on NewAction
+	submitButton := models.NewButtonBlock(models.ButtonBlockObject{
+		Type:  models.MBTTSubmit,
+		Label: "submit",
+	})
+
+	textBlock := models.NewTextBlock(&models.TextBlockObject{
+		Body: "Kamu belum menyimpan catatan produk. Perubahan akan terhapus jika kamu keluar dari halaman ini. Apakah kamu yakin untuk melanjutkan?",
+	})
+
+	// NewPromptBlock is used to create prompt block
+	promptBlock := models.NewPromptBlock(models.PromptBlockObject{
+		Title:          "Perubahan Belum Disimpan",
+		CancelButton:   &cancelButton.Button,
+		ContinueButton: &submitButton.Button,
+	})
+
+	promptBlock.AddBlocks(textBlock)
+
+	newbutton := models.NewButtonBlock(models.ButtonBlockObject{
+		Type:   models.MBTTSubmit,
+		Label:  "lanjutkan",
+		Prompt: promptBlock,
+	})
+
+	// NewAction is action from the button
+	// add buttons when creating the Action object
+	newDrawer.Action = models.NewAction("saveItems")
+
+	// AddButtons is method for field buttons
+	newDrawer.Action.AddButtons(newbutton.Button)
+
+	// AddOnClose is method for field on_close
+	newDrawer.Action.AddOnClose(&models.ActionOnClose{
+		Prompt: promptBlock,
+	})
+
+	// NewContainerBlock use for creating new container block
+	// in container block can embed/append another block
+	containerBlock := models.NewContainerBlock(models.ContainerBlockObject{
+		Direction: models.CDRow,
+	})
+
+	textBlock2 := models.NewTextBlock(&models.TextBlockObject{
+		Body: "dummy text",
+	})
+
+	// example for add new block on container block
+	containerBlock.Container.AddBlocks(textBlock2)
+
+	// AddBlocks on component for creating Block for wrapping all the blocks
+	newDrawer.AddBlocks(containerBlock)
 
 	// Send is the last step for creating component
 	// there is compose, validate component and the result will be send to client

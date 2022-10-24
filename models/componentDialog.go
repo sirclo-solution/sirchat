@@ -50,6 +50,11 @@ func (ths *dialogComponent) Validate() (bool, []error) {
 				errs = append(errs, errors.New("there should be only one submit button and one cancel button in the action buttons"))
 			}
 		}
+		if ths.Action.OnClose != nil {
+			if valid, err := ths.Action.OnClose.Prompt.Validate(); !valid {
+				errs = append(errs, err...)
+			}
+		}
 	}
 
 	for _, v := range ths.Blocks {
