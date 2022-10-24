@@ -21,10 +21,10 @@ type PromptBlockObject struct {
 	Title string `json:"title"`
 
 	// cancelButton is the button used to trigger cancel the action.
-	CancelButton *ButtonBlockObject `json:"cancelButton"`
+	CancelButton *ButtonBlockObject `json:"cancel_button"`
 
 	// continueButton is the button used to trigger continue the action.
-	ContinueButton *ButtonBlockObject `json:"continueButton"`
+	ContinueButton *ButtonBlockObject `json:"continue_button"`
 }
 
 // Validate performs validation to the PromptBlock.
