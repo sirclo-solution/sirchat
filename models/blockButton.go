@@ -106,6 +106,10 @@ type ButtonBlockObject struct {
 	// otherwise the width follows the label of the button
 	// default is false
 	FullWidth bool `json:"full_width"`
+
+	// Prompt is used to confirm before performing the next action,
+	// either cancel or continue.
+	Prompt *promptBlock `json:"prompt,omitempty"`
 }
 
 // ButtonActionObject
@@ -152,6 +156,12 @@ func (ths *buttonBlock) Validate() (bool, []error) {
 		errs = append(errs, fmt.Errorf("invalid ButtonBlockObjectIcon %v", ths.Button.Icon))
 	}
 
+	if ths.Button.Prompt != nil {
+		if valid, err := ths.Button.Prompt.Validate(); !valid {
+			errs = append(errs, err...)
+		}
+	}
+
 	if len(errs) > 0 {
 		return false, errs
 	}
@@ -171,6 +181,7 @@ func NewButtonBlock(buttonObj ButtonBlockObject) *buttonBlock {
 		Query:     buttonObj.Query,
 		Disabled:  false, // default
 		FullWidth: false, // default
+		Prompt:    buttonObj.Prompt,
 	}
 
 	if obj.Icon != "" {
