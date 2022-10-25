@@ -21,6 +21,10 @@ type drawerComponent struct {
 	// Subheading is the text under the title.
 	// This field is optional.
 	Subheading *Subheading `json:"subheading,omitempty"`
+
+	// Notification is toast bar information that appears
+	// with the current block.
+	Notification *NotificationObject `json:"notification,omitempty"`
 }
 
 // Validate performs validation to the DrawerComponent. A drawer component
