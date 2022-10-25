@@ -24,6 +24,7 @@ type drawerComponent struct {
 
 	// Notification is toast bar information that appears
 	// with the current block.
+	// Close Block on this notification should be false.
 	Notification *NotificationObject `json:"notification,omitempty"`
 }
 
@@ -66,6 +67,12 @@ func (ths *drawerComponent) Validate() (bool, []error) {
 	for _, v := range ths.Blocks {
 		if valid, err := v.Validate(); !valid {
 			errs = append(errs, err...)
+		}
+	}
+
+	if ths.Notification != nil {
+		if ths.Notification.CloseBlock {
+			errs = append(errs, errors.New("close block notification on drawer component should be false"))
 		}
 	}
 
