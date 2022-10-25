@@ -136,6 +136,14 @@ var cmdExampleOne = func(c context.Context) (interface{}, error) {
 	// AddBlocks on component for creating Block for wrapping all the blocks
 	newDialog.AddBlocks(textBlock, containerBlock)
 
+	newNotif := models.NewNotification(models.NotificationObject{
+		Type:    models.MNOTSuccess,
+		Title:   "Ini notifikasi sukses",
+		Message: "Success broo",
+	})
+
+	newDialog.Notification = &newNotif.Notification
+
 	// Send is the last step for creating component
 	// there is compose, validate component and the result will be send to client
 	return newDialog.Send()

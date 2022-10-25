@@ -302,6 +302,14 @@ var cmdExampleThree = func(c context.Context) (interface{}, error) {
 	// AddBlocks on component for creating Block for wrapping all the blocks
 	newDrawer.AddBlocks(containerBlock)
 
+	newNotif := models.NewNotification(models.NotificationObject{
+		Type:    models.MNOTSuccess,
+		Title:   "Ini notifikasi sukses",
+		Message: "Success broo",
+	})
+
+	newDrawer.Notification = &newNotif.Notification
+
 	// Send is the last step for creating component
 	// there is compose, validate component and the result will be send to client
 	return newDrawer.Send()

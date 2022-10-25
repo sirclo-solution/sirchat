@@ -21,6 +21,11 @@ type dialogComponent struct {
 	// Subheading is the text under the title.
 	// This field is optional.
 	Subheading *Subheading `json:"subheading,omitempty"`
+
+	// Notification is toast bar information that appears
+	// with the current block.
+	// Close Block on this notification should be false.
+	Notification *NotificationObject `json:"notification,omitempty"`
 }
 
 // Validate performs validation to the DrawerComponent.
@@ -60,6 +65,12 @@ func (ths *dialogComponent) Validate() (bool, []error) {
 	for _, v := range ths.Blocks {
 		if valid, err := v.Validate(); !valid {
 			errs = append(errs, err...)
+		}
+	}
+
+	if ths.Notification != nil {
+		if ths.Notification.CloseBlock {
+			errs = append(errs, errors.New("close block notification on dialog component should be false"))
 		}
 	}
 
