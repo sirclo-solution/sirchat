@@ -29,6 +29,9 @@ const (
 
 	// MBTCarousel is the type for carousel block
 	MBTCarousel MessageBlockType = "carousel"
+
+	// MBTCard is the type for card block
+	MBTCard MessageBlockType = "card"
 )
 
 // IBlock is the interface for blocks. All type of blocks that embed `block`

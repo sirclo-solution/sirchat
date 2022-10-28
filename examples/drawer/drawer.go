@@ -22,6 +22,7 @@ func main() {
 	app.Command("/drawerExampleOne", cmdExampleOne)
 	app.Command("/drawerExampleTwo", cmdExampleTwo)
 	app.Command("/drawerExampleThree", cmdExampleThree)
+	app.Command("/drawerExampleCard", cmdExampleCard)
 
 	// start service
 	app.Start(apps.AppServerConfig{
@@ -309,6 +310,62 @@ var cmdExampleThree = func(c context.Context) (interface{}, error) {
 	})
 
 	newDrawer.Notification = &newNotif.Notification
+
+	// Send is the last step for creating component
+	// there is compose, validate component and the result will be send to client
+	return newDrawer.Send()
+}
+
+var cmdExampleCard = func(c context.Context) (interface{}, error) {
+	// init drawer component
+	newDrawer := models.NewDrawer()
+
+	// NewTitle for adding block title
+	newDrawer.Title = models.NewTitle(models.Title{
+		Text: "Riwayat Pesanan",
+	})
+
+	textBlockHeader := models.NewTextBlock(&models.TextBlockObject{
+		Body: "12 Agustus 2022",
+	})
+
+	// to be update using pill block
+	pillBlock := models.NewTextBlock(&models.TextBlockObject{
+		Body: "PESANAN SELESAI",
+	})
+
+	// NewContainerBlock use for creating new container block
+	// in container block can embed/append another block
+	containerBlock := models.NewContainerBlock(models.ContainerBlockObject{
+		Direction: models.CDRow,
+	})
+
+	// example for add new block on container block
+	containerBlock.Container.AddBlocks(textBlockHeader, pillBlock)
+
+	textBlockNoPesanan := models.NewTextBlock(&models.TextBlockObject{
+		Body: "No. Pesanan: 312352347128090000",
+	})
+
+	textBlockInvoice := models.NewTextBlock(&models.TextBlockObject{
+		Body: "INV/20220824/MPL/22214124",
+	})
+
+	submitButton := models.NewButtonBlock(models.ButtonBlockObject{
+		Type:  models.MBTTSubmit,
+		Label: "Lihat Detail Pesanan",
+	})
+
+	// NewAction is action from the button
+	// add buttons when creating the Action object
+	newDrawer.Action = models.NewAction("lihatPesanan")
+
+	newCardBlock := models.NewCardBlock(models.CardBlockObject{})
+	newCardBlock.AddCardHeader(containerBlock)
+	newCardBlock.Card.AddBlocks(textBlockNoPesanan, textBlockInvoice, submitButton)
+
+	// AddBlocks on component for creating Block for wrapping all the blocks
+	newDrawer.AddBlocks(newCardBlock)
 
 	// Send is the last step for creating component
 	// there is compose, validate component and the result will be send to client

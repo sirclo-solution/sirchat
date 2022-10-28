@@ -38,10 +38,6 @@ func (ths *drawerComponent) Validate() (bool, []error) {
 	}
 
 	if ths.Action != nil {
-		if len(ths.Action.Buttons) == 0 {
-			errs = append(errs, errors.New("there are no action buttons in the component"))
-		}
-
 		var submitCount, cancelCount int
 		for i := 0; i < len(ths.Action.Buttons); i++ {
 			v := ths.Action.Buttons[i]
