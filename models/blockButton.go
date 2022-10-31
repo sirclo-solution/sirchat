@@ -116,6 +116,9 @@ type ButtonBlockObject struct {
 type ButtonActionObject struct {
 	// ID is action id that will trigger the next action/command
 	ID string `json:"id"`
+
+	// Link is url that will be opened when button is clicked
+	Link *string `json:"link,omitempty"`
 }
 
 // ButtonBlock is a subtype of block. It represents a button container block and holds

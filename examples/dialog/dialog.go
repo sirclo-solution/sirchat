@@ -78,6 +78,17 @@ var cmdExampleOne = func(c context.Context) (interface{}, error) {
 		"cartID":  "123456789",
 	}
 
+	// NewLinkButton is button to open requested url
+	url := "https://sirclo.com"
+	linkButton := models.NewButtonBlock(models.ButtonBlockObject{
+		Type:  models.MBTTAction,
+		Label: "Home",
+		Action: &models.ButtonActionObject{
+			ID:   "",
+			Link: &url,
+		},
+	})
+
 	// NewActionButton is button have action for next process/command
 	actionButton := models.NewButtonBlock(models.ButtonBlockObject{
 		Type:  models.MBTTAction,
@@ -106,7 +117,7 @@ var cmdExampleOne = func(c context.Context) (interface{}, error) {
 	newDialog.Action = models.NewAction("updateCartItems")
 
 	// AddButtons is method for field buttons
-	newDialog.Action.AddButtons(actionButton.Button, cancelButton.Button, submitButton.Button)
+	newDialog.Action.AddButtons(linkButton.Button, actionButton.Button, cancelButton.Button, submitButton.Button)
 
 	// NewTextBlock use for creating new text block
 	textBlock := models.NewTextBlock(&models.TextBlockObject{
