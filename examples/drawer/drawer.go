@@ -123,6 +123,18 @@ var cmdExampleOne = func(c context.Context) (interface{}, error) {
 	// AddBlocks on component for creating Block for wrapping all the blocks
 	newDrawer.AddBlocks(table)
 
+	// NotificationBlockObject holds the detail of notification block
+	newNotificationBlock := models.NotificationBlockObject{
+		Title:   "This is a bunch of useful information",
+		Message: "Information notification, write some useful notification here.",
+		Type:    models.NotificationBlockTypeInfo,
+	}
+	// NewNotificationBlock used to create new notification block
+	notificationBlock := models.NewNotificationBlock(newNotificationBlock)
+
+	// AddBlocks on component for creating Block for wrapping all the blocks
+	newDrawer.AddBlocks(notificationBlock)
+
 	// Send is the last step for creating component
 	// there is compose, validate component and the result will be send to client
 	return newDrawer.Send()
@@ -228,6 +240,17 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 
 	// AddBlocks on component for creating Block for wrapping all the blocks
 	newDrawer.AddBlocks(table, blockCarousel)
+
+	newSuccessNotificationBlock := models.NotificationBlockObject{
+		Title:   "This is an example of success Notification",
+		Message: "Success notification, write information thath contains the success of an action.",
+		Type:    models.NotificationBlockTypeSuccess,
+	}
+	// NewNotificationBlock used to create new notification block
+	notificationBlock := models.NewNotificationBlock(newSuccessNotificationBlock)
+
+	// AddBlocks on component for creating Block for wrapping all the blocks
+	newDrawer.AddBlocks(notificationBlock)
 
 	// Send is the last step for creating component
 	// there is compose, validate component and the result will be send to client

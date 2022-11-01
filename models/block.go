@@ -32,6 +32,9 @@ const (
 
 	// MBTCard is the type for card block
 	MBTCard MessageBlockType = "card"
+
+	// MBTNotification is the type for notification block
+	MBTNotification MessageBlockType = "notification"
 )
 
 // IBlock is the interface for blocks. All type of blocks that embed `block`
