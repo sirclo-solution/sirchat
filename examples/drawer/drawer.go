@@ -125,9 +125,9 @@ var cmdExampleOne = func(c context.Context) (interface{}, error) {
 
 	// NotificationBlockObject holds the detail of notification block
 	newNotificationBlock := models.NotificationBlockObject{
-		Title: "This is a bunch of useful information",
-		Body:  "Information notification, write some useful notification here.",
-		Type:  models.NotificationBlockTypeInfo,
+		Title:   "This is a bunch of useful information",
+		Message: "Information notification, write some useful notification here.",
+		Type:    models.NotificationBlockTypeInfo,
 	}
 	// NewNotificationBlock used to create new notification block
 	notificationBlock := models.NewNotificationBlock(newNotificationBlock)
@@ -242,9 +242,9 @@ var cmdExampleTwo = func(c context.Context) (interface{}, error) {
 	newDrawer.AddBlocks(table, blockCarousel)
 
 	newSuccessNotificationBlock := models.NotificationBlockObject{
-		Title: "This is an example of success Notification",
-		Body:  "Success notification, write information thath contains the success of an action.",
-		Type:  models.NotificationBlockTypeSuccess,
+		Title:   "This is an example of success Notification",
+		Message: "Success notification, write information thath contains the success of an action.",
+		Type:    models.NotificationBlockTypeSuccess,
 	}
 	// NewNotificationBlock used to create new notification block
 	notificationBlock := models.NewNotificationBlock(newSuccessNotificationBlock)

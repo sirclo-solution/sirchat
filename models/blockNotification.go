@@ -31,9 +31,9 @@ type NotificationBlockObject struct {
 	// Title of notification block (optional)
 	Title string `json:"title"`
 
-	// Body is the main content of the notification block
+	// Message is the main content of the notification block
 	// inform the reader of some pieces of information
-	Body string `json:"body"`
+	Message string `json:"message"`
 
 	// Type determines what kind of information will be informed to the reader
 	// the type also specifies what color of notification will be shown
@@ -54,7 +54,7 @@ func (ths *notificationBlock) Validate() (bool, []error) {
 		errs = append(errs, errors.New("invalid type of notification, must be one of info|success|warning|error"))
 	}
 
-	if ths.Notification.Body == "" {
+	if ths.Notification.Message == "" {
 		errs = append(errs, errors.New("notification block body is required"))
 	}
 
