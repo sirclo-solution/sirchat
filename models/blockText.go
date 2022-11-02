@@ -87,6 +87,16 @@ type TextBlockObject struct {
 	// color is optional, default value is not field color or empty string,
 	// but in FE has default value text color
 	Color TextBlockObjectColor `json:"color,omitempty"`
+
+	// ViewMore is link with simple text,
+	// if clicked that link will be show all text.
+	// ViewMore is optional and related with field Min
+	ViewMore bool `json:"view_more,omitempty"`
+
+	// Min is minimal of total simple text,
+	// if ViewMore is true, this field is required minimum text 10 and default 50.
+	// If ViewMore is false, this field is optional.
+	Min int `json:"min,omitempty"`
 }
 
 // Validate performs validation to the TextBlock. Field `Body`
@@ -135,12 +145,22 @@ func NewTextBlock(textObj *TextBlockObject) *textBlock {
 		typeText = textObj.Type
 	}
 
+	var minText int
+	if textObj.ViewMore {
+		minText = 50
+		if textObj.Min > 10 {
+			minText = textObj.Min
+		}
+	}
+
 	block := textBlock{
 		Text: &TextBlockObject{
-			Body:  textObj.Body,
-			Align: alignText,
-			Type:  typeText,
-			Color: textObj.Color,
+			Body:     textObj.Body,
+			Align:    alignText,
+			Type:     typeText,
+			Color:    textObj.Color,
+			ViewMore: textObj.ViewMore,
+			Min:      minText,
 		},
 	}
 	block.Type = MBTText
