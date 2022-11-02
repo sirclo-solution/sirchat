@@ -35,6 +35,9 @@ const (
 
 	// MBTNotification is the type for notification block
 	MBTNotification MessageBlockType = "notification"
+
+	// MBTIcon is the type for icon block
+	MBTIcon MessageBlockType = "icon"
 )
 
 // IBlock is the interface for blocks. All type of blocks that embed `block`
