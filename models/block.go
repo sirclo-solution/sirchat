@@ -38,6 +38,9 @@ const (
 
 	// MBTIcon is the type for icon block
 	MBTIcon MessageBlockType = "icon"
+
+	// MBTCollapsible is the type for collapsible block
+	MBTCollapsible MessageBlockType = "collapsible"
 )
 
 // IBlock is the interface for blocks. All type of blocks that embed `block`

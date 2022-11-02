@@ -88,7 +88,7 @@ type TextBlockObject struct {
 	// but in FE has default value text color
 	Color TextBlockObjectColor `json:"color,omitempty"`
 
-	// ViewMore is link with simple text,
+	// ViewMore is link with simple text which in type paragraph only.
 	// if clicked that link will be show all text.
 	// ViewMore is optional and related with field Min
 	ViewMore bool `json:"view_more,omitempty"`

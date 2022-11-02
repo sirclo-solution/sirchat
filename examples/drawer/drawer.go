@@ -330,8 +330,15 @@ var cmdExampleThree = func(c context.Context) (interface{}, error) {
 	// example for add new block on container block
 	containerBlock.Container.AddBlocks(iconBlock, textBlock2)
 
+	newCollapsibleBlock := models.NewCollapsibleBlock(models.CollapsibleBlockObject{
+		Title:     "title collapsible",
+		Collapsed: true,
+	})
+
+	newCollapsibleBlock.AddContentCollapsible(textBlock2, newbutton)
+
 	// AddBlocks on component for creating Block for wrapping all the blocks
-	newDrawer.AddBlocks(containerBlock)
+	newDrawer.AddBlocks(containerBlock, newCollapsibleBlock)
 
 	newNotif := models.NewNotification(models.NotificationObject{
 		Type:    models.MNOTSuccess,
