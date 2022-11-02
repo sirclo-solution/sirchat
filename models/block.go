@@ -35,6 +35,9 @@ const (
 
 	// MBTNotification is the type for notification block
 	MBTNotification MessageBlockType = "notification"
+
+	// MBTCollapsible is the type for collapsible block
+	MBTCollapsible MessageBlockType = "collapsible"
 )
 
 // IBlock is the interface for blocks. All type of blocks that embed `block`
