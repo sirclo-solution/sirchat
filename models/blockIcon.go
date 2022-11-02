@@ -35,7 +35,7 @@ func (ths *iconBlock) Validate() (bool, []error) {
 	if err != nil {
 		errs = append(errs, fmt.Errorf("error when validating icon src: %s", err.Error()))
 	} else if !match {
-		errs = append(errs, fmt.Errorf("invalid image src: %s", ths.Icon.Src))
+		errs = append(errs, fmt.Errorf("invalid icon src: %s", ths.Icon.Src))
 	}
 
 	if len(errs) > 0 {
@@ -46,12 +46,12 @@ func (ths *iconBlock) Validate() (bool, []error) {
 }
 
 // NewIconBlock returns a new instance of a section block to be rendered
-func NewIconBlock(imageObj IconBlockObject) *iconBlock {
+func NewIconBlock(iconObj IconBlockObject) *iconBlock {
 	block := iconBlock{}
-	block.Type = MBTImage
+	block.Type = MBTIcon
 	block.Icon = &IconBlockObject{
-		Src: imageObj.Src,
-		Alt: imageObj.Alt,
+		Src: iconObj.Src,
+		Alt: iconObj.Alt,
 	}
 
 	return &block
