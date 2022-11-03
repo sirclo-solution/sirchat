@@ -11,10 +11,10 @@ type iconBlock struct {
 	block
 
 	// Icon contains the IconBlockObject that holds the detail of icon block
-	Icon *IconBlockObject `json:"image"`
+	Icon *IconBlockObject `json:"icon"`
 }
 
-// ImageBlockObject holds the detail of the ImageBlock.
+// IconBlockObject holds the detail of the IconBlock.
 type IconBlockObject struct {
 	// Src is the icon url
 	Src string `json:"src"`
@@ -25,7 +25,7 @@ type IconBlockObject struct {
 
 // Validate performs validation to the iconBlock.
 func (ths *iconBlock) Validate() (bool, []error) {
-	// ImageBlock validation implementation
+	// IconBlock validation implementation
 	var errs []error
 	if ths.Type != MBTIcon {
 		errs = append(errs, errors.New("invalid icon block type"))
