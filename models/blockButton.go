@@ -90,7 +90,9 @@ type ButtonBlockObject struct {
 	// This field can only be used when the button has a trigger for the next action.
 	// This field is required only for button type "button" (action) and is optional
 	// for button type "cancel". When cancel button that has action and query is
-	// clicked, the current action and button that is rendered will be closed.
+	// clicked, the current action and button that is rendered will be closed. If button
+	// type "submit" has Action object, the Action object will be ignored. The Action
+	// that will be triggered by "submit" button is the Action in the button's parent component.
 	Action *ButtonActionObject `json:"action,omitempty"`
 
 	// field Query contains the payload that will be brought when the button is clicked
@@ -225,8 +227,8 @@ func (t *buttonBlock) validateActionButton() (bool, []error) {
 		errs = append(errs, errors.New("action button must have action object"))
 	}
 
-	if t.Button.Action.ID == "" {
-		errs = append(errs, errors.New("field `ID` in action object should not be empty"))
+	if t.Button.Action.ID == "" && t.Button.Action.Link == nil {
+		errs = append(errs, errors.New("field `ID` and `link` can't be simultaneously empty"))
 	}
 
 	if len(errs) > 0 {
