@@ -118,6 +118,10 @@ type ButtonBlockObject struct {
 	// Prompt is used to confirm before performing the next action,
 	// either cancel or continue.
 	Prompt *promptBlock `json:"prompt,omitempty"`
+
+	// CloseAll is used to close all current drawer, dialog, or any other components
+	// if its value is set to true when the button is clicked
+	CloseAll bool `json:"close_all"`
 }
 
 // ButtonActionObject
