@@ -197,6 +197,7 @@ func NewButtonBlock(buttonObj ButtonBlockObject) *buttonBlock {
 		Disabled:  false, // default
 		FullWidth: false, // default
 		Prompt:    buttonObj.Prompt,
+		CloseAll:  buttonObj.CloseAll,
 	}
 
 	if obj.Icon != "" {
