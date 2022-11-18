@@ -63,6 +63,9 @@ const (
 
 	// ButtonObjectIconNote this is a cart item note icon
 	ButtonObjectIconRedirect ButtonBlockObjectIcon = "redirect"
+
+	// ButtonObjectIconNote this is a reload icon
+	ButtonObjectIconReload ButtonBlockObjectIcon = "reload"
 )
 
 // ButtonBlockObject holds the detail of the ButtonBlock.
@@ -331,6 +334,8 @@ func (t ButtonBlockObjectIcon) validateButtonObjectIcon() bool {
 	case ButtonObjectIconEdit:
 		return true
 	case ButtonObjectIconRedirect:
+		return true
+	case ButtonObjectIconReload:
 		return true
 	case "":
 		return true
