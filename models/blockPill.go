@@ -13,21 +13,21 @@ const (
 	PillBlockObjectTypePrimary PillBlockObjectType = "primary"
 
 	// secondary_1 type will use secondary (#1c9aea) with grey text (#1c9aea)
-	PillBlockObjectTypeSecondary1 PillBlockObjectType = "secondary_1"
+	PillBlockObjectTypeSecondaryGreyText PillBlockObjectType = "secondary_1"
 
-	// secondary_2 type will use secondary (#1c9aea) with white text (#1c9aea)
-	PillBlockObjectTypeSecondary2 PillBlockObjectType = "secondary_2"
+	// secondary_2 type will use secondary (#1c9aea) with white text (#ffffff)
+	PillBlockObjectTypeSecondaryWhiteText PillBlockObjectType = "secondary_2"
 
-	// success_1 type will use success (#00b969); type will ligther than success_2
+	// success_1 type will use success (#00b969); this type will ligther than success_2
 	PillBlockObjectTypeSuccess1 PillBlockObjectType = "success_1"
 
-	// success_2 type will use success (#008566); type will darker than success_1
+	// success_2 type will use success (#008566); this type will darker than success_1
 	PillBlockObjectTypeSuccess2 PillBlockObjectType = "success_2"
 
-	// info type will use info (#1478c9); type will lighter than info_2
+	// info_1 type will use info (#1478c9); this type will lighter than info_2
 	PillBlockObjectTypeInfo1 PillBlockObjectType = "info_1"
 
-	// info type will use info (#083f87); type will darker than info_2
+	// info_2 type will use info (#083f87); this type will darker than info_1
 	PillBlockObjectTypeInfo2 PillBlockObjectType = "info_2"
 
 	// warning type will use warning (#ffb300)
@@ -67,7 +67,7 @@ func (ths *pillBlock) Validate() (bool, []error) {
 	}
 
 	if typeValid := ths.Pill.Type.validatePillObjectType(); !typeValid {
-		errs = append(errs, fmt.Errorf("invalid BadgeBlockObjectType %v", ths.Pill.Type))
+		errs = append(errs, fmt.Errorf("invalid PillBlockObjectType %v", ths.Pill.Type))
 	}
 
 	if len(errs) > 0 {
@@ -104,9 +104,9 @@ func (t PillBlockObjectType) validatePillObjectType() bool {
 		return true
 	case PillBlockObjectTypePrimary:
 		return true
-	case PillBlockObjectTypeSecondary1:
+	case PillBlockObjectTypeSecondaryGreyText:
 		return true
-	case PillBlockObjectTypeSecondary2:
+	case PillBlockObjectTypeSecondaryWhiteText:
 		return true
 	case PillBlockObjectTypeSuccess1:
 		return true
