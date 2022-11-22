@@ -366,9 +366,9 @@ var cmdExampleCard = func(c context.Context) (interface{}, error) {
 		Body: "12 Agustus 2022",
 	})
 
-	// to be update using pill block
-	pillBlock := models.NewTextBlock(&models.TextBlockObject{
-		Body: "PESANAN SELESAI",
+	pillBlock := models.NewPillBlock(&models.PillBlockObject{
+		Text: "Pesanan Selesai",
+		Type: models.PillBlockObjectTypePrimary,
 	})
 
 	// NewContainerBlock use for creating new container block

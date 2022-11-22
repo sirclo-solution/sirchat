@@ -41,6 +41,9 @@ const (
 
 	// MBTCollapsible is the type for collapsible block
 	MBTCollapsible MessageBlockType = "collapsible"
+
+	// MBTPill is type for pill block
+	MBTPill MessageBlockType = "pill"
 )
 
 // IBlock is the interface for blocks. All type of blocks that embed `block`
