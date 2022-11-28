@@ -66,6 +66,9 @@ const (
 
 	// ButtonObjectIconNote this is a reload icon
 	ButtonObjectIconReload ButtonBlockObjectIcon = "reload"
+
+	// ButtonObjectIconNote this is a integrate icon
+	ButtonObjectIconIntegrate ButtonBlockObjectIcon = "integrate"
 )
 
 // ButtonBlockObject holds the detail of the ButtonBlock.
@@ -341,6 +344,8 @@ func (t ButtonBlockObjectIcon) validateButtonObjectIcon() bool {
 	case ButtonObjectIconRedirect:
 		return true
 	case ButtonObjectIconReload:
+		return true
+	case ButtonObjectIconIntegrate:
 		return true
 	case "":
 		return true
