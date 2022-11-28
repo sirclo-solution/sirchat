@@ -16,7 +16,7 @@ type ContainerDirection string
 type ContainerPosition string
 
 // JustifyContentPosition used to aligns the flexible container's items when the items do not use all available space on the main-axis (horizontally)
-// the available positions are start, center, end, and space_between
+// the available positions are start, center, end, and space-between
 type JustifyContentPosition string
 
 // AlignItemsPosition used to specifies the default alignment for items inside the flexible container
@@ -50,7 +50,7 @@ const (
 	JCPEnd JustifyContentPosition = "end"
 
 	// Items will have space between them
-	JCPSpaceBetween JustifyContentPosition = "space_between"
+	JCPSpaceBetween JustifyContentPosition = "space-between"
 
 	// Items are positioned at the beginning of the container
 	AIPStart AlignItemsPosition = "start"
