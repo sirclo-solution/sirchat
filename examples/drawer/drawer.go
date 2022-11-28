@@ -315,6 +315,7 @@ var cmdExampleThree = func(c context.Context) (interface{}, error) {
 	containerBlock := models.NewContainerBlock(models.ContainerBlockObject{
 		Direction:      models.CDRow,
 		JustifyContent: models.JCPSpaceBetween,
+		AlignItems:     models.AIPCenter,
 	})
 
 	iconBlock := models.NewIconBlock(models.IconBlockObject{
