@@ -313,7 +313,9 @@ var cmdExampleThree = func(c context.Context) (interface{}, error) {
 	// NewContainerBlock use for creating new container block
 	// in container block can embed/append another block
 	containerBlock := models.NewContainerBlock(models.ContainerBlockObject{
-		Direction: models.CDRow,
+		Direction:      models.CDRow,
+		JustifyContent: models.JCPSpaceBetween,
+		AlignItems:     models.AIPCenter,
 	})
 
 	iconBlock := models.NewIconBlock(models.IconBlockObject{
