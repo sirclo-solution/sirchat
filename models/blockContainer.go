@@ -113,7 +113,7 @@ func (ths *containerBlock) Validate() (bool, []error) {
 		errs = append(errs, fmt.Errorf("invalid JustifyContent %v", ths.Container.JustifyContent))
 	}
 
-	if alignItems := ths.Container.AlignItems.validateContainerAlignItemsPosition(); !alignItems {
+	if alignItemsValid := ths.Container.AlignItems.validateContainerAlignItemsPosition(); !alignItemsValid {
 		errs = append(errs, fmt.Errorf("invalid AlignItems %v", ths.Container.AlignItems))
 	}
 
