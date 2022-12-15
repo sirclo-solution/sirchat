@@ -140,7 +140,7 @@ type ButtonBlockObject struct {
 
 	// Size is a size of the button (small, medium, large).
 	// This field is optional
-	Size ButtonBlockObjectSize `json:"size"`
+	Size ButtonBlockObjectSize `json:"size,omitempty"`
 }
 
 // ButtonActionObject
@@ -243,10 +243,6 @@ func NewButtonBlock(buttonObj ButtonBlockObject) *buttonBlock {
 
 	if buttonObj.FullWidth {
 		obj.FullWidth = buttonObj.FullWidth
-	}
-
-	if buttonObj.Size != "" {
-		obj.Size = buttonObj.Size
 	}
 
 	return &buttonBlock{block: block{Type: MBTButton}, Button: obj}

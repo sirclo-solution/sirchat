@@ -9,19 +9,19 @@ import (
 type DividerBlockObject struct {
 	// Color is the color of the divider
 	// This field is optional
-	Color string `json:"color"`
+	Color string `json:"color,omitempty"`
 
 	// padding top is the padding top on divider
 	// This field can only accept units : px, rem, em, ex, pt, in, pc, mm, cm
 	// Example value: 16px
 	// This field is optional
-	PaddingTop string `json:"padding_top"`
+	PaddingTop string `json:"padding_top,omitempty"`
 
 	// padding bottom is the padding bottom on divider
 	// This field can only accept units : px, em, ex, pt, in, pc, mm, cm
 	// Example value: 16px
 	// This field is optional
-	PaddingBottom string `json:"padding_bottom"`
+	PaddingBottom string `json:"padding_bottom,omitempty"`
 }
 
 // DividerBlock is a subtype of block. It represents a divider block. It

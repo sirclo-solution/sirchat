@@ -24,7 +24,7 @@ type IconBlockObject struct {
 
 	// Size is a size of the icon in px unit
 	// This field is optional
-	Size uint8 `json:"size"`
+	Size uint8 `json:"size,omitempty"`
 }
 
 // Validate performs validation to the iconBlock.
