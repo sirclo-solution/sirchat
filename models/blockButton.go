@@ -18,6 +18,9 @@ type ButtonBlockObjectVariant string
 // there is example icon on file assets/icon
 type ButtonBlockObjectIcon string
 
+// ButtonBlockObjectSize this is a size of the button
+type ButtonBlockObjectSize string
+
 const (
 	// MBTTAction this is a button type
 	MBTTAction ButtonBlockObjectType = "button"
@@ -58,17 +61,26 @@ const (
 	// ButtonObjectIconTrash this is a delete icon (X)
 	ButtonObjectIconDelete ButtonBlockObjectIcon = "delete"
 
-	// ButtonObjectIconNote this is a cart item note icon
+	// ButtonObjectIconEdit this is an edit icon
 	ButtonObjectIconEdit ButtonBlockObjectIcon = "edit"
 
-	// ButtonObjectIconNote this is a cart item note icon
+	// ButtonObjectIconRedirect this is a redirect icon
 	ButtonObjectIconRedirect ButtonBlockObjectIcon = "redirect"
 
-	// ButtonObjectIconNote this is a reload icon
+	// ButtonObjectIconReload this is a reload icon
 	ButtonObjectIconReload ButtonBlockObjectIcon = "reload"
 
-	// ButtonObjectIconNote this is a integrate icon
+	// ButtonObjectIconIntegrate this is an integrate icon
 	ButtonObjectIconIntegrate ButtonBlockObjectIcon = "integrate"
+
+	// ButtonObjectSizeSmall this is a small size
+	ButtonObjectSizeSmall ButtonBlockObjectSize = "small"
+
+	// ButtonObjectSizeMedium this is a medium size
+	ButtonObjectSizeMedium ButtonBlockObjectSize = "medium"
+
+	// ButtonObjectSizeLarge this is a large size
+	ButtonObjectSizeLarge ButtonBlockObjectSize = "large"
 )
 
 // ButtonBlockObject holds the detail of the ButtonBlock.
@@ -125,6 +137,10 @@ type ButtonBlockObject struct {
 	// CloseAll is used to close all current drawer, dialog, or any other components
 	// if its value is set to true when the button is clicked
 	CloseAll bool `json:"close_all"`
+
+	// Size is a size of the button (small, medium, large).
+	// This field is optional
+	Size ButtonBlockObjectSize `json:"size"`
 }
 
 // ButtonActionObject
@@ -174,6 +190,10 @@ func (ths *buttonBlock) Validate() (bool, []error) {
 		errs = append(errs, fmt.Errorf("invalid ButtonBlockObjectIcon %v", ths.Button.Icon))
 	}
 
+	if sizeValid := ths.Button.Size.validateButtonObjectSize(); !sizeValid {
+		errs = append(errs, fmt.Errorf("invalid ButtonBlockObjectSize %v", ths.Button.Size))
+	}
+
 	if ths.Button.Prompt != nil {
 		if valid, err := ths.Button.Prompt.Validate(); !valid {
 			errs = append(errs, err...)
@@ -201,6 +221,7 @@ func NewButtonBlock(buttonObj ButtonBlockObject) *buttonBlock {
 		FullWidth: false, // default
 		Prompt:    buttonObj.Prompt,
 		CloseAll:  buttonObj.CloseAll,
+		Size:      buttonObj.Size,
 	}
 
 	if obj.Icon != "" {
@@ -222,6 +243,10 @@ func NewButtonBlock(buttonObj ButtonBlockObject) *buttonBlock {
 
 	if buttonObj.FullWidth {
 		obj.FullWidth = buttonObj.FullWidth
+	}
+
+	if buttonObj.Size != "" {
+		obj.Size = buttonObj.Size
 	}
 
 	return &buttonBlock{block: block{Type: MBTButton}, Button: obj}
@@ -346,6 +371,21 @@ func (t ButtonBlockObjectIcon) validateButtonObjectIcon() bool {
 	case ButtonObjectIconReload:
 		return true
 	case ButtonObjectIconIntegrate:
+		return true
+	case "":
+		return true
+	default:
+		return false
+	}
+}
+
+func (t ButtonBlockObjectSize) validateButtonObjectSize() bool {
+	switch t {
+	case ButtonObjectSizeSmall:
+		return true
+	case ButtonObjectSizeMedium:
+		return true
+	case ButtonObjectSizeLarge:
 		return true
 	case "":
 		return true
