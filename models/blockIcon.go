@@ -21,6 +21,10 @@ type IconBlockObject struct {
 
 	// Alt is the alternate text or label on icon
 	Alt string `json:"alt"`
+
+	// Size is a size of the icon in px unit
+	// This field is optional
+	Size uint8 `json:"size,omitempty"`
 }
 
 // Validate performs validation to the iconBlock.
@@ -50,8 +54,9 @@ func NewIconBlock(iconObj IconBlockObject) *iconBlock {
 	block := iconBlock{}
 	block.Type = MBTIcon
 	block.Icon = &IconBlockObject{
-		Src: iconObj.Src,
-		Alt: iconObj.Alt,
+		Src:  iconObj.Src,
+		Alt:  iconObj.Alt,
+		Size: iconObj.Size,
 	}
 
 	return &block
